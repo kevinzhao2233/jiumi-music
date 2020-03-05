@@ -2,7 +2,7 @@
 
 可能是“**最好看**”的第三方在线音乐播放器
 
-设计图：dribbble （不然没底气说好看）
+设计图：[dribbble](https://dribbble.com/shots/7904938-Music-Player-Web-App) （不然没底气说好看）
 
 -----
 

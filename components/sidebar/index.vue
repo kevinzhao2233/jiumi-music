@@ -1,9 +1,7 @@
 <template>
   <div class="sidebar-box">
-    <!-- <GeminiScrollbar class="sidebar-box"> -->
     <div class="block logo-box">啾咪音乐</div>
     <List v-for="item in sidebarList" :key="item.title" :item="item"></List>
-    <!-- </GeminiScrollbar> -->
   </div>
 </template>
 

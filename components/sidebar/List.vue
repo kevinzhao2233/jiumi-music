@@ -75,13 +75,18 @@ export default {
       user-select: none;
       cursor: pointer;
 
+      &.active {
+        color: $main-6;
+        background-color: $main-1;
+      }
+
       &:hover {
         color: $main-6;
         background-color: $main-1;
       }
 
       &:active {
-        color: $main-6;
+        color: $main-7;
         background-color: $main-3;
       }
     }

@@ -9,7 +9,6 @@
 
 <script>
 import List from './List.vue'
-import GeminiScrollbar from 'vue-gemini-scrollbar'
 
 export default {
   name: 'Sidebar',

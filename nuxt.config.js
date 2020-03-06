@@ -18,11 +18,13 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#82124e' },
   /*
   ** Global CSS
   */
   css: [
+    '~/assets/common.css',
+    '~/assets/global.css'
   ],
   /*
   ** Plugins to load before mounting the App

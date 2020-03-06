@@ -1,0 +1,39 @@
+$breakpoints: (
+  'xs': 'only screen and ( min-width: 480px)',
+  'sm': 'only screen and ( min-width: 768px)',
+  'md': 'only screen and ( min-width: 992px)',
+  'lg': 'only screen and ( min-width: 1240px)'
+) !default;
+
+// ==== 品牌色
+$main-1: #fff0f4;
+$main-2: #ffedf3;
+$main-3: #ffc4d8;
+$main-4: #ff9cc0;
+$main-5: #ff73ab;
+$main-6: #f54691;
+$main-7: #cf327b;
+$main-8: #a82064;
+$main-9: #82124e;
+$main-10: #5c0c39;
+
+// ==== 中性色
+$mid-1: #ffffff;
+$mid-2: #fafafa;
+$mid-3: #f5f5f5;
+$mid-4: #f0f0f0;
+$mid-5: #d9d9d9;
+$mid-6: #bfbfbf;
+$mid-7: #8c8c8c;
+$mid-8: #595959;
+$mid-9: #434343;
+$mid-10: #262626;
+$mid-11: #1f1f1f;
+$mid-12: #141414;
+$mid-13: #000000;
+
+// ==== 辅助色
+$aux-1: #f0f3fa;
+$aux-2: #b2b3c4;
+
+

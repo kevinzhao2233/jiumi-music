@@ -1,4 +1,4 @@
-# jiumi-music
+# jiumi-music 啾咪音乐
 
 可能是“**最好看**”的第三方在线音乐播放器
 

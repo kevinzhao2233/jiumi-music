@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="main-container">
     <div class="sidebar">
       <Sidebar />
     </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Sidebar from '~/components/Sidebar.vue'
+import Sidebar from '~/components/sidebar'
 export default {
   components: {
     Sidebar
@@ -22,13 +22,15 @@ export default {
 @import '~/assets/scss/config.scss';
 @import '~/assets/scss/mixins.scss';
 
-.box {
+.main-container {
   width: 100%;
   min-height: 100vh;
   display: flex;
 
   .sidebar {
     flex: 0 0 240px;
+    width: 240px;
+    height: 100vh;
     background-color: $mid-1;
   }
 

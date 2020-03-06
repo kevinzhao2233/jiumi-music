@@ -1,12 +1,15 @@
 <template>
   <div class="sidebar-box">
+    <!-- <GeminiScrollbar class="sidebar-box"> -->
     <div class="block logo-box">啾咪音乐</div>
     <List v-for="item in sidebarList" :key="item.title" :item="item"></List>
+    <!-- </GeminiScrollbar> -->
   </div>
 </template>
 
 <script>
 import List from './List.vue'
+import GeminiScrollbar from 'vue-gemini-scrollbar'
 
 export default {
   name: 'Sidebar',
@@ -44,7 +47,10 @@ export default {
             '游戏BGM丨一燃到底 全程高能'
           ]
         }
-      ]
+      ],
+      settings: {
+        tagname: 'div'
+      }
     }
   }
 }
@@ -53,9 +59,20 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
 
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 滚动条的滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 3px;
+}
+
 .sidebar-box {
+  width: 100%;
   height: 100%;
-  padding: 24px 24px 60px 24px;
+  padding: 24px 24px 60px 28px;
   overflow-y: scroll;
 
   .block {

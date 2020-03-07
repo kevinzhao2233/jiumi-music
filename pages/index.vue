@@ -1,22 +1,21 @@
 <template>
   <div class="container">
-    <Banner />
+    <Header />
   </div>
 </template>
 
 <script>
-import Banner from '~/components/explore/Banner.vue'
+import Header from '~/components/explore/Header.vue'
 
 export default {
   components: {
-    Banner
+    Header
   }
 }
 </script>
 
 <style scoped>
 .container {
-  margin: 0 auo;
   width: 100%;
   min-height: 100vh;
 }

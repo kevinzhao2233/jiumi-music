@@ -23,10 +23,6 @@ export default {
       type: Object
     }
   },
-
-  mounted() {
-    console.log('--==--==', this.item.list)
-  }
 }
 </script>
 

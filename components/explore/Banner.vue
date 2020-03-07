@@ -1,9 +1,14 @@
 <template>
   <swiper class="swiper-box" :options="swiperOption">
-    <swiper-slide class="slide-1"></swiper-slide>
-    <swiper-slide class="slide-2"></swiper-slide>
-    <swiper-slide class="slide-3"></swiper-slide>
-    <swiper-slide class="slide-4"></swiper-slide>
+    <swiper-slide
+      v-for="(slide, index) in swiperSlides"
+      :key="index"
+      :style="{
+        background: `url(${slide})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat'
+      }"
+    ></swiper-slide>
     <div
       class="swiper-pagination swiper-pagination-white"
       slot="pagination"
@@ -25,9 +30,16 @@ export default {
   name: 'Banner',
   data() {
     return {
+      swiperSlides: [
+        'http://p1.music.126.net/1gtmC0J9BmWMSUcMzP2BGg==/109951164773657908.jpg',
+        'http://p1.music.126.net/DNyjJ6nqdbgdzABu6Ff_Dw==/109951164776971148.jpg',
+        'http://p1.music.126.net/DNyjJ6nqdbgdzABu6Ff_Dw==/109951164776971148.jpg',
+        'http://p1.music.126.net/1gtmC0J9BmWMSUcMzP2BGg==/109951164773657908.jpg'
+      ],
       swiperOption: {
         loop: true,
         autoplay: true,
+        centeredSlides: true,
         spaceBetween: 30,
         slidesPerView: 'auto',
         pagination: {
@@ -55,7 +67,7 @@ export default {
 
 .swiper-box {
   width: 1000px;
-  height: 360px;
+  height: 388px;
 
   @include respond-to(lg) {
     width: calc(100vw - 240px);
@@ -63,21 +75,9 @@ export default {
 
   .swiper-slide {
     width: 1000px;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    &.slide-1 {
-      background-image: url('http://p1.music.126.net/1gtmC0J9BmWMSUcMzP2BGg==/109951164773657908.jpg');
-    }
-    &.slide-2 {
-      background-image: url('http://p1.music.126.net/JqHIEytzdtTdb2qsdLfA1g==/109951164775913560.jpg');
-    }
-    &.slide-3 {
-      background-image: url('http://p1.music.126.net/j57dewSnSy9hiSffO9pyfg==/109951164773755426.jpg');
-    }
-    &.slide-4 {
-      background-image: url('http://p1.music.126.net/j57dewSnSy9hiSffO9pyfg==/109951164773755426.jpg');
-    }
+    height: 388px;
+    border-radius: 16px;
+    cursor: pointer;
   }
 }
 </style>

@@ -38,13 +38,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 4px 8px;
+  margin: 0 0 0 8px;
   width: 32px;
   height: 32px;
   border-radius: 36%;
   background-color: $mid-1;
   box-shadow: 0 12px 24px -4px $mid-3;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
 
   .icon {
@@ -69,16 +69,20 @@ export default {
       font-size: 12px;
     }
   }
+  &:hover {
+    box-shadow: 0 8px 24px -4px $mid-7;
+  }
   &.primary {
     background-color: $main-6;
+    box-shadow: 0 12px 24px -4px $main-4;
 
     .icon {
       color: $mid-1;
     }
-  }
 
-  &:hover {
-    box-shadow: 0 8px 24px -4px $mid-7;
+    &:hover {
+      box-shadow: 0 8px 24px -4px $main-7;
+    }
   }
 }
 </style>

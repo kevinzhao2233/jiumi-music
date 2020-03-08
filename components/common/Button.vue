@@ -1,5 +1,5 @@
 <template>
-  <div :class="`box icon ${size} ${type}`">
+  <div :class="`box icon ${size} ${type}`" @click="handleClick">
     <i class="icon"></i>
   </div>
 </template>
@@ -26,6 +26,11 @@ export default {
     },
     icon: {
       type: String
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit('has-click');
     }
   }
 }

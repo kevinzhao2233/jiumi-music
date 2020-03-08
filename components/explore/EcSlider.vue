@@ -1,5 +1,5 @@
 <template>
-  <swiper class="swiper-box" :options="swiperOption">
+  <swiper class="swiper-box" :options="swiperOption" ref="ecSwiper">
     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
       <div
         class="img"
@@ -40,14 +40,6 @@
       ></div>
       <span class="message">更多歌单…</span>
     </swiper-slide>
-    <div
-      class="swiper-button-prev swiper-button-white"
-      slot="button-prev"
-    ></div>
-    <div
-      class="swiper-button-next swiper-button-white"
-      slot="button-next"
-    ></div>
   </swiper>
 </template>
 <script>
@@ -67,6 +59,15 @@ export default {
         'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
         'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
         'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
+        'http://p1.music.126.net/xwSifVHltSiAnPWRUx5M9g==/109951164774509762.jpg?param=124y132',
+        'http://p1.music.126.net/vitEGAfsRMKSxSmmSOxaQA==/109951164599819207.jpg?param=124y132',
+        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
+        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
+        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
+        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
+        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
+        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
+        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
         'http://p1.music.126.net/xwSifVHltSiAnPWRUx5M9g==/109951164774509762.jpg?param=124y132'
       ],
       message: '♪总有一个人，是你耿耿于怀的青春',
@@ -75,10 +76,6 @@ export default {
         slidesPerView: 'auto',
         slidesPerGroup: 7,
         loopFillGroupWithBlank: true,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
         breakpoints: {
           1240: {
             slidesPerView: 7,
@@ -86,6 +83,19 @@ export default {
           }
         }
       }
+    }
+  },
+  methods: {
+    handleSwiper(direction) {
+      if (direction === 'prev') {
+        this.$refs.ecSwiper.swiper.slidePrev()
+      } else if (direction === 'next') {
+        this.$refs.ecSwiper.swiper.slideNext()
+      }
+      const swiper = this.$refs.ecSwiper.swiper
+      const isBeginning = swiper.isBeginning
+      const isEnd = swiper.isEnd
+      this.$emit('judge-swiper-state', { isBeginning, isEnd })
     }
   },
   components: {

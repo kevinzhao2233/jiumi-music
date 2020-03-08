@@ -72,14 +72,15 @@ export default {
       ],
       message: '♪总有一个人，是你耿耿于怀的青春',
       swiperOption: {
-        spaceBetween: 18,
+        spaceBetween: 16,
+        allowTouchMove: false,
         slidesPerView: 'auto',
         slidesPerGroup: 7,
         loopFillGroupWithBlank: true,
         breakpoints: {
           1240: {
             slidesPerView: 7,
-            spaceBetween: 18
+            spaceBetween: 16
           }
         }
       }
@@ -118,7 +119,7 @@ export default {
   }
 
   .swiper-slide {
-    width: 120px;
+    width: 116px;
     height: 100%;
     text-align: center;
     cursor: pointer;

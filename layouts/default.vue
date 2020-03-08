@@ -26,6 +26,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   display: flex;
+  overflow: hidden;
 
   .sidebar {
     flex: 0 0 240px;
@@ -43,5 +44,15 @@ export default {
       flex: 1;
     }
   }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 滚动条的滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 3px;
 }
 </style>

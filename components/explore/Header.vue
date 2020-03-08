@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="eh-container">
     <div class="h-banner">
       <Banner />
     </div>
@@ -26,15 +26,14 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
 
-.container {
+.eh-container {
   position: relative;
+  padding-top: 12px;
 
   .h-btn-box {
     position: absolute;
     display: flex;
-    margin: 5px;
-    width: 200px;
-    height: 32px;
+    margin: 30px 48px 0 0;
     top: 0;
     right: 0;
     z-index: 10;

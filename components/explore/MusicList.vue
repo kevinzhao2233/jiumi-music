@@ -63,7 +63,8 @@ export default {
           id: 13759205060,
           artists: [
             {
-              name: '音阙诗听',
+              name:
+                '音阙诗听',
               id: 12174521
             },
             {
@@ -143,6 +144,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
+@import '~/assets/scss/mixins.scss';
 
 .e-container {
   display: flex;
@@ -151,8 +153,13 @@ export default {
   width: 100%;
 
   .left-box {
-    flex: 1;
+    flex: 0 0 1;
+    width: 500px;
     height: 2000px;
+
+    @include respond-to(lg) {
+      flex: 1;
+    }
 
     .tit {
       margin-bottom: 16px;
@@ -161,7 +168,9 @@ export default {
     }
 
     .list-box {
+      width: 100%;
       margin: 0 40px 200px 0;
+      overflow: hidden;
 
       .item {
         display: flex;
@@ -173,7 +182,6 @@ export default {
         border-radius: 6px;
         color: $mid-7;
         transition: background-color 0.3s ease;
-        overflow: hidden;
 
         .left {
           display: flex;
@@ -181,6 +189,7 @@ export default {
           overflow: hidden;
 
           .num {
+            display: 0 0 1;
             text-align: center;
             width: 24px;
             height: 24px;
@@ -190,6 +199,7 @@ export default {
           }
 
           .n-btn {
+            flex: 0 0 1;
             width: 24px;
             height: 24px;
             background-color: #fff;
@@ -198,6 +208,7 @@ export default {
           }
 
           .pic {
+            flex: 0 0 1;
             margin: 0 16px 0 8px;
             width: 36px;
             height: 36px;
@@ -205,9 +216,10 @@ export default {
           }
 
           .content {
-            width: 150px;
+            flex: 1;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
 
             .msc-name {
               width: 100%;
@@ -227,14 +239,10 @@ export default {
               font-size: 13px;
               line-height: 16px;
               overflow: hidden;
+              text-overflow: ellipsis;
               white-space: nowrap;
 
               .name {
-                display: inline-block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-
                 &:hover {
                   text-decoration: underline;
                   cursor: pointer;
@@ -289,8 +297,8 @@ export default {
   }
 
   .right-box {
-    flex: 0 0 460px;
-    width: 460px;
+    flex: 0 0 1;
+    width: 404px;
     height: 500px;
     background-color: #fff;
   }

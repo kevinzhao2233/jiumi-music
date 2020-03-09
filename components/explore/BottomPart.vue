@@ -3,7 +3,7 @@
     <div class="left-box">
       <MusicList />
     </div>
-    <div class="right-box item-box">
+    <div class="right-box">
       <Ranking />
     </div>
   </div>
@@ -28,11 +28,15 @@ export default {
   display: flex;
   margin-top: 12px;
   padding: 0 48px;
-  width: 100%;
+  min-width: 1000px;
 
+  @include respond-to(lg) {
+    width: 100%;
+  }
   .left-box {
     flex: 4;
     margin-right: 48px;
+    overflow: hidden;
   }
 
   .right-box {

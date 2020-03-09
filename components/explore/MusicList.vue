@@ -17,7 +17,7 @@
           <div class="content">
             <span class="msc-name">{{ item.name }}</span>
             <div class="msc-art">
-              <span class="name" v-for="(art, index) in item.artists" :key="art.id">
+              <span class="aet-name" v-for="(art, index) in item.artists" :key="art.id">
                 {{ art.name }}
                 <span class="placeholder" v-if="index < item.artists.length - 1">/</span>
               </span>
@@ -49,7 +49,8 @@ export default {
     return {
       mscList: [
         {
-          name: '说客',
+          name:
+            '说客',
           id: 13759205060,
           artists: [
             {
@@ -132,7 +133,6 @@ export default {
 .list-box {
   width: 100%;
   margin: 0 40px 200px 0;
-  overflow: hidden;
 
   .item {
     display: flex;
@@ -143,7 +143,8 @@ export default {
     height: 58px;
     border-radius: 6px;
     color: $mid-7;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    overflow: hidden;
 
     .left {
       display: flex;
@@ -151,11 +152,11 @@ export default {
       overflow: hidden;
 
       .num {
-        display: 0 0 1;
-        text-align: center;
+        flex: 0 0 1;
         width: 24px;
         height: 24px;
         font-size: 12px;
+        text-align: center;
         line-height: 24px;
         font-weight: 500;
       }
@@ -184,8 +185,8 @@ export default {
         overflow: hidden;
 
         .msc-name {
-          width: 100%;
           display: inline-block;
+          width: 100%;
           font-size: 14px;
           font-weight: 600;
           color: $mid-10;
@@ -196,15 +197,14 @@ export default {
         }
 
         .msc-art {
-          width: 100%;
-          display: inline-block;
+          display: block;
           font-size: 13px;
           line-height: 16px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
 
-          .name {
+          .art-name {
             &:hover {
               text-decoration: underline;
               cursor: pointer;
@@ -240,11 +240,13 @@ export default {
     &:hover {
       background-color: $main-6;
       color: $main-2;
+      box-shadow: 0 4px 24px -8px $main-6;
 
       .left {
         .content .msc-name {
           color: $mid-1;
         }
+
         .n-btn {
           display: block;
         }

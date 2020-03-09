@@ -1,5 +1,5 @@
 <template>
-  <div :class="`box icon ${size} ${type}`" @click="handleClick">
+  <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
     <i class="icon"></i>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
 
-.box {
+.k-box {
   display: flex;
   justify-content: center;
   align-items: center;

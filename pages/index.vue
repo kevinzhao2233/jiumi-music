@@ -2,20 +2,20 @@
   <div class="container">
     <Header />
     <CenterCard />
-    <MusicList />
+    <BottomPart />
   </div>
 </template>
 
 <script>
 import Header from '~/components/explore/Header.vue'
 import CenterCard from '~/components/explore/CenterCard.vue'
-import MusicList from '~/components/explore/MusicList.vue'
+import BottomPart from '~/components/explore/BottomPart.vue'
 
 export default {
   components: {
     Header,
     CenterCard,
-    MusicList
+    BottomPart
   }
 }
 </script>

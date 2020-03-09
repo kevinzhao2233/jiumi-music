@@ -4,21 +4,19 @@
       <MusicList />
     </div>
     <div class="right-box item-box">
-      
+      <Ranking />
     </div>
   </div>
 </template>
 <script>
 import MusicList from '~/components/explore/MusicList.vue'
+import Ranking from '~/components/explore/Ranking.vue'
 
 export default {
   name: 'BottomPart',
   components: {
     MusicList,
-  },
-  data() {
-    return {
-    }
+    Ranking
   }
 }
 </script>
@@ -39,7 +37,6 @@ export default {
 
   .right-box {
     flex: 3;
-    background-color: #fff;
   }
 }
 </style>

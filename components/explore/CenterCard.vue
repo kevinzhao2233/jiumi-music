@@ -1,27 +1,22 @@
 <template>
   <div class="ec-container">
-    <div class="header">
-      <h3 class="tit">推荐歌单</h3>
-      <div class="btn-box">
-        <Button
-          :type="hasPrev ? 'primary' : ''"
-          @has-click="handleClickSwiper('prev')"
-        />
-        <Button
-          :type="hasNext ? 'primary' : ''"
-          @has-click="handleClickSwiper('next')"
-        />
+    <Card>
+      <h3 class="tit" slot="title">推荐歌单</h3>
+      <div class="btn-box" slot="controls">
+        <Button :type="hasPrev ? 'primary' : ''" @has-click="handleClickSwiper('prev')" />
+        <Button :type="hasNext ? 'primary' : ''" @has-click="handleClickSwiper('next')" />
       </div>
-    </div>
-    <div class="slide-box">
-      <EcSlider ref="ecSlider" @judge-swiper-state="judgeSiperState($event)" />
-    </div>
+      <div class="slide-box">
+        <EcSlider ref="ecSlider" @judge-swiper-state="judgeSiperState($event)" />
+      </div>
+    </Card>
   </div>
 </template>
 
 <script>
 import EcSlider from '~/components/explore/EcSlider.vue'
 import Button from '~/components/common/Button.vue'
+import Card from '~/components/common/Card.vue'
 
 export default {
   name: 'CenterCard',
@@ -48,7 +43,8 @@ export default {
   },
   components: {
     Button,
-    EcSlider
+    EcSlider,
+    Card
   }
 }
 </script>
@@ -60,20 +56,8 @@ export default {
   margin: 8px auto;
   padding: 0 48px;
 
-  .header {
+  .btn-box {
     display: flex;
-    justify-content: space-between;
-    padding: 18px 0;
-    width: 100%;
-
-    .tit {
-      font-weight: 600;
-      letter-spacing: 2px;
-    }
-
-    .btn-box {
-      display: flex;
-    }
   }
 
   .slide-box {

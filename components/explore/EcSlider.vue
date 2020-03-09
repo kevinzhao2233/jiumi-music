@@ -148,7 +148,6 @@ export default {
       font-size: 14px;
       color: $mid-8;
       transition: color 0.2s ease;
-
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box; //作为弹性伸缩盒子模型显示。

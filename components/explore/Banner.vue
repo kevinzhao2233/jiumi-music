@@ -1,26 +1,17 @@
 <template>
-  <swiper class="swiper-box" :options="swiperOption">
+  <swiper class="swiper-box" :options="swiperOption" ref="bannerSwiper">
     <swiper-slide
-      v-for="(slide, index) in swiperSlides"
-      :key="index"
+      v-for="slide in banners"
+      :key="slide.targetId"
       :style="{
-        background: `url(${slide})`,
+        background: `url(${slide.imageUrl})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
       }"
     ></swiper-slide>
-    <div
-      class="swiper-pagination swiper-pagination-white"
-      slot="pagination"
-    ></div>
-    <div
-      class="swiper-button-prev swiper-button-white"
-      slot="button-prev"
-    ></div>
-    <div
-      class="swiper-button-next swiper-button-white"
-      slot="button-next"
-    ></div>
+    <div class="swiper-pagination swiper-pagination-white" slot="pagination"></div>
+    <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+    <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
   </swiper>
 </template>
 <script>
@@ -28,17 +19,14 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
   name: 'Banner',
+  props: {
+    banners: Array,
+  },
   data() {
     return {
-      swiperSlides: [
-        'http://p1.music.126.net/1gtmC0J9BmWMSUcMzP2BGg==/109951164773657908.jpg',
-        'http://p1.music.126.net/DNyjJ6nqdbgdzABu6Ff_Dw==/109951164776971148.jpg',
-        'http://p1.music.126.net/DNyjJ6nqdbgdzABu6Ff_Dw==/109951164776971148.jpg',
-        'http://p1.music.126.net/1gtmC0J9BmWMSUcMzP2BGg==/109951164773657908.jpg'
-      ],
       swiperOption: {
         loop: true,
-        // autoplay: true,
+        autoplay: true,
         centeredSlides: true,
         spaceBetween: 30,
         slidesPerView: 'auto',

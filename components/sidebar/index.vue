@@ -69,7 +69,7 @@ export default {
 .sidebar-box {
   width: 100%;
   height: 100%;
-  padding: 24px 24px 60px 28px;
+  padding: 24px 24px 200px 28px;
   overflow-y: scroll;
 
   .block {

@@ -1,10 +1,10 @@
 <template>
   <swiper class="swiper-box" :options="swiperOption" ref="ecSwiper">
-    <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
+    <swiper-slide v-for="slide in recommendRes" :key="slide.id">
       <div
         class="img"
         :style="{
-          background: `url(${slide})`,
+          background: `url(${slide.picUrl}?param=120y132)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
@@ -12,32 +12,16 @@
       <div
         class="img-bg"
         :style="{
-          background: `url(${slide})`,
+          background: `url(${slide.picUrl}?param=120y132)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
       ></div>
-      <span class="message" :title="message">{{ message }}</span>
+      <span class="message" :title="slide.name">{{ slide.name }}</span>
     </swiper-slide>
     <swiper-slide>
-      <div
-        class="img"
-        :style="{
-          background: `url()`,
-          backgroundColor: '#FFFFFF',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }"
-      ></div>
-      <div
-        class="img-bg"
-        :style="{
-          background: `url()`,
-          backgroundColor: '#FFFFFF',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }"
-      ></div>
+      <div class="img more"></div>
+      <div class="img-bg more"></div>
       <span class="message">更多歌单…</span>
     </swiper-slide>
   </swiper>
@@ -47,30 +31,11 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
   name: 'EcSlider',
+  props: {
+    recommendRes: Array
+  },
   data() {
     return {
-      swiperSlides: [
-        'http://p1.music.126.net/xwSifVHltSiAnPWRUx5M9g==/109951164774509762.jpg?param=124y132',
-        'http://p1.music.126.net/vitEGAfsRMKSxSmmSOxaQA==/109951164599819207.jpg?param=124y132',
-        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
-        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p1.music.126.net/xwSifVHltSiAnPWRUx5M9g==/109951164774509762.jpg?param=124y132',
-        'http://p1.music.126.net/vitEGAfsRMKSxSmmSOxaQA==/109951164599819207.jpg?param=124y132',
-        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
-        'http://p2.music.126.net/j8q43R7jytZnlMtpLeQS6g==/109951164638158913.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p2.music.126.net/2OnIs7XHNchCi4MTxSnNCQ==/109951164774767679.jpg?param=124y132',
-        'http://p2.music.126.net/gsxXUOYDLNj3kbUMY47UTg==/109951164600485943.jpg?param=124y132',
-        'http://p1.music.126.net/xwSifVHltSiAnPWRUx5M9g==/109951164774509762.jpg?param=124y132'
-      ],
-      message: '♪总有一个人，是你耿耿于怀的青春',
       swiperOption: {
         spaceBetween: 16,
         allowTouchMove: false,
@@ -130,6 +95,10 @@ export default {
       height: 132px;
       border-radius: 8px;
       z-index: 10;
+
+      &.more {
+        background: 100%/cover url('~static/img/moreThing.png') no-repeat;
+      }
     }
 
     .img-bg {
@@ -140,6 +109,10 @@ export default {
       top: 40px;
       border-radius: 20%;
       filter: blur(22px) brightness(105%);
+
+      &.more {
+        background: 100%/cover url('~static/img/moreThing.png') no-repeat;
+      }
     }
 
     .message {

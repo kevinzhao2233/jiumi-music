@@ -1,11 +1,11 @@
 <template>
   <div class="eh-container">
     <div class="h-banner">
-      <Banner />
+      <Banner :banners="banners" />
     </div>
     <div class="h-btn-box">
       <Button />
-      <Button type="primary"/>
+      <Button type="primary" />
     </div>
   </div>
 </template>
@@ -16,9 +16,12 @@ import Button from '~/components/common/Button.vue'
 
 export default {
   name: 'Header',
+  props: {
+    banners: Array
+  },
   components: {
     Banner,
-    Button,
+    Button
   }
 }
 </script>

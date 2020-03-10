@@ -7,7 +7,11 @@
         <Button :type="hasNext ? 'primary' : ''" @has-click="handleClickSwiper('next')" />
       </div>
       <div class="slide-box">
-        <EcSlider ref="ecSlider" @judge-swiper-state="judgeSiperState($event)" />
+        <EcSlider
+          :recommendRes="recommendRes"
+          ref="ecSlider"
+          @judge-swiper-state="judgeSiperState($event)"
+        />
       </div>
     </Card>
   </div>
@@ -20,6 +24,9 @@ import Card from '~/components/common/Card.vue'
 
 export default {
   name: 'CenterCard',
+  props: {
+    recommendRes: Array
+  },
   data() {
     return {
       hasNext: true,

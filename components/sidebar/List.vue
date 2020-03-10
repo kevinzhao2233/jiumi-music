@@ -1,14 +1,14 @@
 <template>
   <div class="block">
-    <span class="tit">{{ item.title }}</span>
+    <span class="tit">{{ items.title }}</span>
     <ul class="list-box">
       <li
         class="item"
-        v-for="(list, index) in item.list"
+        v-for="(item, index) in items.list"
         :key="index"
-        :title="list"
+        :title="item.name"
       >
-        {{ list }}
+        {{ item.name }}
       </li>
     </ul>
   </div>
@@ -19,7 +19,7 @@ export default {
   name: 'List',
 
   props: {
-    item: {
+    items: {
       type: Object
     }
   },

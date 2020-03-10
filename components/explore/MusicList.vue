@@ -81,9 +81,8 @@ export default {
     width: 100%;
     height: 58px;
     border-radius: 6px;
-    color: $mid-7;
+    color: $mid-6;
     transition: all 0.3s ease;
-    overflow: hidden;
 
     .left {
       display: flex;
@@ -127,9 +126,9 @@ export default {
           display: inline-block;
           width: 100%;
           font-size: 14px;
-          font-weight: 600;
-          color: $mid-10;
-          line-height: 16px;
+          font-weight: 500;
+          color: $mid-11;
+          line-height: 22px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -179,7 +178,7 @@ export default {
     &:hover {
       background-color: $main-6;
       color: $main-2;
-      box-shadow: 0 4px 24px -8px $main-6;
+      box-shadow: 0 14px 24px -16px $main-6;
 
       .left {
         .content .msc-name {

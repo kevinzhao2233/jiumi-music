@@ -39,6 +39,7 @@ export default {
     // 页面总宽大于1240，则铺满，小于1240不进行缩小（保证绝大多数屏幕可用即可）
     flex: 0 0 1000px;
     background-color: $aux-1;
+    overflow: hidden;
 
     @include respond-to(lg) {
       flex: 1;

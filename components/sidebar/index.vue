@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-box">
     <div class="block logo-box">啾咪音乐</div>
-    <List v-for="item in sidebarList" :key="item.title" :item="item"></List>
+    <List v-for="(items, index) in sidebarList" :key="index" :items="items"></List>
   </div>
 </template>
 
@@ -13,38 +13,66 @@ export default {
   components: {
     List
   },
+  created() {
+    const uid = localStorage.getItem('uid')
+    const getUserList = async () => {
+      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`)
+      const createList = playlist.filter((data, index) => {
+        return data.userId.toString() === uid && index > 0
+      })
+      const enshrineList = playlist.filter((data) => {
+        return data.userId.toString() !== uid;
+      })
+      this.sidebarList.myCreate.list = createList
+      this.sidebarList.myEnshrine.list = enshrineList
+    }
+    getUserList()
+  },
 
   data() {
     return {
       // TODO: icon，路由 需要放到 list 中
-      sidebarList: [
-        {
+      sidebarList: {
+        explore: {
           title: '发现音乐',
-          list: ['个性推荐', '歌单', '歌手', 'MV']
+          list: [
+            {
+              name: '个性推荐'
+            },
+            {
+              name: '歌单'
+            },
+            {
+              name: '歌手'
+            },
+            {
+              name: 'MV'
+            }
+          ]
         },
-        {
+        myMusic: {
           title: '我的音乐',
-          list: ['我的喜欢', '最近播放', '我的收藏']
+          list: [
+            {
+              name: '我的喜欢'
+            },
+            {
+              name: '最近播放'
+            },
+            {
+              name: '我的收藏'
+            }
+          ]
         },
-        {
+        myCreate: {
           title: '创建的歌单',
-          list: [
-            '双笙 囧菌 玄觞 三无 银临 漆柚 Akie秋绘',
-            '『耳机福利』左右耳已跪',
-            '听了心情会变好的欢快古风小调',
-            '音阙诗听的二十四节气'
-          ]
+          list: []
         },
-        {
+        myEnshrine: {
           title: '收藏的歌单',
-          list: [
-            '「島唄」海风中歌声悠扬',
-            '恋恋心事：春天了抓个人搭伙唱情歌',
-            '✨地球太嘈杂，可以和你潜入另一座星球吗？',
-            '游戏BGM丨一燃到底 全程高能'
-          ]
+          list: []
         }
-      ],
+      },
       settings: {
         tagname: 'div'
       }

@@ -29,6 +29,7 @@ export default {
   margin-top: 12px;
   padding: 0 48px;
   min-width: 1000px;
+  overflow: hidden;
 
   @include respond-to(lg) {
     width: 100%;
@@ -37,6 +38,13 @@ export default {
     flex: 4;
     margin-right: 48px;
     overflow: hidden;
+
+    .tt {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .right-box {

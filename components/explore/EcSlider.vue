@@ -58,11 +58,28 @@ export default {
       } else if (direction === 'next') {
         this.$refs.ecSwiper.swiper.slideNext()
       }
+      this.updateSwiperState()
+    },
+    // 更新轮播状态
+    updateSwiperState() {
       const swiper = this.$refs.ecSwiper.swiper
       const isBeginning = swiper.isBeginning
       const isEnd = swiper.isEnd
       this.$emit('judge-swiper-state', { isBeginning, isEnd })
     }
+  },
+  mounted() {
+    this.updateSwiperState()
+    let resizeTimer = null
+    const that = this;
+    window.addEventListener('resize', () => {
+      if (resizeTimer) {
+        clearTimeout(resizeTimer)
+      }
+      resizeTimer = setTimeout(function() {
+        that.updateSwiperState()
+      }, 400)
+    })
   },
   components: {
     swiper,
@@ -97,7 +114,7 @@ export default {
       z-index: 10;
 
       &.more {
-        background: 100%/cover url('~static/img/moreThing.png') no-repeat;
+        background: 100% / cover url('~static/img/moreThing.png') no-repeat;
       }
     }
 
@@ -111,7 +128,7 @@ export default {
       filter: blur(22px) brightness(105%);
 
       &.more {
-        background: 100%/cover url('~static/img/moreThing.png') no-repeat;
+        background: 100% / cover url('~static/img/moreThing.png') no-repeat;
       }
     }
 

@@ -8,7 +8,7 @@
           <div
             class="img"
             :style="{
-              background: `url(${item.coverImgUrl})`,
+              background: `url(${item.coverImgUrl}?param=120y120)`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat'
             }"
@@ -16,7 +16,7 @@
           <div
             class="img-bg"
             :style="{
-              background: `url(${item.coverImgUrl})`,
+              background: `url(${item.coverImgUrl}?param=120y120)`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat'
             }"
@@ -32,7 +32,7 @@
           <div
             class="img"
             :style="{
-              background: `url(${item.picUrl})`,
+              background: `url(${item.picUrl}?param=120y120)`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat'
             }"
@@ -40,7 +40,7 @@
           <div
             class="img-bg"
             :style="{
-              background: `url(${item.picUrl})`,
+              background: `url(${item.picUrl}?param=120y120)`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat'
             }"
@@ -61,6 +61,17 @@ export default {
   name: 'Ranking',
   components: {
     Card
+  },
+  mounted() {
+    const getArtists = async () => {
+      const { list } = await this.$axios.$get('/api/toplist/artist')
+      list.artists.map((data, index) => {
+        if(index < 5) {
+          this.artists.push(data)
+        }
+      })
+    }
+    getArtists()
   },
   data() {
     return {
@@ -91,38 +102,7 @@ export default {
           id: 4
         }
       ],
-      artists: [
-        {
-          name: '隔壁老樊',
-          id: 12429072,
-          picUrl:
-            'https://p4.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg?param=120y120'
-        },
-        {
-          name: '华晨宇',
-          id: 861777,
-          picUrl:
-            'https://p4.music.126.net/tMH2KjUioNW57zbixCA5Pg==/109951164158510116.jpg?param=120y120'
-        },
-        {
-          name: '薛之谦',
-          id: 5781,
-          picUrl:
-            'https://p3.music.126.net/W__FCWFiyq0JdPtuLJoZVQ==/109951163765026271.jpg?param=120y120'
-        },
-        {
-          name: '花粥',
-          id: 8103,
-          picUrl:
-            'https://p4.music.126.net/KLsHaBhm7QSejQa8JB9ZtA==/109951162845812387.jpg?param=120y120'
-        },
-        {
-          name: '毛不易',
-          id: 12138269,
-          picUrl:
-            'https://p3.music.126.net/An-jp5B4VPsBT4QoteeGfA==/109951164528320422.jpg?param=120y120'
-        }
-      ]
+      artists: []
     }
   }
 }

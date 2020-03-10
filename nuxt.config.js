@@ -54,6 +54,16 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    proxy: true
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://39.100.63.235/',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
   },
   /*
   ** Build configuration

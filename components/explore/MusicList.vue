@@ -9,7 +9,7 @@
           <i
             class="pic"
             :style="{
-              background: `url(${item.album.picUrl})`,
+              background: `url(${item.album.picUrl}?param=40y40)`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat'
             }"
@@ -17,7 +17,11 @@
           <div class="content">
             <span class="msc-name">{{ item.name }}</span>
             <div class="msc-art">
-              <span class="aet-name" v-for="(art, index) in item.artists" :key="art.id">
+              <span
+                class="aet-name"
+                v-for="(art, index) in item.artists"
+                :key="art.id"
+              >
                 {{ art.name }}
                 <span class="placeholder" v-if="index < item.artists.length - 1">/</span>
               </span>
@@ -31,7 +35,7 @@
               parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
           }}</span>
           <i class="btn"></i>
-          <i class="btn"></i>
+          <i class="btn" @click="getSong()"></i>
         </div>
       </li>
     </ul>
@@ -45,83 +49,18 @@ export default {
   components: {
     Card
   },
+  mounted() {
+    const getSong = async () => {
+      const { recommend } = await this.$axios.$get('/api/recommend/songs')
+      this.$nextTick(()=> {
+        this.mscList = recommend
+      })
+    }
+    getSong()
+  },
   data() {
     return {
-      mscList: [
-        {
-          name:
-            '说客',
-          id: 13759205060,
-          artists: [
-            {
-              name: '音阙诗听',
-              id: 12174521
-            },
-            {
-              name: '新乐尘符',
-              id: 12503194
-            }
-          ],
-          album: {
-            name: '说客',
-            id: 80218150,
-            picId: 109951164192393040,
-            blurPicUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg',
-            pic: 109951164192393040,
-            picUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg'
-          },
-          duration: 233333,
-          reason: '根据你可能喜欢的单曲 藏'
-        },
-        {
-          name: '说客',
-          id: 13759205061,
-          artists: [
-            {
-              name: '音阙诗听',
-              id: 12174521
-            },
-            {
-              name: '新乐尘符',
-              id: 12503194
-            }
-          ],
-          album: {
-            name: '说客',
-            id: 80218150,
-            picId: 109951164192393040,
-            blurPicUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg',
-            pic: 109951164192393040,
-            picUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg'
-          },
-          duration: 233333,
-          reason: '根据你可能喜欢的单曲 藏'
-        },
-        {
-          name: '说客',
-          id: 13759205062,
-          artists: [
-            {
-              name: '音阙诗听',
-              id: 12174521
-            },
-            {
-              name: '新乐尘符',
-              id: 12503194
-            }
-          ],
-          album: {
-            name: '说客',
-            id: 80218150,
-            picId: 109951164192393040,
-            blurPicUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg',
-            pic: 109951164192393040,
-            picUrl: 'http://p1.music.126.net/DTfwf48BEF1wTCqjWp2kgA==/109951164192393040.jpg'
-          },
-          duration: 233333,
-          reason: '根据你可能喜欢的单曲 藏'
-        }
-      ]
+      mscList: []
     }
   }
 }
@@ -173,8 +112,8 @@ export default {
       .pic {
         flex: 0 0 1;
         margin: 0 16px 0 8px;
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         border-radius: 6px;
       }
 

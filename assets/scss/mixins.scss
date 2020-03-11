@@ -11,3 +11,26 @@
     @content;
   }
 }
+
+@mixin progressBtn($size, $bg-color, $fg-color) {
+  position: relative;
+  display: block;
+  width: $size;
+  height: $size;
+  border-radius: 100px;
+  background-color: $bg-color;
+  box-shadow: 0 12px 20px -2px $fg-color;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: ($size / 4);
+    left: ($size / 4);
+    display: block;
+    width: ($size / 2);
+    height: ($size / 2);
+    border-radius: 100px;
+    background-color: $fg-color;
+    box-shadow: 0 0 4px 1px $fg-color;
+  }
+}

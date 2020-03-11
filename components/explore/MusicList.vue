@@ -17,11 +17,7 @@
           <div class="content">
             <span class="msc-name">{{ item.name }}</span>
             <div class="msc-art">
-              <span
-                class="aet-name"
-                v-for="(art, index) in item.artists"
-                :key="art.id"
-              >
+              <span class="aet-name" v-for="(art, index) in item.artists" :key="art.id">
                 {{ art.name }}
                 <span class="placeholder" v-if="index < item.artists.length - 1">/</span>
               </span>
@@ -35,7 +31,7 @@
               parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
           }}</span>
           <i class="btn"></i>
-          <i class="btn" @click="getSong()"></i>
+          <i class="btn"></i>
         </div>
       </li>
     </ul>
@@ -52,7 +48,7 @@ export default {
   mounted() {
     const getSong = async () => {
       const { recommend } = await this.$axios.$get('/api/recommend/songs')
-      this.$nextTick(()=> {
+      this.$nextTick(() => {
         this.mscList = recommend
       })
     }

@@ -6,14 +6,20 @@
     <div class="main">
       <nuxt />
     </div>
+    <div class="bottom">
+      <Player />
+    </div>
   </div>
 </template>
 
 <script>
 import Sidebar from '~/components/sidebar'
+import Player from '~/components/player/index.vue'
+
 export default {
   components: {
-    Sidebar
+    Sidebar,
+    Player
   }
 }
 </script>
@@ -43,6 +49,20 @@ export default {
 
     @include respond-to(lg) {
       flex: 1;
+    }
+  }
+  
+  .bottom {
+    position: fixed;
+    bottom: 0;
+    width: 1240px;
+    height: 80px;
+    background-color: $mid-1;
+    box-shadow: 0 4px 24px $mid-5;
+    z-index: 100;
+
+    @include respond-to(lg) {
+      width: 100%;
     }
   }
 }

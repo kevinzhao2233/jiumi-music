@@ -1,6 +1,6 @@
 <template>
   <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
-    <i class="icon"></i>
+    <i :class="`icon iconfont ${icon}`"></i>
   </div>
 </template>
 
@@ -44,12 +44,12 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 0 0 0 8px;
-  width: 32px;
-  height: 32px;
-  border-radius: 36%;
+  width: 36px;
+  height: 36px;
+  border-radius: 40%;
   background-color: $mid-1;
-  box-shadow: 0 12px 24px -4px $mid-3;
-  transition: all 0.3s ease;
+  box-shadow: 0 12px 24px -4px $mid-5;
+  transition: all 0.2s ease;
   cursor: pointer;
 
   .icon {
@@ -77,6 +77,7 @@ export default {
   &:hover {
     box-shadow: 0 8px 24px -4px $mid-7;
   }
+
   &.primary {
     background-color: $main-6;
     box-shadow: 0 12px 24px -4px $main-4;
@@ -86,7 +87,7 @@ export default {
     }
 
     &:hover {
-      box-shadow: 0 8px 24px -4px $main-7;
+      box-shadow: 0 8px 24px -4px $main-9;
     }
   }
 }

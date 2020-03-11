@@ -4,7 +4,7 @@
       <Banner :banners="banners" />
     </div>
     <div class="h-btn-box">
-      <Button />
+      <Button icon="icon-search"/>
       <Button type="primary" />
     </div>
   </div>

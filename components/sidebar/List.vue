@@ -2,13 +2,9 @@
   <div class="block">
     <span class="tit">{{ items.title }}</span>
     <ul class="list-box">
-      <li
-        class="item"
-        v-for="(item, index) in items.list"
-        :key="index"
-        :title="item.name"
-      >
-        {{ item.name }}
+      <li class="item" v-for="(item, index) in items.list" :key="index" :title="item.name">
+        <i :class="item.icon ? `icon iconfont ${item.icon}` : 'icon iconfont icon-music_albums_fill'"></i>
+        <span>{{ item.name }}</span>
       </li>
     </ul>
   </div>
@@ -22,7 +18,7 @@ export default {
     items: {
       type: Object
     }
-  },
+  }
 }
 </script>
 
@@ -70,6 +66,10 @@ export default {
       transition: all 0.3s ease;
       user-select: none;
       cursor: pointer;
+
+      .icon {
+        margin-right: 6px;
+      }
 
       &.active {
         color: $main-6;

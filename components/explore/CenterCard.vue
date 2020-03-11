@@ -3,8 +3,8 @@
     <Card>
       <h3 class="tit" slot="title">推荐歌单</h3>
       <div class="btn-box" slot="controls">
-        <Button :type="hasPrev ? 'primary' : ''" @has-click="handleClickSwiper('prev')" />
-        <Button :type="hasNext ? 'primary' : ''" @has-click="handleClickSwiper('next')" />
+        <Button :type="hasPrev ? 'primary' : ''" @has-click="handleClickSwiper('prev')" icon="icon-chevron_left" />
+        <Button :type="hasNext ? 'primary' : ''" @has-click="handleClickSwiper('next')" icon="icon-chevron_right" />
       </div>
       <div class="slide-box">
         <EcSlider

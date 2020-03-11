@@ -37,16 +37,20 @@ export default {
           title: '发现音乐',
           list: [
             {
-              name: '个性推荐'
+              name: '个性推荐',
+              icon: 'icon-location_fill'
             },
             {
-              name: '歌单'
+              name: '歌单',
+              icon: 'icon-music_albums_fill'
             },
             {
-              name: '歌手'
+              name: '歌手',
+              icon: 'icon-person__fill'
             },
             {
-              name: 'MV'
+              name: 'MV',
+              icon: 'icon-videocam_fill'
             }
           ]
         },
@@ -54,13 +58,16 @@ export default {
           title: '我的音乐',
           list: [
             {
-              name: '我的喜欢'
+              name: '我的喜欢',
+              icon: 'icon-heart_fill'
             },
             {
-              name: '最近播放'
+              name: '最近播放',
+              icon: 'icon-clock_fill'
             },
             {
-              name: '我的收藏'
+              name: '我的收藏',
+              icon: 'icon-star_fill'
             }
           ]
         },

@@ -19,9 +19,9 @@
       </div>
     </div>
     <div class="l-control">
-      <Button type="primary" />
-      <Button type="primary" />
-      <Button type="primary" />
+      <Button type="primary" icon="icon-backward_end_fill" />
+      <Button type="primary" icon="icon-play_fill" />
+      <Button type="primary" icon="icon-forward_end_fill" />
     </div>
     <div class="progress" ref="progressBox">
       <span class="time">00:00</span>
@@ -37,10 +37,10 @@
       <span class="time">43:54</span>
     </div>
     <div class="r-control">
-      <Button type="primary" />
-      <Button type="primary" />
-      <Button type="primary" />
-      <Button type="primary" />
+      <Button type="primary" icon="icon-heart_fill" />
+      <Button type="primary" icon="icon-repeat_" />
+      <Button type="primary" icon="icon-speaker__fill2" />
+      <Button type="primary" icon="icon-music_note_list" />
     </div>
   </div>
 </template>
@@ -222,6 +222,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: 48px;
     height: 100%;
   }
 }

@@ -4,8 +4,9 @@
       <Banner :banners="banners" />
     </div>
     <div class="h-btn-box">
-      <Button icon="icon-search"/>
-      <Button type="primary" />
+      <Button type="" icon="icon-gear_alt_fill1" title="设置" />
+      <Button type="" icon="icon-envelope_fill" title="消息" />
+      <Button type="" icon="icon-person_fill" title="登录/注册" />
     </div>
   </div>
 </template>
@@ -18,6 +19,11 @@ export default {
   name: 'Header',
   props: {
     banners: Array
+  },
+  data() {
+    return {
+      searchRes: ''
+    }
   },
   components: {
     Banner,

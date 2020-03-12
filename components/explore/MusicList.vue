@@ -2,7 +2,7 @@
   <Card>
     <h3 slot="title">每日歌曲推荐</h3>
     <ul class="list-box">
-      <li class="item" v-for="(item, index) in mscList" :key="item.id">
+      <li class="item" v-for="(item, index) in mscList" :key="index">
         <div class="left">
           <span class="num">{{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}</span>
           <i class="n-btn"></i>
@@ -17,7 +17,7 @@
           <div class="content">
             <span class="msc-name">{{ item.name }}</span>
             <div class="msc-art">
-              <span class="aet-name" v-for="(art, index) in item.artists" :key="art.id">
+              <span class="aet-name" v-for="(art, index) in item.artists" :key="index">
                 {{ art.name }}
                 <span class="placeholder" v-if="index < item.artists.length - 1">/</span>
               </span>

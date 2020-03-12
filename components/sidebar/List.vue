@@ -1,12 +1,20 @@
 <template>
   <div class="block">
     <span class="tit">{{ items.title }}</span>
-    <ul class="list-box">
-      <li class="item" v-for="(item, index) in items.list" :key="index" :title="item.name">
-        <i :class="item.icon ? `icon iconfont ${item.icon}` : 'icon iconfont icon-music_albums_fill'"></i>
+    <div class="list-box">
+      <nuxt-link
+        :to="item.router ? item.router : '/playlist'"
+        class="item"
+        v-for="(item, index) in items.list"
+        :key="index"
+        :title="item.name"
+      >
+        <i
+          :class="item.icon ? `icon iconfont ${item.icon}` : 'icon iconfont icon-music_albums_fill'"
+        ></i>
         <span>{{ item.name }}</span>
-      </li>
-    </ul>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -33,7 +41,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120px;
+    height: 100px;
     background-color: $aux-1;
     border-radius: 16px;
     font-size: 32px;

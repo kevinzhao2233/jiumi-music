@@ -28,7 +28,15 @@ html {
   background: #ff4e8860;
 }
 
-/* 覆盖动画时常 */
+/* 覆盖动画时常
 .animated {
   animation-duration: 0.5s;
+} */
+
+/* 路由切换效果 */
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
 }

@@ -177,8 +177,13 @@ export default {
       box-shadow: 0 14px 24px -16px $main-6;
 
       .left {
-        .content .msc-name {
-          color: $mid-1;
+        .content {
+          .msc-name {
+            color: $mid-1;
+          }
+          .msc-art {
+            color: $mid-4;
+          }
         }
 
         .n-btn {

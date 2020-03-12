@@ -73,7 +73,7 @@ export default {
 }
 /* 滚动条的滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: #d9d9d9;
+  background-color: #FFF;
   border-radius: 3px;
 }
 </style>

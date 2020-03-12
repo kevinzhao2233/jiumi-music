@@ -37,10 +37,10 @@
       <span class="time">43:54</span>
     </div>
     <div class="r-control">
-      <Button type="primary" icon="icon-heart_fill" />
-      <Button type="primary" icon="icon-repeat_" />
-      <Button type="primary" icon="icon-speaker__fill2" />
-      <Button type="primary" icon="icon-music_note_list" />
+      <Button icon="icon-heart_fill" />
+      <Button icon="icon-repeat_" />
+      <Button icon="icon-speaker__fill2" />
+      <Button icon="icon-music_note_list" />
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <template>
   <swiper class="swiper-box" :options="swiperOption" ref="bannerSwiper">
     <swiper-slide
-      v-for="slide in banners"
-      :key="slide.targetId"
+      v-for="(slide, index) in banners"
+      :key="index"
       :style="{
         background: `url(${slide.imageUrl})`,
         backgroundSize: 'cover',

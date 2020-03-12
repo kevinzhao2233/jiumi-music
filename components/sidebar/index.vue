@@ -20,8 +20,8 @@ export default {
       const createList = playlist.filter((data, index) => {
         return data.userId.toString() === uid && index > 0
       })
-      const enshrineList = playlist.filter((data) => {
-        return data.userId.toString() !== uid;
+      const enshrineList = playlist.filter(data => {
+        return data.userId.toString() !== uid
       })
       this.sidebarList.myCreate.list = createList
       this.sidebarList.myEnshrine.list = enshrineList
@@ -37,20 +37,29 @@ export default {
           title: '发现音乐',
           list: [
             {
+              name: '搜索',
+              icon: 'icon-search',
+              router: '/search'
+            },
+            {
               name: '个性推荐',
-              icon: 'icon-location_fill'
+              icon: 'icon-location_fill',
+              router: '/'
             },
             {
               name: '歌单',
-              icon: 'icon-music_albums_fill'
+              icon: 'icon-music_albums_fill',
+              router: '/'
             },
             {
               name: '歌手',
-              icon: 'icon-person__fill'
+              icon: 'icon-person__fill',
+              router: '/'
             },
             {
               name: 'MV',
-              icon: 'icon-videocam_fill'
+              icon: 'icon-videocam_fill',
+              router: '/'
             }
           ]
         },
@@ -59,15 +68,18 @@ export default {
           list: [
             {
               name: '我的喜欢',
-              icon: 'icon-heart_fill'
+              icon: 'icon-heart_fill',
+              router: '/playlist'
             },
             {
               name: '最近播放',
-              icon: 'icon-clock_fill'
+              icon: 'icon-clock_fill',
+              router: '/playlist'
             },
             {
               name: '我的收藏',
-              icon: 'icon-star_fill'
+              icon: 'icon-star_fill',
+              router: '/'
             }
           ]
         },

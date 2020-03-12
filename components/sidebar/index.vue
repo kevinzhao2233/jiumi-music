@@ -91,20 +91,10 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
 
-/* 滚动条 */
-::-webkit-scrollbar {
-  width: 6px;
-}
-/* 滚动条的滑块 */
-::-webkit-scrollbar-thumb {
-  background-color: #d9d9d9;
-  border-radius: 3px;
-}
-
 .sidebar-box {
   width: 100%;
   height: 100%;
-  padding: 24px 24px 200px 28px;
+  padding: 24px 16px 200px 16px;
   overflow-y: scroll;
 
   .block {

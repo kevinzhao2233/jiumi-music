@@ -26,14 +26,14 @@ export default {
 @import '~/assets/scss/config.scss';
 
 .block {
-  margin: 12px auto;
+  margin: 8px auto;
   overflow: hidden;
 
   &.logo-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
+    height: 120px;
     background-color: $aux-1;
     border-radius: 16px;
     font-size: 32px;
@@ -43,18 +43,20 @@ export default {
 
   .tit {
     display: inline-block;
-    margin: 24px 0 6px 0;
+    margin: 24px 0 6px 12px;
     font-size: 14px;
     color: $mid-10;
   }
 
   .list-box {
+    padding-bottom: 16px;
     width: 100%;
     overflow: hidden;
 
     .item {
       display: block;
       margin: 4px 0;
+      padding-left: 12px;
       width: 100%;
       color: $mid-7;
       font-size: 14px;
@@ -77,13 +79,15 @@ export default {
       }
 
       &:hover {
-        color: $main-6;
-        background-color: $main-1;
+        color: $main-1;
+        background-color: $main-6;
+        box-shadow: 0 8px 24px -12px $main-6;
       }
 
       &:active {
-        color: $main-7;
-        background-color: $main-3;
+        color: $mid-1;
+        background-color: $main-4;
+        transition: all 0.1s ease;
       }
     }
   }

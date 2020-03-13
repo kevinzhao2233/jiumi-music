@@ -1,6 +1,8 @@
 export const state = () => ({
   audio: null,
-  currSong: null,
+  currSong: {
+    isPlay: false
+  },
   list: []
 })
 
@@ -10,6 +12,7 @@ export const mutations = {
     const temp = state.list.findIndex(item => item.id === id)
     console.log(temp)
     if (temp >= 0) {
+      // TODO: 在弹窗中提示出来
       console.log('==播放列表里已经有了==')
     } else {
       let formatDuration = ''
@@ -40,5 +43,32 @@ export const mutations = {
   },
   removeAll(state) {
     state.list = []
+  },
+  // 加载歌曲
+  loadSong(state, id) {
+    if(state.audio) {
+      this.commit('player/pause')
+      state.audio = null
+    }
+    state.audio = new Audio()
+    state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    state.audio.addEventListener('canplaythrough', () => {
+      this.commit('player/play')
+    })
+  },
+  play(state) {
+    state.audio.play()
+    state.currSong.isPlay = true
+  },
+  pause(state) {
+    state.audio.pause()
+    state.currSong.isPlay = false
   }
+}
+
+export const actions = {
+  // async getSong({ commit }, { id }) {
+  //   // const { data } = await this.$axios.$get(`/api/song/url?br=320000&id=${id}`)
+  //   this.commit('player/loadSong', `https://music.163.com/song/media/outer/url?id=${id}.mp3`)
+  // },
 }

@@ -246,19 +246,13 @@ export default {
     right: 0;
     bottom: 80px;
     margin-right: 48px;
-    border-top: 12px solid $mid-1;
     width: 450px;
     background-color: $mid-1;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    box-shadow: 0 -8px 24px -2px $mid-3;
     transition: height 0.3s ease;
-
-    /* 隐藏滚动条 */
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    overflow: hidden;
   }
 }
 </style>

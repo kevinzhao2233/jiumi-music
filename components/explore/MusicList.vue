@@ -5,7 +5,7 @@
       <li class="item" v-for="(item, index) in mscList" :key="index">
         <div class="left">
           <span class="num">{{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}</span>
-          <i class="n-btn" @click="add"></i>
+          <i class="n-btn" @click="add(item.id)"></i>
           <i
             class="pic"
             :style="{
@@ -26,9 +26,11 @@
         </div>
         <div class="right">
           <span class="time">{{
-            parseInt(item.duration / 60000) +
-              ':' +
-              parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
+            `${parseInt(item.duration / 60000)}:${
+              parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60) > 9
+                ? parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
+                : '0' + parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
+            }`
           }}</span>
           <i class="btn"></i>
           <i class="btn"></i>
@@ -50,8 +52,10 @@ export default {
     ...mapState(['todos'])
   },
   methods: {
-    add() {
-      this.$store.commit('todos/add', '这是一个todo')
+    // 添加音乐到当前播放列表
+    add(id) {
+      const msc = this.mscList.find(item => item.id === id)
+      this.$store.commit('player/add', msc)
     }
   },
   mounted() {

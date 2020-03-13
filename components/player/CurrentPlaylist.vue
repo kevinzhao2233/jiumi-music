@@ -14,43 +14,22 @@
       <i class="del-icon iconfont icon-multiply" @mousedown="closeList"></i>
     </div>
     <ul class="list-box">
-      <li class="list">
+      <li class="list" v-for="item in player.list" :key="item.id">
         <i class="icon animate"></i>
         <div class="item main">
-          <span class="name">昨日晴空《昨日晴空》动画电影主题曲</span>
+          <span class="name">{{ item.name }}</span>
           <div class="btn-box">
             <i class="icon iconfont icon-play_fill"></i>
             <i class="icon iconfont icon-ellipsis"></i>
           </div>
         </div>
-        <span class="item songer">尤长靖</span>
-        <span class="item time">04:39</span>
-        <i class="icon del iconfont icon-multiply"></i>
-      </li>
-      <li class="list">
-        <i class="icon animate"></i>
-        <div class="item main">
-          <span class="name">昨日晴空《昨日晴空》动画电影主题曲</span>
-          <div class="btn-box">
-            <i class="icon iconfont icon-play_fill"></i>
-            <i class="icon iconfont icon-ellipsis"></i>
-          </div>
-        </div>
-        <span class="item songer">尤长靖</span>
-        <span class="item time">04:39</span>
-        <i class="icon del iconfont icon-multiply"></i>
-      </li>
-      <li class="list">
-        <i class="icon animate"></i>
-        <div class="item main">
-          <span class="name">昨日晴空《昨日晴空》动画电影主题曲</span>
-          <div class="btn-box">
-            <i class="icon iconfont icon-play_fill"></i>
-            <i class="icon iconfont icon-ellipsis"></i>
-          </div>
-        </div>
-        <span class="item songer">尤长靖</span>
-        <span class="item time">04:39</span>
+        <span class="item songer">
+          <span v-for="(songer, index) in item.artists" :key="songer"
+            >{{ index > 4 ? '' : `${songer}` }}
+            <span v-if="index < 4 && index !== item.artists.length - 1">/</span>
+          </span>
+        </span>
+        <span class="item time">{{ item.formatDuration }}</span>
         <i class="icon del iconfont icon-multiply"></i>
       </li>
     </ul>
@@ -59,9 +38,13 @@
 
 <script>
 import Card from '~/components/common/Card.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'CurrentPlaylist',
+  computed: {
+    ...mapState(['player'])
+  },
   methods: {
     closeList() {
       this.$emit('close-list')
@@ -69,16 +52,16 @@ export default {
   },
   mounted() {
     // 点击选框之外的地方，收起选框
-    document.addEventListener('mousedown', (e) => {
+    document.addEventListener('mousedown', e => {
       if (
-        !this.$el.contains(e.target)
-        && Array.from(e.target.classList).indexOf('icon-music_note_list') < 0
-        && e.target.id !== 'playerPlaylistBtn'
+        !this.$el.contains(e.target) &&
+        Array.from(e.target.classList).indexOf('icon-music_note_list') < 0 &&
+        e.target.id !== 'playerPlaylistBtn'
       ) {
         // 如果点击的target不是这个组件，就收起来
-        this.closeList();
+        this.closeList()
       }
-    });
+    })
   },
   components: {
     Card
@@ -196,7 +179,6 @@ export default {
     }
 
     .item {
-      text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -208,6 +190,7 @@ export default {
 
         .name {
           flex: 1;
+          margin: 0 8px;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;

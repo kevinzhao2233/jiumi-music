@@ -1,11 +1,11 @@
 <template>
   <Card>
-    <h3 slot="title">每日歌曲推荐</h3>
+    <h3 slot="title" class="title">每日歌曲推荐</h3>
     <ul class="list-box">
       <li class="item" v-for="(item, index) in mscList" :key="index">
         <div class="left">
           <span class="num">{{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}</span>
-          <i class="n-btn"></i>
+          <i class="n-btn" @click="add"></i>
           <i
             class="pic"
             :style="{
@@ -39,11 +39,20 @@
 </template>
 <script>
 import Card from '~/components/common/Card.vue'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'MusicList',
   components: {
     Card
+  },
+  computed: {
+    ...mapState(['todos'])
+  },
+  methods: {
+    add() {
+      this.$store.commit('todos/add', '这是一个todo')
+    }
   },
   mounted() {
     const getSong = async () => {

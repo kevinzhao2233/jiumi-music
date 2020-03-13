@@ -35,7 +35,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 18px 0;
+    padding: 16px 0;
 
     .tit {
       font-size: 20px;

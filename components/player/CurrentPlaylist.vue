@@ -24,7 +24,7 @@
           <div class="item main">
             <span class="name">{{ item.name }}</span>
             <div class="btn-box">
-              <i class="icon iconfont icon-play_fill"></i>
+              <i class="icon iconfont icon-play_fill" @mousedown="play(item.id)"></i>
               <i class="icon iconfont icon-ellipsis"></i>
             </div>
           </div>
@@ -54,11 +54,13 @@ export default {
   methods: {
     ...mapMutations({
       removeAll: 'player/removeAll',
-      remove: 'player/remove'
+      remove: 'player/remove',
+      play: 'player/loadSong'
     }),
     closeList() {
       this.$emit('close-list')
-    }
+    },
+
   },
   mounted() {
     // 点击选框之外的地方，收起选框

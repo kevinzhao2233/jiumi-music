@@ -20,7 +20,11 @@
     </div>
     <div class="l-control">
       <Button type="primary" icon="icon-backward_end_fill" />
-      <Button type="primary" icon="icon-play_fill" />
+      <Button
+        @has-click="playOrPause"
+        type="primary"
+        :icon="player.currSong.isPlay ? 'icon-pause_fill' : 'icon-play_fill'"
+      />
       <Button type="primary" icon="icon-forward_end_fill" />
     </div>
     <div class="progress" ref="progressBox">
@@ -42,7 +46,7 @@
       <Button icon="icon-speaker__fill2" />
       <Button icon="icon-music_note_list" id="playerPlaylistBtn" @has-click="clickList" />
     </div>
-    <div class="playlist-box" :style="isShowList ? {height: '360px'} : {height: '0'}">
+    <div class="playlist-box" :style="isShowList ? { height: '360px' } : { height: '0' }">
       <CurrentPlaylist @close-list="closeList" />
     </div>
   </div>
@@ -51,6 +55,7 @@
 <script>
 import Button from '~/components/common/Button.vue'
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Player',
@@ -66,6 +71,10 @@ export default {
       hasAnimation: false,
       isShowList: false
     }
+  },
+
+  computed: {
+    ...mapState(['player'])
   },
 
   methods: {
@@ -101,6 +110,14 @@ export default {
     // 调整音乐进度
     adjustMscPosition() {
       //TODO: 这里是对音乐进度进行调整的地方
+    },
+    // 暂停播放
+    playOrPause() {
+      if (this.player.audio.paused) {
+        this.$store.commit('player/play')
+      } else {
+        this.$store.commit('player/pause')
+      }
     },
     // 点击歌单按钮
     clickList() {

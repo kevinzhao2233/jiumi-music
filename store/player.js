@@ -8,7 +8,8 @@ export const mutations = {
   add(state, { id, name, artists, duration }) {
     // 查找list中是否已经有这首歌了
     const temp = state.list.findIndex(item => item.id === id)
-    if (temp > 0) {
+    console.log(temp)
+    if (temp >= 0) {
       console.log('==播放列表里已经有了==')
     } else {
       let formatDuration = ''
@@ -31,7 +32,13 @@ export const mutations = {
       })
     }
   },
-  remove(state, { song }) {
-    state.list.splice(state.list.indexOf(song), 1)
+  remove(state, id) {
+    state.list.splice(
+      state.list.findIndex(item => item.id === id),
+      1
+    )
+  },
+  removeAll(state) {
+    state.list = []
   }
 }

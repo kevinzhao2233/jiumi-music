@@ -5,7 +5,7 @@
       <li class="item" v-for="(item, index) in mscList" :key="index">
         <div class="left">
           <span class="num">{{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}</span>
-          <i class="n-btn" @click="add(item.id)"></i>
+          <i class="n-btn iconfont icon-plus" @click="add(item.id)"></i>
           <i
             class="pic"
             :style="{
@@ -32,8 +32,8 @@
                 : '0' + parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
             }`
           }}</span>
-          <i class="btn"></i>
-          <i class="btn"></i>
+          <i class="btn iconfont icon-heart_fill"></i>
+          <i class="btn iconfont icon-play_fill"></i>
         </div>
       </li>
     </ul>
@@ -100,20 +100,24 @@ export default {
 
       .num {
         flex: 0 0 1;
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         font-size: 12px;
         text-align: center;
-        line-height: 24px;
+        line-height: 28px;
         font-weight: 500;
       }
 
       .n-btn {
         flex: 0 0 1;
-        width: 24px;
-        height: 24px;
-        background-color: #fff;
+        width: 28px;
+        height: 28px;
         border-radius: 4px;
+        text-align: center;
+        line-height: 28px;
+        font-size: 20px;
+        color: $mid-1;
+        transition: all 0.2s ease-out;
         display: none;
       }
 
@@ -179,8 +183,12 @@ export default {
         margin: 0 4px;
         width: 28px;
         height: 28px;
-        background-color: #ddd;
         border-radius: 4px;
+        font-size: 20px;
+        line-height: 28px;
+        text-align: center;
+        color: $mid-5;
+        transition: all 0.2s ease-out;
       }
     }
 
@@ -190,6 +198,17 @@ export default {
       box-shadow: 0 14px 24px -16px $main-6;
 
       .left {
+        .n-btn {
+          color: $main-1;
+          &:hover {
+            background-color: $main-4;
+          }
+
+          &:active {
+            color: $main-6;
+            background-color: $main-2;
+          }
+        }
         .content {
           .msc-name {
             color: $mid-1;
@@ -205,6 +224,19 @@ export default {
 
         .num {
           display: none;
+        }
+      }
+      .right {
+        .btn {
+          color: $main-1;
+          &:hover {
+            background-color: $main-4;
+          }
+
+          &:active {
+            color: $main-6;
+            background-color: $main-2;
+          }
         }
       }
     }

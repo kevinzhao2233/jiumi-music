@@ -64,7 +64,7 @@ export default {
     return {
       mscProgressWidth: '0%',
       hasAnimation: false,
-      isShowList: true
+      isShowList: false
     }
   },
 

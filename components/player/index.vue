@@ -40,40 +40,46 @@
       <Button icon="icon-heart_fill" />
       <Button icon="icon-repeat_" />
       <Button icon="icon-speaker__fill2" />
-      <Button icon="icon-music_note_list" />
+      <Button icon="icon-music_note_list" id="playerPlaylistBtn" @has-click="clickList" />
+    </div>
+    <div class="playlist-box" :style="isShowList ? {height: '0'} : {height: '360px'}">
+      <CurrentPlaylist @close-list="clickList" />
     </div>
   </div>
 </template>
 
 <script>
 import Button from '~/components/common/Button.vue'
+import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
 
 export default {
   name: 'Player',
 
   components: {
-    Button
+    Button,
+    CurrentPlaylist
   },
 
   data() {
     return {
       mscProgressWidth: '0%',
-      hasAnimation: false
+      hasAnimation: false,
+      isShowList: false
     }
   },
 
   methods: {
+    // 点击进度条
     clickProgressLine(e) {
       this.move(e, true)
     },
-
+    // 选中进度滑块
     selectSlider(e) {
-      // this.hasAnimation = false
       e.preventDefault()
       this.$refs.progressBox.addEventListener('mousemove', this.move, false)
       this.$refs.progressBox.addEventListener('mouseup', this.stop, false)
     },
-
+    // 移动
     move(e, hasAni) {
       if (hasAni) {
         this.hasAnimation = true
@@ -86,15 +92,19 @@ export default {
       let lineBoxW = this.$refs.sliderLineBox.clientWidth
       this.$refs.sliderLine.style.width = ((mousePageX - linePageX) / lineBoxW) * 100 + '%' // 当前高亮条的长度
     },
-
+    // 停止，一开鼠标
     stop() {
       this.$refs.progressBox.removeEventListener('mousemove', this.move, false)
       this.$refs.progressBox.removeEventListener('mouseup', this.stop, false)
       this.adjustMscPosition()
     },
-
+    // 调整音乐进度
     adjustMscPosition() {
       //TODO: 这里是对音乐进度进行调整的地方
+    },
+    // 点击歌单按钮
+    clickList() {
+      this.isShowList = !this.isShowList
     }
   }
 }
@@ -105,9 +115,11 @@ export default {
 @import '~/assets/scss/mixins.scss';
 
 .player-box {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
+  background-color: #fff;
 
   & > div {
     display: flex;
@@ -218,12 +230,31 @@ export default {
     }
   }
 
-  .r-control{
+  .r-control {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-right: 48px;
     height: 100%;
+  }
+
+  .playlist-box {
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+    margin-right: 48px;
+    width: 450px;
+    background-color: $mid-1;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: height 0.3s ease;
+
+    /* 隐藏滚动条 */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 </style>

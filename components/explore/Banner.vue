@@ -26,7 +26,7 @@ export default {
     return {
       swiperOption: {
         loop: true,
-        autoplay: true,
+        // autoplay: true,
         centeredSlides: true,
         spaceBetween: 30,
         slidesPerView: 'auto',

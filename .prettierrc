@@ -2,4 +2,22 @@
   "semi": false,
   "singleQuote": true,
   "printWidth": 100,
+  "prettier.semi": true,
+  "prettier.eslintIntegration": false,
+  "prettier.disableLanguages": ["vue"],
+
+  "vetur.format.defaultFormatter.html": "prettier",
+  "vetur.format.defaultFormatter.js": "prettier",
+  "vetur.format.defaultFormatter.scss": "prettier",
+  "vetur.format.defaultFormatterOptions": {
+      "prettier": {
+          "printWidth": 100,
+          "singleQuote": true,
+          "semi": true,
+          "tabWidth": 2,
+          "arrowParens": "avoid",
+          "bracketSpacing": true,
+          "proseWrap": "preserve"
+      }
+  }
 }

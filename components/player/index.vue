@@ -42,8 +42,8 @@
       <Button icon="icon-speaker__fill2" />
       <Button icon="icon-music_note_list" id="playerPlaylistBtn" @has-click="clickList" />
     </div>
-    <div class="playlist-box" :style="isShowList ? {height: '0'} : {height: '360px'}">
-      <CurrentPlaylist @close-list="clickList" />
+    <div class="playlist-box" :style="isShowList ? {height: '360px'} : {height: '0'}">
+      <CurrentPlaylist @close-list="closeList" />
     </div>
   </div>
 </template>
@@ -64,7 +64,7 @@ export default {
     return {
       mscProgressWidth: '0%',
       hasAnimation: false,
-      isShowList: false
+      isShowList: true
     }
   },
 
@@ -105,6 +105,9 @@ export default {
     // 点击歌单按钮
     clickList() {
       this.isShowList = !this.isShowList
+    },
+    closeList() {
+      this.isShowList = false
     }
   }
 }
@@ -243,6 +246,7 @@ export default {
     right: 0;
     bottom: 80px;
     margin-right: 48px;
+    border-top: 12px solid $mid-1;
     width: 450px;
     background-color: $mid-1;
     border-top-left-radius: 16px;

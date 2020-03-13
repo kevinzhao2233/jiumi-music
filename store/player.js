@@ -1,22 +1,45 @@
 export const state = () => ({
   audio: null,
   currSong: null,
-  list: [{
-    name: '',
-    artists: [],
-    duration: 0,
-    
-  }]
+  list: [
+    {
+      id: 0,
+      name: '昨日晴空《昨日晴空》动画电影主题曲',
+      artists: ['尤长靖'],
+      duration: 123286,
+      formatDuration: '02:03'
+    }
+  ]
 })
 
 export const mutations = {
-  add (state, id) {
-    state.list.push({
-      id,
-      done: false
-    })
+  add(state, { id, name, artists, duration }) {
+    // 查找list中是否已经有这首歌了
+    const temp = state.list.findIndex(item => item.id === id)
+    if (temp > 0) {
+      console.log('==播放列表里已经有了==')
+    } else {
+      let formatDuration = ''
+      const time = duration / 60000
+      const int = parseInt(time)
+      const dec = parseInt((time - int) * 60)
+      formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`
+
+      const art = []
+      artists.map(item => {
+        art.push(item.name)
+      })
+
+      state.list.push({
+        id,
+        name,
+        artists: art,
+        duration,
+        formatDuration
+      })
+    }
   },
-  remove (state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
-  },
+  remove(state, { song }) {
+    state.list.splice(state.list.indexOf(song), 1)
+  }
 }

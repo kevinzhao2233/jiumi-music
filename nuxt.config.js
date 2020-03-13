@@ -30,6 +30,7 @@ export default {
   css: [
     '~/assets/common.css',
     '~/assets/global.css',
+    '~/assets/animation.css',
   ],
   /*
   ** Plugins to load before mounting the App

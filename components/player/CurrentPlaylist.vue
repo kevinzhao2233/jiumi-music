@@ -9,36 +9,42 @@
       <hr class="line" />
       <div class="item">
         <i class="icon iconfont icon-trash"></i>
-        <span class="txt">清空</span>
+        <span class="txt" @click="removeAll">清空</span>
       </div>
       <i class="del-icon iconfont icon-multiply" @mousedown="closeList"></i>
     </div>
     <ul class="list-box">
-      <li class="list" v-for="item in player.list" :key="item.id">
-        <i class="icon animate"></i>
-        <div class="item main">
-          <span class="name">{{ item.name }}</span>
-          <div class="btn-box">
-            <i class="icon iconfont icon-play_fill"></i>
-            <i class="icon iconfont icon-ellipsis"></i>
+      <transition-group
+        name="flip-list"
+        enter-active-class="animated fadeInLeft"
+        leave-active-class="animated zoomOutRight"
+      >
+        <li class="list" v-for="item in player.list" :key="item.id">
+          <i class="icon animate"></i>
+          <div class="item main">
+            <span class="name">{{ item.name }}</span>
+            <div class="btn-box">
+              <i class="icon iconfont icon-play_fill"></i>
+              <i class="icon iconfont icon-ellipsis"></i>
+            </div>
           </div>
-        </div>
-        <span class="item songer">
-          <span v-for="(songer, index) in item.artists" :key="songer"
-            >{{ index > 4 ? '' : `${songer}` }}
-            <span v-if="index < 4 && index !== item.artists.length - 1">/</span>
+          <span class="item songer">
+            <span v-for="(songer, index) in item.artists" :key="songer"
+              >{{ index > 4 ? '' : `${songer}` }}
+              <span v-if="index < 4 && index !== item.artists.length - 1">/</span>
+            </span>
           </span>
-        </span>
-        <span class="item time">{{ item.formatDuration }}</span>
-        <i class="icon del iconfont icon-multiply"></i>
-      </li>
+          <span class="item time">{{ item.formatDuration }}</span>
+          <i class="icon del iconfont icon-multiply" @click="remove(item.id)"></i>
+        </li>
+      </transition-group>
     </ul>
   </Card>
 </template>
 
 <script>
 import Card from '~/components/common/Card.vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'CurrentPlaylist',
@@ -46,6 +52,10 @@ export default {
     ...mapState(['player'])
   },
   methods: {
+    ...mapMutations({
+      removeAll: 'player/removeAll',
+      remove: 'player/remove'
+    }),
     closeList() {
       this.$emit('close-list')
     }
@@ -71,6 +81,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/assets/scss/config.scss';
+
+.flip-list-move {
+  transition: transform 0.2s;
+}
 
 .title {
   margin-left: 16px;
@@ -140,6 +154,7 @@ export default {
 .list-box {
   padding: 0 8px 40px 8px;
   height: 296px;
+  border-top: 1px solid $main-2;
   overflow-x: hidden;
   overflow-y: auto;
   /* 隐藏滚动条 */
@@ -154,14 +169,8 @@ export default {
     height: 24px;
     line-height: 24px;
     text-align: center;
-    background-color: $mid-1;
     border-radius: 6px;
     transition: all 0.2s ease-out;
-
-    &:active {
-      background-color: $mid-5;
-      color: main-3;
-    }
   }
 
   .list {
@@ -204,17 +213,20 @@ export default {
 
         .btn-box {
           flex: 0 0 1;
-          margin: 0 8px;
+          margin: 0 12px 0 8px;
           display: none;
         }
       }
 
       &.songer {
         flex: 2;
+        color: $mid-6;
       }
 
       &.time {
         flex: 1;
+        font-weight: 500;
+        color: $mid-6;
       }
     }
 
@@ -225,11 +237,23 @@ export default {
       .main .btn-box {
         display: block;
       }
+      .songer,.time {
+        color: $mid-4;
+      }
       .del {
         display: inline-block;
       }
       .icon {
-        color: $main-6;
+        color: $mid-1;
+
+        &:hover {
+          background-color: $main-4;
+        }
+
+        &:active {
+          background-color: $main-2;
+          color: $main-6;
+        }
       }
     }
   }

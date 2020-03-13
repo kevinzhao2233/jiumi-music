@@ -1,15 +1,7 @@
 export const state = () => ({
   audio: null,
   currSong: null,
-  list: [
-    {
-      id: 0,
-      name: '昨日晴空《昨日晴空》动画电影主题曲',
-      artists: ['尤长靖'],
-      duration: 123286,
-      formatDuration: '02:03'
-    }
-  ]
+  list: []
 })
 
 export const mutations = {

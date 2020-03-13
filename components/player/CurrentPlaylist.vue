@@ -138,7 +138,14 @@ export default {
 }
 
 .list-box {
-  padding: 0 8px;
+  padding: 0 8px 40px 8px;
+  height: 296px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* 隐藏滚动条 */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // 所有icon统一的样式
   .icon {
@@ -171,7 +178,7 @@ export default {
 
     .animate {
       flex: 0 0 1;
-      margin-right: 8px;
+      margin-right: 4px;
     }
 
     .del {
@@ -190,7 +197,6 @@ export default {
 
         .name {
           flex: 1;
-          margin: 0 8px;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
@@ -198,6 +204,7 @@ export default {
 
         .btn-box {
           flex: 0 0 1;
+          margin: 0 8px;
           display: none;
         }
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="player-box"  ref="playerBox">
+  <div class="player-box" ref="playerBox">
     <div class="discover">
       <div
         class="img"
@@ -47,7 +47,16 @@
     </div>
     <div class="r-control">
       <Button icon="icon-heart_fill" />
-      <Button icon="icon-repeat_" />
+      <Button
+        @has-click="switchMode"
+        :icon="
+          player.setting.mode === 1
+            ? 'icon-repeat_'
+            : player.setting.mode === 2
+            ? 'icon-repeat'
+            : 'icon-shuffle'
+        "
+      />
       <Button icon="icon-speaker__fill2" />
       <Button icon="icon-music_note_list" id="playerPlaylistBtn" @has-click="clickList" />
     </div>
@@ -88,7 +97,8 @@ export default {
   methods: {
     ...mapMutations({
       next: 'player/next',
-      prev: 'player/prev'
+      prev: 'player/prev',
+      switchMode: 'player/switchMode'
     }),
     // 点击进度条
     clickProgressLine(e) {
@@ -116,7 +126,7 @@ export default {
       let linePageX = this.$refs.sliderLine.getBoundingClientRect().left
       let lineBoxW = this.$refs.sliderLineBox.clientWidth
       let temp = (mousePageX - linePageX) / lineBoxW
-      this.mscProgressWidth = temp < 0.01 ? 0 : (temp > 0.99 ? 1 : temp)
+      this.mscProgressWidth = temp < 0.01 ? 0 : temp > 0.99 ? 1 : temp
       this.$refs.sliderLine.style.width = this.mscProgressWidth * 100 + '%' // 当前高亮条的长度
     },
     // 停止，一开鼠标

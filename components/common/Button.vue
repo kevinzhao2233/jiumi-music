@@ -1,7 +1,7 @@
 <template>
   <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
     <i :class="`icon iconfont ${icon}`"></i>
-    <i v-if="mark" class="mark __mark">{{mark > 999 ? '999+' : mark}}</i>
+    <i v-if="mark" class="mark __mark">{{ mark > 999 ? '999+' : mark }}</i>
   </div>
 </template>
 
@@ -14,10 +14,7 @@ export default {
         if (typeof value === 'undefined') {
           return 1
         } else {
-          return (
-            typeof value === 'string' &&
-            ['large', 'small'].indexOf(value) !== -1
-          )
+          return typeof value === 'string' && ['large', 'small'].indexOf(value) !== -1
         }
       }
     },
@@ -29,12 +26,12 @@ export default {
       type: String
     },
     mark: {
-      type: Number,
+      type: Number
     }
   },
   methods: {
     handleClick() {
-      this.$emit('has-click');
+      this.$emit('has-click')
     }
   }
 }
@@ -93,6 +90,11 @@ export default {
   }
   &:hover {
     box-shadow: 0 8px 24px -4px $mid-7;
+
+    &:active {
+      background-color: $mid-2;
+      box-shadow: 0 6px 24px -8px $mid-7;
+    }
   }
 
   &.primary {
@@ -110,6 +112,11 @@ export default {
 
     &:hover {
       box-shadow: 0 8px 24px -4px $main-9;
+
+      &:active {
+        background-color: $main-4;
+        box-shadow: 0 6px 24px -8px $main-9;
+      }
     }
   }
 }

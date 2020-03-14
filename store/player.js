@@ -44,7 +44,6 @@ export const mutations = {
     // 查找list中是否已经有这首歌了
     const temp = state.list.findIndex(item => item.id === id)
     if (temp >= 0) {
-      // TODO: 在弹窗中提示出来
       console.log('==播放列表里已经有了==')
     } else {
       // 格式化时间
@@ -67,6 +66,11 @@ export const mutations = {
         formatDuration,
         picUrl: album.picUrl
       })
+
+      // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
+      if (state.list.length === 1) {
+        this.commit('player/loadSong', id)
+      }
     }
   },
   remove(state, id) {
@@ -128,17 +132,17 @@ export const mutations = {
 let progessInterval = null
 export const actions = {
   // 循环更新进度条
-  updatePrg({ state }, {mark}) {
+  updatePrg({ state }, { mark }) {
     clearInterval(progessInterval)
-    if(mark) {
+    if (mark) {
       clearInterval(progessInterval)
-    }else {
+    } else {
       if (!state.audio.paused) {
         this.commit('player/updateProgress')
         progessInterval = setInterval(() => {
           this.commit('player/updateProgress')
         }, 1000)
-      }else {
+      } else {
         clearInterval(progessInterval)
       }
     }

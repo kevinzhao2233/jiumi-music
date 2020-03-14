@@ -1,5 +1,9 @@
 export const state = () => ({
   audio: null,
+  setting: {
+    mode: 2, // 1: 单曲循环、2: 顺序循环、3: 随机
+    vol: 70
+  },
   currSong: {
     isPlay: false,
     id: 0,
@@ -126,6 +130,61 @@ export const mutations = {
       time.currentTime = Math.floor(state.audio.currentTime)
     }
     time.progress = Math.floor(time.currentTime / time.duration) / 100
+  },
+  next(state) {
+    if (state.currSong.id === 0) {
+      // 弹窗提醒，添加歌曲后点击播放
+    } else {
+      console.log(state.setting.mode)
+      switch (state.setting.mode) {
+        case 1:
+          state.audio.load()
+          break
+        case 2:
+          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+          const nextIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1
+          this.commit('player/loadSong', state.list[nextIndex].id)
+          break
+        case 3:
+          if (state.list.length > 1) {
+            let randomNum = 0
+            const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+            randomNum = Math.floor(Math.random() * state.list.length)
+            while (randomNum === currIndex) {
+              randomNum = Math.floor(Math.random() * state.list.length)
+            }
+            this.commit('player/loadSong', state.list[randomNum].id)
+          } else {
+            state.audio.load()
+          }
+          break
+      }
+    }
+  },
+  prev(state) {
+    switch (state.setting.mode) {
+      case 1:
+        state.audio.load()
+        break
+      case 2:
+        const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+        const prevIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
+        this.commit('player/loadSong', state.list[prevIndex].id)
+        break
+      case 3:
+        if (state.list.length > 1) {
+          let randomNum = 0
+          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+          randomNum = Math.floor(Math.random() * state.list.length)
+          while (randomNum === currIndex) {
+            randomNum = Math.floor(Math.random() * state.list.length)
+          }
+          this.commit('player/loadSong', state.list[randomNum].id)
+        } else {
+          state.audio.load()
+        }
+        break
+    }
   }
 }
 

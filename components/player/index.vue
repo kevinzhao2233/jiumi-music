@@ -24,13 +24,13 @@
       </div>
     </div>
     <div class="l-control">
-      <Button type="primary" icon="icon-backward_end_fill" />
+      <Button @has-click="prev" type="primary" icon="icon-backward_end_fill" />
       <Button
         @has-click="playOrPause"
         type="primary"
         :icon="player.currSong.isPlay ? 'icon-pause_fill' : 'icon-play_fill'"
       />
-      <Button type="primary" icon="icon-forward_end_fill" />
+      <Button @has-click="next" type="primary" icon="icon-forward_end_fill" />
     </div>
     <div class="progress">
       <span class="time">{{ mscTime.currTime }}</span>
@@ -60,7 +60,7 @@
 <script>
 import Button from '~/components/common/Button.vue'
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Player',
@@ -86,6 +86,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      next: 'player/next',
+      prev: 'player/prev'
+    }),
     // 点击进度条
     clickProgressLine(e) {
       this.move(e, true)

@@ -67,6 +67,7 @@ export default {
       if (
         !this.$el.contains(e.target) &&
         Array.from(e.target.classList).indexOf('icon-music_note_list') < 0 &&
+        Array.from(e.target.classList).indexOf('__mark') < 0 &&
         e.target.id !== 'playerPlaylistBtn'
       ) {
         // 如果点击的target不是这个组件，就收起来

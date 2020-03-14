@@ -185,6 +185,10 @@ export const mutations = {
         }
         break
     }
+  },
+  switchMode(state) {
+    console.log(state.setting.mode)
+    state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1
   }
 }
 

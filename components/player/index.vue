@@ -113,10 +113,18 @@ export default {
     },
     // 暂停播放
     playOrPause() {
-      if (this.player.audio.paused) {
-        this.$store.commit('player/play')
-      } else {
-        this.$store.commit('player/pause')
+      if (this.player.audio) {
+        if (this.player.audio.paused) {
+          this.$store.commit('player/play')
+        } else {
+          this.$store.commit('player/pause')
+        }
+      }else {
+        if(this.player.list.length > 0) {
+          // 根据保持的状态播放
+        }else {
+          // 列表为空，点击播放后进行提示
+        }
       }
     },
     // 点击歌单按钮

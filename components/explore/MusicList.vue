@@ -199,7 +199,7 @@ export default {
 
       .left {
         .n-btn {
-          color: $main-1;
+          color: $mid-1;
           &:hover {
             background-color: $main-4;
           }

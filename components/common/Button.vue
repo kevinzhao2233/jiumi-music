@@ -1,6 +1,7 @@
 <template>
   <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
     <i :class="`icon iconfont ${icon}`"></i>
+    <i v-if="mark" class="mark __mark">{{mark > 999 ? '999+' : mark}}</i>
   </div>
 </template>
 
@@ -26,6 +27,9 @@ export default {
     },
     icon: {
       type: String
+    },
+    mark: {
+      type: Number,
     }
   },
   methods: {
@@ -40,6 +44,7 @@ export default {
 @import '~/assets/scss/config.scss';
 
 .k-box {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,6 +61,18 @@ export default {
     display: block;
     font-size: 16px;
     color: $main-6;
+  }
+
+  .mark {
+    position: absolute;
+    right: -4px;
+    top: -6px;
+    display: inline-block;
+    padding: 0 5px;
+    background-color: $main-6;
+    color: $mid-1;
+    border-radius: 10px;
+    font-size: 12px;
   }
 
   &.large {
@@ -84,6 +101,11 @@ export default {
 
     .icon {
       color: $mid-1;
+    }
+
+    .mark {
+      background-color: $mid-1;
+      color: $main-6;
     }
 
     &:hover {

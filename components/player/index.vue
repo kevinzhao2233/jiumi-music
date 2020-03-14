@@ -58,7 +58,7 @@
         "
       />
       <Button icon="icon-speaker__fill2" />
-      <Button icon="icon-music_note_list" id="playerPlaylistBtn" @has-click="clickList" />
+      <Button icon="icon-music_note_list" :mark="player.list.length" id="playerPlaylistBtn" @has-click="clickList" />
     </div>
     <div class="playlist-box" :style="isShowList ? { height: '360px' } : { height: '0' }">
       <CurrentPlaylist @close-list="closeList" />
@@ -83,7 +83,8 @@ export default {
     return {
       mscProgressWidth: 0,
       hasAnimation: false,
-      isShowList: false
+      isShowList: false,
+      num: 1
     }
   },
 

@@ -4,18 +4,23 @@
       <div
         class="img"
         :style="{
-          background: `100% url(https://p1.music.126.net/FuyWt50x4HipjqoTiCKg-Q==/109951164307554693.jpg?param=46y46) no-repeat`
+          background: `100% url(${player.currSong.detail.picUrl}?param=46y46) no-repeat`
         }"
       ></div>
       <div
         class="img-bg"
         :style="{
-          background: `100% url(https://p1.music.126.net/FuyWt50x4HipjqoTiCKg-Q==/109951164307554693.jpg?param=46y46) no-repeat`
+          background: `100% url(${player.currSong.detail.picUrl}?param=46y46) no-repeat`
         }"
       ></div>
       <div class="info">
-        <span class="msc-name">希望之名</span>
-        <span class="msc-art">肥皂菌 | 珉珉的猫咪</span>
+        <span class="msc-name">{{ player.currSong.detail.name }}</span>
+        <span class="msc-art">
+          <span v-for="(songer, index) in player.currSong.detail.artists" :key="songer"
+            >{{ index > 4 ? '' : `${songer}` }}
+            <span v-if="index < 4 && index !== player.currSong.detail.artists.length - 1">/</span>
+          </span>
+        </span>
       </div>
     </div>
     <div class="l-control">
@@ -119,10 +124,10 @@ export default {
         } else {
           this.$store.commit('player/pause')
         }
-      }else {
-        if(this.player.list.length > 0) {
+      } else {
+        if (this.player.list.length > 0) {
           // 根据保持的状态播放
-        }else {
+        } else {
           // 列表为空，点击播放后进行提示
         }
       }

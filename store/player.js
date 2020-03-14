@@ -2,26 +2,33 @@ export const state = () => ({
   audio: null,
   currSong: {
     isPlay: false,
-    id: 0
+    id: 0,
+    detail: {
+      id: 0,
+      name: '--',
+      artists: ['--'],
+      duration: 0,
+      picUrl: 'http://www.ziliao6.com/fm/images/1.jpg'
+    }
   },
   list: []
 })
 
 export const mutations = {
-  add(state, { id, name, artists, duration }) {
+  add(state, { id, name, artists, duration, album }) {
     // 查找list中是否已经有这首歌了
     const temp = state.list.findIndex(item => item.id === id)
-    console.log(temp)
     if (temp >= 0) {
       // TODO: 在弹窗中提示出来
       console.log('==播放列表里已经有了==')
     } else {
+      // 格式化时间
       let formatDuration = ''
       const time = duration / 60000
       const int = parseInt(time)
       const dec = parseInt((time - int) * 60)
       formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`
-
+      // 歌手
       const art = []
       artists.map(item => {
         art.push(item.name)
@@ -32,7 +39,8 @@ export const mutations = {
         name,
         artists: art,
         duration,
-        formatDuration
+        formatDuration,
+        picUrl: album.picUrl
       })
     }
   },
@@ -47,13 +55,15 @@ export const mutations = {
   },
   // 加载歌曲
   loadSong(state, id) {
-    // 如果audio里面已经有音乐
+    // 清空audio
     if (state.audio) {
       this.commit('player/pause')
       state.audio = null
     }
     state.audio = new Audio()
     state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    // 将当前要播放的音乐信息缓存起来，减少一次异步请求
+    state.currSong.detail = JSON.parse(JSON.stringify(state.list.find(item => item.id === id)))
     state.audio.addEventListener('canplaythrough', () => {
       this.commit('player/play', id)
     })

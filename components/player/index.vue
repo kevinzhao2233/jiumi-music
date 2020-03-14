@@ -33,17 +33,17 @@
       <Button type="primary" icon="icon-forward_end_fill" />
     </div>
     <div class="progress" ref="progressBox">
-      <span class="time">00:00</span>
+      <span class="time">{{ mscTime.currTime }}</span>
       <div class="pro" ref="sliderLineBox" @mousedown="clickProgressLine">
         <div
           :class="hasAnimation ? 'line anim' : 'line'"
           ref="sliderLine"
-          :style="{ width: mscProgressWidth }"
+          :style="{ width: mscTime.progress }"
         >
           <i class="btn" ref="slider" @mousedown="selectSlider"> </i>
         </div>
       </div>
-      <span class="time">43:54</span>
+      <span class="time">{{ mscTime.totalTime }}</span>
     </div>
     <div class="r-control">
       <Button icon="icon-heart_fill" />
@@ -60,7 +60,7 @@
 <script>
 import Button from '~/components/common/Button.vue'
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Player',
@@ -72,20 +72,28 @@ export default {
 
   data() {
     return {
-      mscProgressWidth: '0%',
+      mscProgressWidth: 0,
       hasAnimation: false,
       isShowList: false
     }
   },
 
   computed: {
-    ...mapState(['player'])
+    ...mapState(['player']),
+    ...mapGetters({
+      mscTime: 'player/mscTime'
+    })
+  },
+
+  mounted() {
+    console.log(this.mscTime)
   },
 
   methods: {
     // 点击进度条
     clickProgressLine(e) {
       this.move(e, true)
+      this.adjustMscPosition()
     },
     // 选中进度滑块
     selectSlider(e) {
@@ -104,7 +112,8 @@ export default {
       let mousePageX = e.pageX
       let linePageX = this.$refs.sliderLine.getBoundingClientRect().left
       let lineBoxW = this.$refs.sliderLineBox.clientWidth
-      this.$refs.sliderLine.style.width = ((mousePageX - linePageX) / lineBoxW) * 100 + '%' // 当前高亮条的长度
+      this.mscProgressWidth = (mousePageX - linePageX) / lineBoxW
+      this.$refs.sliderLine.style.width = this.mscProgressWidth * 100 + '%' // 当前高亮条的长度
     },
     // 停止，一开鼠标
     stop() {
@@ -114,7 +123,7 @@ export default {
     },
     // 调整音乐进度
     adjustMscPosition() {
-      //TODO: 这里是对音乐进度进行调整的地方
+      this.$store.commit('player/updateProgress', this.mscProgressWidth)
     },
     // 暂停播放
     playOrPause() {

@@ -1,5 +1,5 @@
 <template>
-  <div class="player-box">
+  <div class="player-box"  ref="playerBox">
     <div class="discover">
       <div
         class="img"
@@ -32,7 +32,7 @@
       />
       <Button type="primary" icon="icon-forward_end_fill" />
     </div>
-    <div class="progress" ref="progressBox">
+    <div class="progress">
       <span class="time">{{ mscTime.currTime }}</span>
       <div class="pro" ref="sliderLineBox" @mousedown="clickProgressLine">
         <div
@@ -85,10 +85,6 @@ export default {
     })
   },
 
-  mounted() {
-    console.log(this.mscTime)
-  },
-
   methods: {
     // 点击进度条
     clickProgressLine(e) {
@@ -97,9 +93,12 @@ export default {
     },
     // 选中进度滑块
     selectSlider(e) {
+      e.stopPropagation()
       e.preventDefault()
-      this.$refs.progressBox.addEventListener('mousemove', this.move, false)
-      this.$refs.progressBox.addEventListener('mouseup', this.stop, false)
+      this.$refs.playerBox.addEventListener('mousemove', this.move, false)
+      this.$refs.playerBox.addEventListener('mouseup', this.stop, false)
+      // 禁止自动更改进度条
+      this.$store.dispatch({ type: 'player/updatePrg', mark: true })
     },
     // 移动
     move(e, hasAni) {
@@ -112,18 +111,20 @@ export default {
       let mousePageX = e.pageX
       let linePageX = this.$refs.sliderLine.getBoundingClientRect().left
       let lineBoxW = this.$refs.sliderLineBox.clientWidth
-      this.mscProgressWidth = (mousePageX - linePageX) / lineBoxW
+      let temp = (mousePageX - linePageX) / lineBoxW
+      this.mscProgressWidth = temp < 0.01 ? 0 : (temp > 0.99 ? 1 : temp)
       this.$refs.sliderLine.style.width = this.mscProgressWidth * 100 + '%' // 当前高亮条的长度
     },
     // 停止，一开鼠标
     stop() {
-      this.$refs.progressBox.removeEventListener('mousemove', this.move, false)
-      this.$refs.progressBox.removeEventListener('mouseup', this.stop, false)
+      this.$refs.playerBox.removeEventListener('mousemove', this.move, false)
+      this.$refs.playerBox.removeEventListener('mouseup', this.stop, false)
       this.adjustMscPosition()
     },
     // 调整音乐进度
     adjustMscPosition() {
       this.$store.commit('player/updateProgress', this.mscProgressWidth)
+      this.$store.dispatch({ type: 'player/updatePrg' })
     },
     // 暂停播放
     playOrPause() {

@@ -108,37 +108,39 @@ export const mutations = {
   // 监听歌曲是否播放结束
   listenerAudio(state) {
     state.audio.addEventListener('ended', () => {
-      state.currSong.isPlay = false
+      this.commit('player/pause')
     })
   },
   // 更新进度条
   updateProgress(state, setTime) {
+    const time = state.currSong.time
+    time.duration = Math.floor(state.audio.duration)
     if (setTime) {
-      const time = state.currSong.time
-      time.duration = Math.floor(state.audio.duration)
       state.audio.currentTime = setTime * time.duration
       time.currentTime = Math.floor(setTime * time.duration)
-      time.progress = Math.floor(time.currentTime / time.duration) / 100
     } else {
-      const time = state.currSong.time
-      time.duration = Math.floor(state.audio.duration)
       time.currentTime = Math.floor(state.audio.currentTime)
-      time.progress = Math.floor(time.currentTime / time.duration) / 100
     }
+    time.progress = Math.floor(time.currentTime / time.duration) / 100
   }
 }
 
+let progessInterval = null
 export const actions = {
   // 循环更新进度条
-  updatePrg({ state }) {
-    let progessInterval = null
-    if (!state.audio.paused) {
-      this.commit('player/updateProgress')
-      progessInterval = setInterval(() => {
-        this.commit('player/updateProgress')
-      }, 1000)
-    } else {
+  updatePrg({ state }, {mark}) {
+    clearInterval(progessInterval)
+    if(mark) {
       clearInterval(progessInterval)
+    }else {
+      if (!state.audio.paused) {
+        this.commit('player/updateProgress')
+        progessInterval = setInterval(() => {
+          this.commit('player/updateProgress')
+        }, 1000)
+      }else {
+        clearInterval(progessInterval)
+      }
     }
   }
 }

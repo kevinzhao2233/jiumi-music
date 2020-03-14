@@ -1,7 +1,8 @@
 export const state = () => ({
   audio: null,
   currSong: {
-    isPlay: false
+    isPlay: false,
+    id: 0
   },
   list: []
 })
@@ -46,23 +47,32 @@ export const mutations = {
   },
   // 加载歌曲
   loadSong(state, id) {
-    if(state.audio) {
+    // 如果audio里面已经有音乐
+    if (state.audio) {
       this.commit('player/pause')
       state.audio = null
     }
     state.audio = new Audio()
     state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
     state.audio.addEventListener('canplaythrough', () => {
-      this.commit('player/play')
+      this.commit('player/play', id)
     })
   },
-  play(state) {
+  play(state, id) {
     state.audio.play()
+    state.currSong.id = id
     state.currSong.isPlay = true
+    this.commit('player/listenerAudio')
   },
   pause(state) {
     state.audio.pause()
     state.currSong.isPlay = false
+  },
+  // 监听歌曲是否播放结束
+  listenerAudio(state) {
+    state.audio.addEventListener('ended', () => {
+      state.currSong.isPlay = false
+    })
   }
 }
 

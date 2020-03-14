@@ -11,7 +11,7 @@
         <i class="icon iconfont icon-trash"></i>
         <span class="txt" @click="removeAll">清空</span>
       </div>
-      <i class="del-icon iconfont icon-multiply" @mousedown="closeList"></i>
+      <i class="del-icon iconfont icon-multiply" @click="closeList"></i>
     </div>
     <ul class="list-box">
       <transition-group
@@ -20,7 +20,7 @@
         leave-active-class="animated zoomOutRight"
       >
         <li class="list" v-for="item in player.list" :key="item.id">
-          <i class="icon animate"></i>
+          <i :class="player.currSong.id === item.id ? 'icon animate iconfont icon-music_note_' : 'icon animate'"></i>
           <div class="item main">
             <span class="name">{{ item.name }}</span>
             <div class="btn-box">
@@ -59,8 +59,7 @@ export default {
     }),
     closeList() {
       this.$emit('close-list')
-    },
-
+    }
   },
   mounted() {
     // 点击选框之外的地方，收起选框
@@ -190,6 +189,7 @@ export default {
     .animate {
       flex: 0 0 1;
       margin-right: 4px;
+      color: $main-6;
     }
 
     .del {
@@ -239,7 +239,8 @@ export default {
       .main .btn-box {
         display: block;
       }
-      .songer,.time {
+      .songer,
+      .time {
         color: $mid-4;
       }
       .del {

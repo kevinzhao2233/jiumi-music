@@ -59,7 +59,7 @@
       />
       <Button icon="icon-speaker__fill2">
         <div class="vol-box">
-          <Slider :vertical="true" :value="0.7" />
+          <Slider :vertical="true" :value="player.setting.vol" @has-change-value="changeVol" />
         </div>
       </Button>
       <Button
@@ -110,7 +110,8 @@ export default {
     ...mapMutations({
       next: 'player/next',
       prev: 'player/prev',
-      switchMode: 'player/switchMode'
+      switchMode: 'player/switchMode',
+      changeVol: 'player/changeVol'
     }),
     // 点击进度条
     clickProgressLine(e) {
@@ -163,12 +164,6 @@ export default {
           this.$store.commit('player/play')
         } else {
           this.$store.commit('player/pause')
-        }
-      } else {
-        if (this.player.list.length > 0) {
-          // 根据保持的状态播放
-        } else {
-          // 列表为空，点击播放后进行提示
         }
       }
     },

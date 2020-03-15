@@ -2,7 +2,7 @@ export const state = () => ({
   audio: null,
   setting: {
     mode: 2, // 1: 单曲循环、2: 顺序循环、3: 随机
-    vol: 70
+    vol: 0.7  // TODO: 需要函数防抖后保存进localStorage
   },
   currSong: {
     isPlay: false,
@@ -106,6 +106,7 @@ export const mutations = {
     state.currSong.id = id
     state.currSong.isPlay = true
     this.commit('player/listenerAudio')
+    this.commit('player/changeVol', state.setting.vol)
     this.dispatch({ type: 'player/updatePrg' })
   },
   pause(state) {
@@ -189,6 +190,12 @@ export const mutations = {
   },
   switchMode(state) {
     state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1
+  },
+  changeVol(state, value) {
+    state.setting.vol = value;
+    if(state.currSong.isPlay) {
+      state.audio.volume = value
+    }
   }
 }
 

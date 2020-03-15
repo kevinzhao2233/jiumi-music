@@ -34,14 +34,13 @@
     </div>
     <div class="progress">
       <span class="time">{{ mscTime.currTime }}</span>
-      <div class="pro" ref="sliderLineBox" @mousedown="clickProgressLine">
-        <div
-          :class="hasAnimation ? 'line anim' : 'line'"
-          ref="sliderLine"
-          :style="{ width: mscTime.progress }"
-        >
-          <i class="btn" ref="slider" @mousedown="selectSlider"> </i>
-        </div>
+      <div class="pro">
+        <Slider
+          :value="mscTime.progress"
+          :rangeEl="$refs.playerBox"
+          @has-select-slider="selectSlider"
+          @has-change-value="adjustMscPosition"
+        />
       </div>
       <span class="time">{{ mscTime.totalTime }}</span>
     </div>
@@ -60,7 +59,13 @@
       <div class="vol-box" ref="vol">
         <Button icon="icon-speaker__fill2" @has-click="cliskVolPanel" />
         <div class="vol-opt" v-show="isShowVolPanel">
-          <Slider :vertical="true" :value="player.setting.vol" :parentEl="$refs.vol" @has-change-value="changeVol" @close="closeVolPanel" />
+          <Slider
+            :vertical="true"
+            :value="player.setting.vol"
+            :parentEl="$refs.vol"
+            @has-change-value="changeVol"
+            @close="closeVolPanel"
+          />
         </div>
       </div>
       <Button
@@ -96,7 +101,7 @@ export default {
       mscProgressWidth: 0,
       hasAnimation: false,
       isShowList: false,
-      isShowVolPanel: false
+      isShowVolPanel: false,
     }
   },
 
@@ -114,48 +119,17 @@ export default {
       switchMode: 'player/switchMode',
       changeVol: 'player/changeVol'
     }),
-    // 点击进度条
-    clickProgressLine(e) {
-      if (this.player.list.length > 0) {
-        this.move(e, true)
-        this.adjustMscPosition()
-      }
-    },
     // 选中进度滑块
     selectSlider(e) {
+      console.log('=====select')
       if (this.player.list.length > 0) {
-        e.stopPropagation()
-        e.preventDefault()
-        this.$refs.playerBox.addEventListener('mousemove', this.move, false)
-        this.$refs.playerBox.addEventListener('mouseup', this.stop, false)
         // 禁止自动更改进度条
         this.$store.dispatch({ type: 'player/updatePrg', mark: true })
       }
     },
-    // 移动
-    move(e, hasAni) {
-      if (hasAni) {
-        this.hasAnimation = true
-      } else {
-        this.hasAnimation = false
-      }
-      e.preventDefault()
-      let mousePageX = e.pageX
-      let linePageX = this.$refs.sliderLine.getBoundingClientRect().left
-      let lineBoxW = this.$refs.sliderLineBox.clientWidth
-      let temp = (mousePageX - linePageX) / lineBoxW
-      this.mscProgressWidth = temp < 0.01 ? 0 : temp > 0.99 ? 1 : temp
-      this.$refs.sliderLine.style.width = this.mscProgressWidth * 100 + '%' // 当前高亮条的长度
-    },
-    // 停止，一开鼠标
-    stop() {
-      this.$refs.playerBox.removeEventListener('mousemove', this.move, false)
-      this.$refs.playerBox.removeEventListener('mouseup', this.stop, false)
-      this.adjustMscPosition()
-    },
     // 调整音乐进度
-    adjustMscPosition() {
-      this.$store.commit('player/updateProgress', this.mscProgressWidth)
+    adjustMscPosition(value) {
+      this.$store.commit('player/updateProgress', value)
       this.$store.dispatch({ type: 'player/updatePrg' })
     },
     // 暂停播放
@@ -280,28 +254,6 @@ export default {
       position: relative;
       flex: 1;
       margin: 0 12px;
-      width: 100%;
-      height: 4px;
-      background-color: $mid-5;
-      border-radius: 10px;
-      cursor: pointer;
-
-      .line {
-        height: 100%;
-        background-color: $main-6;
-        border-radius: 10px;
-        box-shadow: 2px 0 6px $main-4;
-
-        &.anim {
-          transition: width 0.3s ease;
-        }
-
-        .btn {
-          @include progressBtn(16px, $main-4, $main-6);
-          float: right;
-          margin: -6px -8px 0 0;
-        }
-      }
     }
   }
 

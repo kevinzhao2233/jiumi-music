@@ -33,12 +33,12 @@ export const getters = {
       }
       const currTime = `${Math.floor(currentTime / 60)}:${viewSec(currentTime)}`
       const totalTime = `${Math.floor(duration / 60)}:${viewSec(duration)}`
-      const progress = `${(currentTime / duration) * 100}%`
+      const progress = currentTime / duration
       return { currTime, totalTime, progress }
     }
     const currTime = '00:00'
     const totalTime = '00:00'
-    const progress = '0%'
+    const progress = 0
     return { currTime, totalTime, progress }
   }
 }
@@ -137,7 +137,6 @@ export const mutations = {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
     } else {
-      console.log(state.setting.mode)
       switch (state.setting.mode) {
         case 1:
           state.audio.load()

@@ -4,7 +4,7 @@
       <div
         :class="hasAnimation ? 'line anim' : 'line'"
         ref="sliderLine"
-        :style="{ height: value * 100 + '%' }"
+        :style="vertical ? { height: value * 100 + '%' } : { width: value * 100 + '%' }"
       >
         <i class="btn" ref="slider" @mousedown="selectSlider"> </i>
       </div>
@@ -29,7 +29,10 @@ export default {
       default: 0
     },
     parentEl: {
-      type: HTMLDivElement,
+      type: HTMLDivElement
+    },
+    rangeEl: {
+      type: HTMLDivElement
     }
   },
   data() {
@@ -43,18 +46,22 @@ export default {
     clickProgressLine(e) {
       if (!this.disable) {
         this.move(e, true)
-        this.$emit('has-stop')
+        this.$emit('has-change-value', this.progress)
       }
     },
     // 选中进度滑块
     selectSlider(e) {
+      this.$emit('has-select-slider')
       if (!this.disable) {
         e.stopPropagation()
         e.preventDefault()
-        this.$refs.sliderBox.addEventListener('mousemove', this.move, false)
-        this.$refs.sliderBox.addEventListener('mouseup', this.stop, false)
-        // 抛出接口
-        this.$emit('has-select-slider')
+        if (this.rangeEl) {
+          this.rangeEl.addEventListener('mousemove', this.move, false)
+          this.rangeEl.addEventListener('mouseup', this.stop, false)
+        }else {
+          this.$refs.sliderBox.addEventListener('mousemove', this.move, false)
+          this.$refs.sliderBox.addEventListener('mouseup', this.stop, false)
+        }
       }
     },
     // 移动
@@ -83,11 +90,16 @@ export default {
         this.$refs.sliderLine.style.width = this.progress * 100 + '%' // 当前高亮条的长度
       }
     },
-    // 停止，一开鼠标
+    // 停止，移开鼠标
     stop() {
-      this.$refs.sliderBox.removeEventListener('mousemove', this.move, false)
-      this.$refs.sliderBox.removeEventListener('mouseup', this.stop, false)
-      this.$emit('has-stop')
+      if(this.rangeEl) {
+        this.rangeEl.removeEventListener('mousemove', this.move, false)
+        this.rangeEl.removeEventListener('mouseup', this.stop, false)
+      }else {
+        this.$refs.sliderBox.removeEventListener('mousemove', this.move, false)
+        this.$refs.sliderBox.removeEventListener('mouseup', this.stop, false)
+      }
+      this.$emit('has-change-value', this.progress)
     },
     closeOpt() {
       this.$emit('close')
@@ -96,8 +108,7 @@ export default {
   mounted() {
     // 点击选框之外的地方，收起选框
     document.addEventListener('mousedown', e => {
-      if (!this.parentEl.contains(e.target)) {
-        // 如果点击的target不是这个组件，就收起来
+      if (this.parentEl && !this.parentEl.contains(e.target)) {
         this.closeOpt()
       }
     })
@@ -116,29 +127,46 @@ export default {
   width: 100%;
   height: 100%;
 
+  .slide {
+    width: 100%;
+    height: 4px;
+    background-color: $mid-5;
+    border-radius: 10px;
+    cursor: pointer;
+
+    .line {
+      height: 100%;
+      background-color: $main-6;
+      border-radius: 10px;
+      box-shadow: 2px 0 6px $main-4;
+
+      &.anim {
+        transition: all 0.3s ease;
+      }
+
+      .btn {
+        @include progressBtn(16px, $main-4, $main-6);
+        float: right;
+        margin: -6px -8px 0 0;
+      }
+    }
+  }
+
   &.vertical {
     .slide {
       display: flex;
       align-items: flex-end;
       margin: 0 auto;
       height: 100px;
-      width: 6px;
-      background-color: $mid-5;
-      border-radius: 10px;
+      width: 4px;
 
       .line {
         width: 100%;
-        background-color: $main-6;
-        border-radius: 10px;
         box-shadow: 0 2px 6px $main-4;
-
-        &.anim {
-          transition: width 0.3s ease;
-        }
 
         .btn {
           @include progressBtn(16px, $main-4, $main-6);
-          margin: -8px -5px 0 -5px;
+          margin: -8px -6px 0 -5px;
         }
       }
     }

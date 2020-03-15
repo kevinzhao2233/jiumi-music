@@ -2,6 +2,7 @@
   <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
     <i :class="`icon iconfont ${icon}`"></i>
     <i v-if="mark" class="mark __mark">{{ mark > 999 ? '999+' : mark }}</i>
+    <slot></slot>
   </div>
 </template>
 

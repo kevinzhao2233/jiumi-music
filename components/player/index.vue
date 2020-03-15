@@ -6,7 +6,17 @@
         :style="{
           background: `100% url(${player.currSong.detail.picUrl}?param=46y46) no-repeat`
         }"
-      ></div>
+      >
+        <div :class="player.list.length > 0 ? 'inner' : 'no-display'" @mousedown="clickCover">
+          <i
+            :class="
+              isMusicPage
+                ? 'icon iconfont icon-arrow_down_right_arrow_up_left'
+                : 'icon iconfont icon-arrow_up_left_arrow_down_right'
+            "
+          ></i>
+        </div>
+      </div>
       <div
         class="img-bg"
         :style="{
@@ -102,6 +112,7 @@ export default {
       hasAnimation: false,
       isShowList: false,
       isShowVolPanel: false,
+      isMusicPage: false
     }
   },
 
@@ -119,6 +130,11 @@ export default {
       switchMode: 'player/switchMode',
       changeVol: 'player/changeVol'
     }),
+    // 点击歌曲封面
+    clickCover() {
+      console.log('点击了歌曲封面')
+      this.isMusicPage = !this.isMusicPage
+    },
     // 选中进度滑块
     selectSlider(e) {
       console.log('=====select')
@@ -189,6 +205,36 @@ export default {
       border-radius: 6px;
       background-color: $main-6;
       z-index: 110;
+
+      .inner {
+        display: block;
+        width: 100%;
+        height: 100%;
+        transition: all 0.2s ease;
+
+        .icon {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          line-height: 46px;
+          font-size: 32px;
+          color: $main-6;
+          opacity: 0;
+          transform: rotate(90deg);
+          transition: opacity 0.2s ease;
+          cursor: pointer;
+        }
+      }
+
+      &:hover {
+        .inner {
+          background-color: #ffffff77;
+          .icon {
+            opacity: 1;
+          }
+        }
+      }
     }
     .img-bg {
       position: absolute;

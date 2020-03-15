@@ -57,11 +57,12 @@
             : 'icon-shuffle'
         "
       />
-      <Button icon="icon-speaker__fill2">
-        <div class="vol-box">
-          <Slider :vertical="true" :value="player.setting.vol" @has-change-value="changeVol" />
+      <div class="vol-box" ref="vol">
+        <Button icon="icon-speaker__fill2" @has-click="cliskVolPanel" />
+        <div class="vol-opt" v-show="isShowVolPanel">
+          <Slider :vertical="true" :value="player.setting.vol" :parentEl="$refs.vol" @has-change-value="changeVol" @close="closeVolPanel" />
         </div>
-      </Button>
+      </div>
       <Button
         icon="icon-music_note_list"
         :mark="player.list.length"
@@ -95,7 +96,7 @@ export default {
       mscProgressWidth: 0,
       hasAnimation: false,
       isShowList: false,
-      num: 1
+      isShowVolPanel: false
     }
   },
 
@@ -166,6 +167,12 @@ export default {
           this.$store.commit('player/pause')
         }
       }
+    },
+    cliskVolPanel() {
+      this.isShowVolPanel = !this.isShowVolPanel
+    },
+    closeVolPanel() {
+      this.isShowVolPanel = false
     },
     // 点击歌单按钮
     clickList() {
@@ -306,14 +313,18 @@ export default {
     height: 100%;
 
     .vol-box {
-      position: absolute;
-      bottom: 46px;
-      left: 0;
-      width: 36px;
-      height: 140px;
-      background-color: $mid-1;
-      border-radius: 8px;
-      box-shadow: -4px 0 24px -8px $mid-5;
+      position: relative;
+
+      .vol-opt {
+        position: absolute;
+        bottom: 46px;
+        left: 8px;
+        width: 36px;
+        height: 140px;
+        background-color: $mid-1;
+        border-radius: 8px;
+        box-shadow: -4px 0 24px -8px $mid-5;
+      }
     }
   }
 

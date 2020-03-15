@@ -27,6 +27,9 @@ export default {
     value: {
       type: Number,
       default: 0
+    },
+    parentEl: {
+      type: HTMLDivElement,
     }
   },
   data() {
@@ -57,11 +60,11 @@ export default {
     // 移动
     move(e, hasAni) {
       if (hasAni) {
+        e.preventDefault()
         this.hasAnimation = true
       } else {
         this.hasAnimation = false
       }
-      e.preventDefault()
       if (this.vertical) {
         let mousePageY = e.pageY
         let linePageY = this.$refs.sliderLine.getBoundingClientRect().top
@@ -85,7 +88,19 @@ export default {
       this.$refs.sliderBox.removeEventListener('mousemove', this.move, false)
       this.$refs.sliderBox.removeEventListener('mouseup', this.stop, false)
       this.$emit('has-stop')
+    },
+    closeOpt() {
+      this.$emit('close')
     }
+  },
+  mounted() {
+    // 点击选框之外的地方，收起选框
+    document.addEventListener('mousedown', e => {
+      if (!this.parentEl.contains(e.target)) {
+        // 如果点击的target不是这个组件，就收起来
+        this.closeOpt()
+      }
+    })
   }
 }
 </script>

@@ -1,25 +1,27 @@
+const defaultCurrSong = {
+  isPlay: false,
+  id: 0,
+  time: {
+    currentTime: 0,
+    totalTime: 0,
+    progress: 0
+  },
+  detail: {
+    id: 0,
+    name: '--',
+    artists: ['--', '---'],
+    duration: 0,
+    picUrl: 'http://www.ziliao6.com/fm/images/1.jpg'
+  }
+}
+
 export const state = () => ({
   audio: null,
   setting: {
     mode: 2, // 1: 单曲循环、2: 顺序循环、3: 随机
-    vol: 0.7  // TODO: 需要函数防抖后保存进localStorage
+    vol: 0.7 // TODO: 需要函数防抖后保存进localStorage
   },
-  currSong: {
-    isPlay: false,
-    id: 0,
-    time: {
-      currentTime: 0,
-      totalTime: 0,
-      progress: 0
-    },
-    detail: {
-      id: 0,
-      name: '--',
-      artists: ['--', '---'],
-      duration: 0,
-      picUrl: 'http://www.ziliao6.com/fm/images/1.jpg'
-    }
-  },
+  currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: []
 })
 
@@ -85,6 +87,11 @@ export const mutations = {
   },
   removeAll(state) {
     state.list = []
+    if (state.audio) {
+      this.commit('player/pause')
+      state.audio = null
+      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
+    }
   },
   // 加载歌曲
   loadSong(state, id) {
@@ -92,6 +99,7 @@ export const mutations = {
     if (state.audio) {
       this.commit('player/pause')
       state.audio = null
+      state.currSong = null
     }
     state.audio = new Audio()
     state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
@@ -163,36 +171,40 @@ export const mutations = {
     }
   },
   prev(state) {
-    switch (state.setting.mode) {
-      case 1:
-        state.audio.load()
-        break
-      case 2:
-        const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-        const prevIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
-        this.commit('player/loadSong', state.list[prevIndex].id)
-        break
-      case 3:
-        if (state.list.length > 1) {
-          let randomNum = 0
-          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-          randomNum = Math.floor(Math.random() * state.list.length)
-          while (randomNum === currIndex) {
-            randomNum = Math.floor(Math.random() * state.list.length)
-          }
-          this.commit('player/loadSong', state.list[randomNum].id)
-        } else {
+    if (state.currSong.id === 0) {
+      // 弹窗提示 添加歌曲到列表
+    } else {
+      switch (state.setting.mode) {
+        case 1:
           state.audio.load()
-        }
-        break
+          break
+        case 2:
+          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+          const prevIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
+          this.commit('player/loadSong', state.list[prevIndex].id)
+          break
+        case 3:
+          if (state.list.length > 1) {
+            let randomNum = 0
+            const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
+            randomNum = Math.floor(Math.random() * state.list.length)
+            while (randomNum === currIndex) {
+              randomNum = Math.floor(Math.random() * state.list.length)
+            }
+            this.commit('player/loadSong', state.list[randomNum].id)
+          } else {
+            state.audio.load()
+          }
+          break
+      }
     }
   },
   switchMode(state) {
     state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1
   },
   changeVol(state, value) {
-    state.setting.vol = value;
-    if(state.currSong.isPlay) {
+    state.setting.vol = value
+    if (state.currSong.isPlay) {
       state.audio.volume = value
     }
   }

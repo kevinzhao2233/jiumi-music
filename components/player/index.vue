@@ -57,8 +57,17 @@
             : 'icon-shuffle'
         "
       />
-      <Button icon="icon-speaker__fill2" />
-      <Button icon="icon-music_note_list" :mark="player.list.length" id="playerPlaylistBtn" @has-click="clickList" />
+      <Button icon="icon-speaker__fill2">
+        <div class="vol-box">
+          <Slider :vertical="true" :value="0.7" />
+        </div>
+      </Button>
+      <Button
+        icon="icon-music_note_list"
+        :mark="player.list.length"
+        id="playerPlaylistBtn"
+        @has-click="clickList"
+      />
     </div>
     <div class="playlist-box" :style="isShowList ? { height: '360px' } : { height: '0' }">
       <CurrentPlaylist @close-list="closeList" />
@@ -68,6 +77,7 @@
 
 <script>
 import Button from '~/components/common/Button.vue'
+import Slider from '~/components/common/Slider.vue'
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
 import { mapState, mapGetters, mapMutations } from 'vuex'
 
@@ -76,6 +86,7 @@ export default {
 
   components: {
     Button,
+    Slider,
     CurrentPlaylist
   },
 
@@ -103,17 +114,21 @@ export default {
     }),
     // 点击进度条
     clickProgressLine(e) {
-      this.move(e, true)
-      this.adjustMscPosition()
+      if (this.player.list.length > 0) {
+        this.move(e, true)
+        this.adjustMscPosition()
+      }
     },
     // 选中进度滑块
     selectSlider(e) {
-      e.stopPropagation()
-      e.preventDefault()
-      this.$refs.playerBox.addEventListener('mousemove', this.move, false)
-      this.$refs.playerBox.addEventListener('mouseup', this.stop, false)
-      // 禁止自动更改进度条
-      this.$store.dispatch({ type: 'player/updatePrg', mark: true })
+      if (this.player.list.length > 0) {
+        e.stopPropagation()
+        e.preventDefault()
+        this.$refs.playerBox.addEventListener('mousemove', this.move, false)
+        this.$refs.playerBox.addEventListener('mouseup', this.stop, false)
+        // 禁止自动更改进度条
+        this.$store.dispatch({ type: 'player/updatePrg', mark: true })
+      }
     },
     // 移动
     move(e, hasAni) {
@@ -294,6 +309,17 @@ export default {
     align-items: center;
     margin-right: 48px;
     height: 100%;
+
+    .vol-box {
+      position: absolute;
+      bottom: 46px;
+      left: 0;
+      width: 36px;
+      height: 140px;
+      background-color: $mid-1;
+      border-radius: 8px;
+      box-shadow: -4px 0 24px -8px $mid-5;
+    }
   }
 
   .playlist-box {

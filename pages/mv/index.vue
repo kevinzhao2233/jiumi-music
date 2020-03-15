@@ -1,12 +1,13 @@
 <template>
   <div class="container">
-    搜索页
+    MV页
   </div>
 </template>
 
 <script>
+
 export default {
-  layout: 'fullpage'
+
 }
 </script>
 

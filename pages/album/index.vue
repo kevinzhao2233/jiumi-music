@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    歌曲页
+    收藏页
   </div>
 </template>
 

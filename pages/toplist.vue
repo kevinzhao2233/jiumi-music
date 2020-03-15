@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    歌曲播放页
+    排行榜页
   </div>
 </template>
 

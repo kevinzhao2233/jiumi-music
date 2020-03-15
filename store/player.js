@@ -11,7 +11,7 @@ const defaultCurrSong = {
     name: '--',
     artists: ['--', '---'],
     duration: 0,
-    picUrl: 'http://www.ziliao6.com/fm/images/1.jpg'
+    picUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
   }
 }
 

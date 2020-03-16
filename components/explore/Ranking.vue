@@ -4,7 +4,7 @@
       <h3 slot="title">云音乐榜</h3>
       <a class="link" slot="controls" href="/">更多</a>
       <ul class="content">
-        <li class="list" v-for="item in toplist" :key="item.id" :title="item.name">
+        <nuxt-link class="list" v-for="item in toplist" :key="item.id" :title="item.name" :to="{name: 'playlist-id', params: {id: `toplist${item.id}`}}">
           <div
             class="img"
             :style="{
@@ -21,14 +21,14 @@
               backgroundRepeat: 'no-repeat'
             }"
           ></div>
-        </li>
+        </nuxt-link>
       </ul>
     </Card>
     <Card>
       <h3 slot="title">歌手榜</h3>
       <a class="link" slot="controls" href="/">更多</a>
       <ul class="content">
-        <li class="list" v-for="item in artists" :key="item.id">
+        <nuxt-link class="list" v-for="item in artists" :key="item.id" :to="{name: 'singer-id', params: {id: item.id}}">
           <div
             class="img"
             :style="{
@@ -48,7 +48,7 @@
           <div class="script-box">
             <span class="script">{{ item.name }}</span>
           </div>
-        </li>
+        </nuxt-link>
       </ul>
     </Card>
   </div>

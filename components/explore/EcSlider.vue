@@ -8,6 +8,7 @@
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
+        @click="goPlaylistDetail(slide.id)"
       ></div>
       <div
         class="img-bg"
@@ -17,7 +18,9 @@
           backgroundRepeat: 'no-repeat'
         }"
       ></div>
-      <span class="message" :title="slide.name">{{ slide.name }}</span>
+      <span class="message" :title="slide.name" @click="goPlaylistDetail(slide.id)">{{
+        slide.name
+      }}</span>
     </swiper-slide>
     <swiper-slide>
       <div class="img more"></div>
@@ -66,12 +69,16 @@ export default {
       const isBeginning = swiper.isBeginning
       const isEnd = swiper.isEnd
       this.$emit('judge-swiper-state', { isBeginning, isEnd })
+    },
+    goPlaylistDetail(id) {
+      console.log(id)
+      this.$router.push({ name: 'playlist-id', params: { id: id } })
     }
   },
   mounted() {
     this.updateSwiperState()
     let resizeTimer = null
-    const that = this;
+    const that = this
     window.addEventListener('resize', () => {
       if (resizeTimer) {
         clearTimeout(resizeTimer)

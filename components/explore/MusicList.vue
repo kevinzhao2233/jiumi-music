@@ -17,7 +17,7 @@
           <div class="content">
             <span class="msc-name">{{ item.name }}</span>
             <div class="msc-art">
-              <span class="aet-name" v-for="(art, index) in item.artists" :key="index">
+              <span class="art-name" v-for="(art, index) in item.artists" :key="index">
                 {{ art.name }}
                 <span class="placeholder" v-if="index < item.artists.length - 1">/</span>
               </span>
@@ -145,6 +145,7 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          cursor: pointer;
         }
 
         .msc-art {
@@ -156,9 +157,9 @@ export default {
           white-space: nowrap;
 
           .art-name {
+            cursor: pointer;
             &:hover {
               text-decoration: underline;
-              cursor: pointer;
             }
           }
 

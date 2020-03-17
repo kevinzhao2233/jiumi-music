@@ -22,13 +22,7 @@
         <span class="album">{{ item.album.name }}</span>
       </div>
       <div class="right">
-        <span class="time">{{
-          `${parseInt(item.duration / 60000)}:${
-            parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60) > 9
-              ? parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
-              : '0' + parseInt((item.duration / 60000 - parseInt(item.duration / 60000)) * 60)
-          }`
-        }}</span>
+        <span class="time">{{ formateTime(item.duration) }}</span>
       </div>
     </li>
   </ul>
@@ -50,6 +44,13 @@ export default {
     return {}
   },
   methods: {
+    formateTime(duration) {
+      const min = Math.floor(duration / 60000)
+      const fMin = min > 9 ? min : '0' + min
+      const sec = Math.floor(duration / 1000 % 60)
+      const fSec = sec > 9 ? sec : '0' + sec
+      return `${fMin}:${fSec}`
+    },
     // 添加音乐到当前播放列表
     add(id) {
       const msc = this.list.find(item => item.id === id)
@@ -81,6 +82,7 @@ export default {
       flex: 4;
       display: flex;
       align-items: center;
+      padding-right: 24px;
       overflow: hidden;
 
       .idx {
@@ -109,20 +111,16 @@ export default {
 
       .content {
         flex: 1;
-        display: flex;
-        flex-direction: column;
         overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         .msc-name {
-          display: inline-block;
-          width: 100%;
+          display: inline;
           font-size: 14px;
           font-weight: 500;
           color: $mid-11;
           line-height: 22px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           cursor: pointer;
 
           &:hover {
@@ -201,7 +199,7 @@ export default {
       align-items: center;
 
       .time {
-        padding: 0 20px;
+        padding: 0 24px;
         font-size: 14px;
         font-weight: 500;
       }

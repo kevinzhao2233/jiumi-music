@@ -35,7 +35,7 @@ html {
 
 /* 路由切换效果 */
 .page-enter-active, .page-leave-active {
-  transition: opacity .5s;
+  transition: opacity .3s;
 }
 .page-enter, .page-leave-active {
   opacity: 0;

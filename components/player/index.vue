@@ -176,8 +176,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/config.scss';
-@import '~/assets/scss/mixins.scss';
+@import '~assets/scss/config.scss';
+@import '~assets/scss/mixins.scss';
 
 .player-box {
   position: relative;

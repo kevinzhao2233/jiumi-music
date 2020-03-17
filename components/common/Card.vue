@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/config.scss';
+@import '~assets/scss/config.scss';
 
 .k-card-box {
   margin-top: 8px;

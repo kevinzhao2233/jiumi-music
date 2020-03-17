@@ -71,7 +71,6 @@ export default {
       this.$emit('judge-swiper-state', { isBeginning, isEnd })
     },
     goPlaylistDetail(id) {
-      console.log(id)
       this.$router.push({ name: 'playlist-id', params: { id: id } })
     }
   },
@@ -96,8 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/config.scss';
-@import '~/assets/scss/mixins.scss';
+@import '~assets/scss/config.scss';
+@import '~assets/scss/mixins.scss';
 
 .swiper-box {
   width: 1000px - 96px;

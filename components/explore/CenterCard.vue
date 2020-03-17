@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/assets/scss/config.scss';
+@import '~assets/scss/config.scss';
 
 .ec-container {
   margin: 8px auto;

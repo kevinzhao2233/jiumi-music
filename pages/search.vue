@@ -14,25 +14,118 @@
         </div>
       </div>
     </div>
-    <div class="hot">
-      
+    <div class="hot" v-if="hot.artist">
+      <div
+        class="img"
+        :style="{
+          background: `url(${hot.artist[0].img1v1Url}?param=108y108)`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }"
+      ></div>
+      <div class="info">
+        <span class="name">{{ hot.artist[0].name }}</span>
+        <div class="num">
+          <span>单曲 {{ hot.artist[0].musicSize }}</span>
+          <span>专辑 {{ hot.artist[0].albumSize }}</span>
+          <span>MV {{ hot.artist[0].mvSize }}</span>
+          <span>粉丝 {{ hot.artist[0].fansSize }}</span>
+        </div>
+        <div class="btn">播放歌手热门歌曲</div>
+      </div>
     </div>
-    <div class="list-box"></div>
+    <div class="list-box">
+      <ul class="nav">
+        <li
+          :class="item.id === 0 ? 'nav-item active' : 'nav-item'"
+          v-for="item in nav"
+          :key="item.id"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+      <hr class="line" />
+      <div class="content-box">
+        <Playlist :list="songsResult" :control="true" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Playlist from '~/components/common/Playlist.vue'
+
 export default {
+  components: {
+    Playlist
+  },
   data() {
     return {
-      keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力']
+      keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
+      nav: [
+        {
+          name: '单曲',
+          id: 0
+        },
+        {
+          name: '歌手',
+          id: 1
+        },
+        {
+          name: '专辑',
+          id: 2
+        },
+        {
+          name: '视频',
+          id: 3
+        },
+        {
+          name: '歌词',
+          id: 4
+        },
+        {
+          name: '歌单',
+          id: 5
+        },
+        {
+          name: '用户',
+          id: 6
+        }
+      ],
+      hot: {
+        artist: [
+          {
+            name: '陈雪凝',
+            id: 12382970,
+            picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
+            img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
+            albumSize: 19,
+            musicSize: 47,
+            mvSize: 6,
+            fansSize: 2634671
+          }
+        ]
+      },
+      songsResult: []
     }
+  },
+  mounted() {
+    const getSong = async () => {
+      const { result } = await this.$axios.$get('/api/search?keywords=绿色')
+      this.$nextTick(() => {
+        console.log(result)
+        this.songsResult = result.songs
+      })
+    }
+    getSong()
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
+@import '~assets/scss/mixins.scss';
+
 .container {
   width: 100%;
   height: 100vh;
@@ -88,6 +181,111 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .hot {
+    display: flex;
+    margin: 0 auto;
+    padding: 24px;
+    width: 1000px;
+    @include respond-to(lg) {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .img {
+      flex: 0 0 1;
+      width: 108px;
+      height: 108px;
+      margin-right: 24px;
+      border-radius: 40%;
+      cursor: pointer;
+    }
+
+    .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .name {
+        font-weight: 500;
+        font-size: 16px;
+        color: $main-6;
+        line-height: 16px;
+        cursor: pointer;
+      }
+
+      .num {
+        margin-top: 4px;
+        font-size: 16px;
+        span {
+          margin-right: 24px;
+        }
+      }
+
+      .btn {
+        margin-top: 6px;
+        padding: 12px 24px;
+        width: 180px;
+        background-color: $main-6;
+        color: $mid-1;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .list-box {
+    margin: 0 auto;
+    padding: 24px 24px 160px 24px;
+    width: 1000px;
+    @include respond-to(lg) {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .nav {
+      display: flex;
+      width: 100%;
+      margin: 24px 0;
+
+      .nav-item {
+        margin-right: 12px;
+        padding: 10px 24px;
+        font-size: 16px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: 0.2s ease-out;
+
+        &.active {
+          color: $mid-1;
+          background-color: $main-6;
+        }
+
+        &:hover {
+          color: $mid-1;
+          background-color: $main-6;
+
+          &:active {
+            background-color: $main-4;
+          }
+        }
+      }
+    }
+
+    .line {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: $main-3;
+      border: none;
+    }
+
+    .content-box {
+      width: 100%;
+      margin: 24px 0;
     }
   }
 }

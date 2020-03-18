@@ -99,12 +99,12 @@ export const mutations = {
     if (state.audio) {
       this.commit('player/pause')
       state.audio = null
-      state.currSong = null
+      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
     }
     state.audio = new Audio()
     state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
     // 将当前要播放的音乐信息缓存起来，减少一次异步请求
-    state.currSong.detail = JSON.parse(JSON.stringify(state.list.find(item => item.id === id)))
+    state.currSong.detail = state.list.find(item => item.id === id)
     state.audio.addEventListener('canplaythrough', () => {
       this.commit('player/play', id)
     })

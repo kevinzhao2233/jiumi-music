@@ -4,6 +4,15 @@
       <div class="left">
         <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
         <i class="idx icon iconfont icon-plus" @click="add(item.id)"></i>
+        <div
+          class="pic"
+          v-if="pic"
+          :style="{
+            background: `url(${item.album.picUrl}?param=40y40)`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
+          }"
+        ></div>
         <div class="content">
           <span class="msc-name">{{ item.name }}</span>
           <div class="msc-art">
@@ -38,6 +47,10 @@ export default {
     control: {
       type: Boolean,
       default: false
+    },
+    pic: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -47,7 +60,7 @@ export default {
     formateTime(duration) {
       const min = Math.floor(duration / 60000)
       const fMin = min > 9 ? min : '0' + min
-      const sec = Math.floor(duration / 1000 % 60)
+      const sec = Math.floor((duration / 1000) % 60)
       const fSec = sec > 9 ? sec : '0' + sec
       return `${fMin}:${fSec}`
     },
@@ -107,6 +120,14 @@ export default {
           color: $mid-1;
           display: none;
         }
+      }
+
+      .pic {
+        margin-right: 16px;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        cursor: pointer;
       }
 
       .content {

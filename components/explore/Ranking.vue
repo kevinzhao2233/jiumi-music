@@ -2,9 +2,15 @@
   <div class="k-box">
     <Card>
       <h3 slot="title">云音乐榜</h3>
-      <a class="link" slot="controls" href="/">更多</a>
+      <nuxt-link :to="{ name: 'toplist' }" class="link" slot="controls" href="/">更多</nuxt-link>
       <ul class="content">
-        <nuxt-link class="list" v-for="item in toplist" :key="item.id" :title="item.name" :to="{name: 'playlist-id', params: {id: `toplist${item.id}`}}">
+        <nuxt-link
+          class="list"
+          v-for="item in toplist"
+          :key="item.id"
+          :title="item.name"
+          :to="{ name: 'playlist-id', params: { id: `toplist${item.id}` } }"
+        >
           <div
             class="img"
             :style="{
@@ -26,9 +32,14 @@
     </Card>
     <Card>
       <h3 slot="title">歌手榜</h3>
-      <a class="link" slot="controls" href="/">更多</a>
+      <nuxt-link :to="{ name: 'toplist' }" class="link" slot="controls">更多</nuxt-link>
       <ul class="content">
-        <nuxt-link class="list" v-for="item in artists" :key="item.id" :to="{name: 'singer-id', params: {id: item.id}}">
+        <nuxt-link
+          class="list"
+          v-for="item in artists"
+          :key="item.id"
+          :to="{ name: 'singer-id', params: { id: item.id } }"
+        >
           <div
             class="img"
             :style="{
@@ -66,7 +77,7 @@ export default {
     const getArtists = async () => {
       const { list } = await this.$axios.$get('/api/toplist/artist')
       list.artists.map((data, index) => {
-        if(index < 5) {
+        if (index < 5) {
           this.artists.push(data)
         }
       })

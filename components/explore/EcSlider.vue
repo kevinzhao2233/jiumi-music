@@ -23,9 +23,9 @@
       }}</span>
     </swiper-slide>
     <swiper-slide>
-      <div class="img more"></div>
+      <nuxt-link :to="{ name: 'playlist' }" class="img more"></nuxt-link>
       <div class="img-bg more"></div>
-      <span class="message">更多歌单…</span>
+      <nuxt-link :to="{ name: 'playlist' }" class="message">更多歌单…</nuxt-link>
     </swiper-slide>
   </swiper>
 </template>
@@ -114,6 +114,7 @@ export default {
 
     .img {
       position: relative;
+      display: block;
       width: 120px;
       height: 132px;
       border-radius: 8px;

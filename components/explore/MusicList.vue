@@ -49,6 +49,6 @@ export default {
 
 .container {
   width: 100%;
-  padding-bottom: 160px;
+  padding-bottom: 200px;
 }
 </style>

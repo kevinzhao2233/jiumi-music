@@ -26,6 +26,10 @@ export const state = () => ({
 })
 
 export const getters = {
+
+  /**
+   * 进度条两侧的时间
+   */
   mscTime(state) {
     const { duration, currentTime } = state.currSong.time
     if (duration && currentTime) {
@@ -46,6 +50,12 @@ export const getters = {
 }
 
 export const mutations = {
+
+  /**
+   * 添加歌曲到播放列表
+   * @param {*} state 当前state
+   * @param {*} param1 要添加到播放列表的歌曲
+   */
   add(state, { id, name, artists, duration, album }) {
     // 查找list中是否已经有这首歌了
     const temp = state.list.findIndex(item => item.id === id)
@@ -79,12 +89,23 @@ export const mutations = {
       }
     }
   },
+
+  /**
+   * 从播放列表删除一首歌
+   * @param {*} state 
+   * @param {*} id 需要删除的歌曲 id
+   */
   remove(state, id) {
     state.list.splice(
       state.list.findIndex(item => item.id === id),
       1
     )
   },
+
+  /**
+   * 清空播放列表
+   * @param {*} state 
+   */
   removeAll(state) {
     state.list = []
     if (state.audio) {
@@ -93,6 +114,12 @@ export const mutations = {
       state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
     }
   },
+
+  /**
+   * 播放全部歌曲
+   * @param {*} state 
+   * @param {msc, list} param1 msc为点击播放后当前需要播放的歌曲， list为整个歌单列表
+   */
   playAll(state, { msc, list }) {
     this.commit('player/removeAll')
     for (const item of list) {
@@ -100,10 +127,21 @@ export const mutations = {
     }
     this.commit('player/loadSong', msc.id)
   },
+
+  /**
+   * 收藏歌曲
+   * @param {*} state 
+   * @param {*} msc 需要收藏个歌曲
+   */
   enshrine(state, msc) {
     console.log('收藏该曲', msc)
   },
-  // 加载歌曲
+
+  /**
+   * 将播放的音乐装载到audio里
+   * @param {*} state 
+   * @param {*} id 装载歌曲的id
+   */
   loadSong(state, id) {
     // 清空audio
     if (state.audio) {
@@ -119,6 +157,12 @@ export const mutations = {
       this.commit('player/play', id)
     })
   },
+
+  /**
+   * 播放
+   * @param {*} state 
+   * @param {*} id 需要播放的歌曲id
+   */
   play(state, id) {
     state.audio.play()
     state.currSong.id = id
@@ -127,19 +171,31 @@ export const mutations = {
     this.commit('player/changeVol', state.setting.vol)
     this.dispatch({ type: 'player/updatePrg' })
   },
+
+  /**
+   * 暂停
+   */
   pause(state) {
     state.audio.pause()
     state.currSong.isPlay = false
     this.dispatch({ type: 'player/updatePrg' })
   },
-  // 监听歌曲是否播放结束
+  
+  /**
+   * 监听歌曲是否播放结束
+   */
   listenerAudio(state) {
     state.audio.addEventListener('ended', () => {
       this.commit('player/pause')
       this.commit('player/next')
     })
   },
-  // 更新进度条
+  
+  /**
+   * 更新进度条
+   * @param {*} state 
+   * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度时间
+   */
   updateProgress(state, setTime) {
     const time = state.currSong.time
     time.duration = Math.floor(state.audio.duration)
@@ -151,6 +207,10 @@ export const mutations = {
     }
     time.progress = Math.floor(time.currentTime / time.duration) / 100
   },
+
+  /**
+   * 下一曲
+   */
   next(state) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
@@ -180,6 +240,10 @@ export const mutations = {
       }
     }
   },
+
+  /**
+   * 上一曲
+   */
   prev(state) {
     if (state.currSong.id === 0) {
       // 弹窗提示 添加歌曲到列表
@@ -209,9 +273,19 @@ export const mutations = {
       }
     }
   },
+
+  /**
+   * 改变播放模式（单曲循环，顺序播放， 随机播放）
+   */
   switchMode(state) {
     state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1
   },
+
+  /**
+   * 改变音量
+   * @param {*} state 
+   * @param {*} value 要设置的音量
+   */
   changeVol(state, value) {
     state.setting.vol = value
     if (state.currSong.isPlay) {
@@ -220,9 +294,15 @@ export const mutations = {
   }
 }
 
+// setInterval 实例
 let progessInterval = null
 export const actions = {
-  // 循环更新进度条
+  
+  /**
+   * 更新进度条
+   * @param {*} param0 state
+   * @param {*} param1 标记，为 true 则停止进度，为空或 false 则为更新进度条
+   */
   updatePrg({ state }, { mark }) {
     clearInterval(progessInterval)
     if (mark) {

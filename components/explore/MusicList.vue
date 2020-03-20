@@ -2,7 +2,13 @@
   <div class="container">
     <Card>
       <h3 slot="title" class="title">每日歌曲推荐</h3>
-      <playlist :list="mscList" :pic="true" />
+      <playlist
+        :list="mscList"
+        :pic="true"
+        @add="addToList($event)"
+        @play="playAll($event)"
+        @enshrine="enshrineSong($event)"
+      />
     </Card>
   </div>
 </template>
@@ -17,14 +23,24 @@ export default {
     Card,
     Playlist
   },
+  data() {
+    return {
+      mscList: []
+    }
+  },
   computed: {
     ...mapState(['todos'])
   },
   methods: {
     // 添加音乐到当前播放列表
-    add(id) {
-      const msc = this.mscList.find(item => item.id === id)
+    addToList(msc) {
       this.$store.commit('player/add', msc)
+    },
+    playAll(msc) {
+      this.$store.commit('player/playAll', { msc, list: this.mscList })
+    },
+    enshrineSong(msc) {
+      this.$store.commit('player/enshrine', msc)
     }
   },
   mounted() {
@@ -35,11 +51,6 @@ export default {
       })
     }
     getSong()
-  },
-  data() {
-    return {
-      mscList: []
-    }
   }
 }
 </script>

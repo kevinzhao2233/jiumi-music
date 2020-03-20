@@ -93,6 +93,16 @@ export const mutations = {
       state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
     }
   },
+  playAll(state, { msc, list }) {
+    this.commit('player/removeAll')
+    for (const item of list) {
+      this.commit('player/add', item)
+    }
+    this.commit('player/loadSong', msc.id)
+  },
+  enshrine(state, msc) {
+    console.log('收藏该曲', msc)
+  },
   // 加载歌曲
   loadSong(state, id) {
     // 清空audio

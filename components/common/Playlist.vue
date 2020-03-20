@@ -23,8 +23,8 @@
           </div>
         </div>
         <div class="control">
-          <i class="btn iconfont icon-play_fill"></i>
-          <i class="btn iconfont icon-folder_fill_badge_plus"></i>
+          <i class="btn iconfont icon-play_fill" @click="play(item.id)"></i>
+          <i class="btn iconfont icon-folder_fill_badge_plus" @click="enshrine(item.id)"></i>
         </div>
       </div>
       <div class="center">
@@ -64,10 +64,18 @@ export default {
       const fSec = sec > 9 ? sec : '0' + sec
       return `${fMin}:${fSec}`
     },
-    // 添加音乐到当前播放列表
+    // 点击了添加按钮
     add(id) {
       const msc = this.list.find(item => item.id === id)
-      this.$store.commit('player/add', msc)
+      this.$emit('add', msc)
+    },
+    play(id) {
+      const msc = this.list.find(item => item.id === id)
+      this.$emit('play', msc)
+    },
+    enshrine(id) {
+      const msc = this.list.find(item => item.id === id)
+      this.$emit('enshrine', msc)
     }
   }
 }
@@ -75,7 +83,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
-@import '~assets/scss/mixins.scss';
 
 .k-list-box {
   width: 100%;

@@ -65,10 +65,12 @@ export default {
     },
     // 更新轮播状态
     updateSwiperState() {
-      const swiper = this.$refs.ecSwiper.swiper
-      const isBeginning = swiper.isBeginning
-      const isEnd = swiper.isEnd
-      this.$emit('judge-swiper-state', { isBeginning, isEnd })
+      if (this.$refs.ecSwiper.swiper) {
+        const swiper = this.$refs.ecSwiper.swiper
+        const isBeginning = swiper.isBeginning
+        const isEnd = swiper.isEnd
+        this.$emit('judge-swiper-state', { isBeginning, isEnd })
+      }
     },
     goPlaylistDetail(id) {
       this.$router.push({ name: 'playlist-id', params: { id: id } })

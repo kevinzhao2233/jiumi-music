@@ -161,6 +161,7 @@ export default {
       height: 52px;
       background-color: $mid-1;
       border-radius: 15px;
+      overflow: hidden;
     }
 
     .tip-box {

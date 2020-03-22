@@ -57,7 +57,7 @@ export default {
 
 .k-input-box {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   height: 100%;
   color: $mid-10;
@@ -71,10 +71,10 @@ export default {
 
   .icon {
     flex: 0 0 1;
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 52px;
-    line-height: 1.6;
     font-size: 24px;
     cursor: pointer;
 

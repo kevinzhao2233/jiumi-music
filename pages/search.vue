@@ -31,7 +31,10 @@
           <span>MV {{ hot.artist[0].mvSize }}</span>
           <span>粉丝 {{ hot.artist[0].fansSize }}</span>
         </div>
-        <div class="btn">播放歌手热门歌曲</div>
+        <div class="btn">
+          <i class="icon iconfont icon-play"></i>
+          <span class="txt">播放歌手热门歌曲</span>
+        </div>
       </div>
     </div>
     <div class="list-box">
@@ -226,20 +229,37 @@ export default {
       }
 
       .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-top: 6px;
-        padding: 12px 24px;
         width: 180px;
+        height: 42px;
         background-color: $main-6;
         color: $mid-1;
         border-radius: 6px;
         cursor: pointer;
+        transition: 0.2s ease-out;
+        user-select: none;
+
+        .icon {
+          margin-right: 8px;
+          font-size: 24px;
+        }
+
+        &:hover {
+
+          &:active {
+            background-color: $main-4;
+          }
+        }
       }
     }
   }
 
   .list-box {
     margin: 0 auto;
-    padding: 24px 24px 160px 24px;
+    padding: 0 24px 160px 24px;
     width: 1000px;
     @include respond-to(lg) {
       width: 100%;

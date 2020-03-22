@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="header">
-      <div class="search-box"></div>
+      <div class="search-box">
+        <Inputbar placeholder="搜索歌曲、歌手、歌词" icon="icon-search" />
+      </div>
       <div class="tip-box">
         <div class="tip">
           <span class="tit">热门搜索：</span>
@@ -40,27 +42,31 @@
     <div class="list-box">
       <ul class="nav">
         <li
-          :class="item.id === 0 ? 'nav-item active' : 'nav-item'"
+          :class="item.id === currNav ? 'nav-item active' : 'nav-item'"
           v-for="item in nav"
           :key="item.id"
+          @mousedown="toggle(item.id)"
         >
           {{ item.name }}
         </li>
       </ul>
       <hr class="line" />
       <div class="content-box">
-        <Playlist :list="songsResult" :control="true" />
+        <Playlist :list="songsResult" :control="true" v-if="currNav === 0" />
+        <div v-if="currNav === 1">1</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Inputbar from '~/components/common/Inputbar.vue'
 import Playlist from '~/components/common/Playlist.vue'
 
 export default {
   components: {
-    Playlist
+    Playlist,
+    Inputbar
   },
   data() {
     return {
@@ -109,7 +115,13 @@ export default {
           }
         ]
       },
-      songsResult: []
+      songsResult: [],
+      currNav: 0
+    }
+  },
+  methods: {
+    toggle(id) {
+      this.currNav = id
     }
   },
   mounted() {
@@ -247,11 +259,8 @@ export default {
           font-size: 24px;
         }
 
-        &:hover {
-
-          &:active {
-            background-color: $main-4;
-          }
+        &:active {
+          background-color: $main-4;
         }
       }
     }

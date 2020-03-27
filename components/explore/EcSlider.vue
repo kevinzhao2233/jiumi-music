@@ -51,7 +51,8 @@ export default {
             spaceBetween: 16
           }
         }
-      }
+      },
+      resizeTimer: null // 计时器
     }
   },
   methods: {
@@ -74,24 +75,27 @@ export default {
     },
     goPlaylistDetail(id) {
       this.$router.push({ name: 'playlist-id', params: { id: id } })
-    }
-  },
-  mounted() {
-    this.updateSwiperState()
-    let resizeTimer = null
-    const that = this
-    window.addEventListener('resize', () => {
-      if (resizeTimer) {
-        clearTimeout(resizeTimer)
+    },
+    // resize 的时候，函数防抖
+    resizeWin() {
+      if (this.resizeTimer) {
+        clearTimeout(this.resizeTimer)
       }
-      resizeTimer = setTimeout(function() {
-        that.updateSwiperState()
+      this.resizeTimer = setTimeout(() => {
+        this.updateSwiperState()
       }, 400)
-    })
+    }
   },
   components: {
     swiper,
     swiperSlide
+  },
+  mounted() {
+    this.updateSwiperState()
+    window.addEventListener('resize', this.resizeWin)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeWin)
   }
 }
 </script>

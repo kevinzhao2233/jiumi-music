@@ -67,7 +67,6 @@ export default {
     // 更新轮播状态
     updateSwiperState() {
       if (this.$refs.ecSwiper.swiper) {
-        console.log('======')
         const swiper = this.$refs.ecSwiper.swiper
         const isBeginning = swiper.isBeginning
         const isEnd = swiper.isEnd

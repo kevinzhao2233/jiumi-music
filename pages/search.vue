@@ -5,6 +5,7 @@
         <Inputbar
           placeholder="搜索歌曲、歌手、歌词"
           icon="icon-search"
+          :value="inputValue"
           @has-submit="getList"
           @has-input="getSuggest"
         />
@@ -12,11 +13,23 @@
       <div class="tip-box">
         <div class="tip">
           <span class="tit">热门搜索：</span>
-          <span class="keywords" v-for="(item, index) in keywords" :key="index">{{ item }}</span>
+          <span
+            class="keywords"
+            v-for="(item, index) in hotSearch"
+            :key="index"
+            @click="handleSearch(item)"
+            >{{ item }}</span
+          >
         </div>
         <div class="tip">
           <span class="tit">历史搜索：</span>
-          <span class="keywords" v-for="(item, index) in keywords" :key="index">{{ item }}</span>
+          <span
+            class="keywords"
+            v-for="(item, index) in keywords"
+            :key="index"
+            @click="handleSearch(item)"
+            >{{ item }}</span
+          >
           <i class="icon iconfont icon-trash"></i>
         </div>
       </div>
@@ -75,6 +88,8 @@ export default {
   },
   data() {
     return {
+      inputValue: '',
+      hotSearch: [],
       keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
       nav: [
         {
@@ -125,25 +140,52 @@ export default {
     }
   },
   methods: {
+    /**
+     * 切换导航
+     */
     toggleNav(id) {
       this.currNav = id
     },
+    /**
+     * 点击热搜或历史搜索
+     */
+    handleSearch(keyword) {
+      this.inputValue = keyword
+      this.getList(keyword)
+    },
+    /**
+     * 获取搜索结果
+     */
     async getList(keyword) {
       // 进入 loading 效果
-      const { result } = await this.$axios.$get(`/api/search?type=${this.currNav}?keywords=${keyword}`)
+      const { result } = await this.$axios.$get(
+        `/api/search?keywords=${keyword}&type=${this.currNav}`
+      )
       this.$nextTick(() => {
         console.log('搜索结果', result)
         // 退出 loading 效果
         this.songsResult = result.songs
-
       })
     },
-    getSuggest(keyword) {
-      console.log('获取搜索建议')
+    /**
+     * 获取搜索建议
+     */
+    getSuggest(keyword) {},
+    /**
+     * 获取热搜，将前 6 个存起来（意思一下嘛）
+     */
+    async getHotSearch() {
+      const { result } = await this.$axios.$get(`/api/search/hot`)
+      this.$nextTick(() => {
+        result.hots.map((item, index) => {
+          if (index < 6) this.hotSearch.push(item.first)
+        })
+      })
     }
   },
   mounted() {
-
+    // 获取热搜
+    this.getHotSearch()
   }
 }
 </script>
@@ -185,6 +227,7 @@ export default {
 
         .keywords {
           margin: 0 4px;
+          cursor: pointer;
         }
 
         .icon {

@@ -23,6 +23,10 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -30,6 +34,11 @@ export default {
       keyword: '',
       timer: null,
       currSubmit: ''
+    }
+  },
+  watch: {
+    value(newVal) {
+      this.keyword = newVal
     }
   },
   methods: {

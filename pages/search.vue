@@ -6,7 +6,7 @@
           placeholder="搜索歌曲、歌手、歌词"
           icon="icon-search"
           :value="inputValue"
-          @has-submit="getList"
+          @has-submit="launchSearch"
           @has-input="getSuggest"
         />
       </div>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="hot" v-if="hot.artist">
+    <!-- <div class="hot" v-if="hot.artist">
       <div
         class="img"
         :style="{
@@ -56,7 +56,7 @@
           <span class="txt">播放歌手热门歌曲</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="list-box">
       <ul class="nav">
         <li
@@ -154,7 +154,18 @@ export default {
       this.getList(keyword)
     },
     /**
-     * 获取搜索结果
+     * 获取搜索框下的搜索建议
+     */
+    getSuggest(keyword) {},
+    /**
+     * 发起搜索
+     */
+    launchSearch(keyword) {
+      this.getHotSonger(keyword)
+      this.getList(keyword)
+    },
+    /**
+     * 获取搜索结果列表
      */
     async getList(keyword) {
       // 进入 loading 效果
@@ -168,11 +179,7 @@ export default {
       })
     },
     /**
-     * 获取搜索建议
-     */
-    getSuggest(keyword) {},
-    /**
-     * 获取热搜，将前 6 个存起来（意思一下嘛）
+     * 获取热搜关键词，将前 6 个存起来（意思一下嘛）
      */
     async getHotSearch() {
       const { result } = await this.$axios.$get(`/api/search/hot`)
@@ -180,6 +187,16 @@ export default {
         result.hots.map((item, index) => {
           if (index < 6) this.hotSearch.push(item.first)
         })
+      })
+    },
+    /**
+     * 相当于热门推荐，暂时嗝屁，网易云对其停止开放
+     */
+    async getHotSonger(keyword) {
+      const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`)
+      this.$nextTick(() => {
+        console.log('热门歌手',result)
+        this.hot = result.hot
       })
     }
   },

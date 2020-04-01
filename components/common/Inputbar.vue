@@ -36,7 +36,7 @@ export default {
     submit() {
       if (this.currSubmit !== this.keyword) {
         this.currSubmit = this.keyword
-        console.log('submit', this.keyword)
+        this.$emit('has-submit', this.keyword)
       }
     },
     handleInput() {

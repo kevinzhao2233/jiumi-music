@@ -2,7 +2,12 @@
   <div class="container">
     <div class="header">
       <div class="search-box">
-        <Inputbar placeholder="搜索歌曲、歌手、歌词" icon="icon-search" />
+        <Inputbar
+          placeholder="搜索歌曲、歌手、歌词"
+          icon="icon-search"
+          @has-submit="getList"
+          @has-input="getSuggest"
+        />
       </div>
       <div class="tip-box">
         <div class="tip">
@@ -45,15 +50,15 @@
           :class="item.id === currNav ? 'nav-item active' : 'nav-item'"
           v-for="item in nav"
           :key="item.id"
-          @mousedown="toggle(item.id)"
+          @mousedown="toggleNav(item.id)"
         >
           {{ item.name }}
         </li>
       </ul>
       <hr class="line" />
       <div class="content-box">
-        <Playlist :list="songsResult" :control="true" v-if="currNav === 0" />
-        <div v-if="currNav === 1">1</div>
+        <Playlist :list="songsResult" :control="true" v-if="currNav === 1" />
+        <div v-if="currNav === 100">歌手</div>
       </div>
     </div>
   </div>
@@ -74,27 +79,27 @@ export default {
       nav: [
         {
           name: '单曲',
-          id: 0
-        },
-        {
-          name: '歌手',
           id: 1
         },
         {
+          name: '歌手',
+          id: 100
+        },
+        {
           name: '专辑',
-          id: 2
+          id: 10
         },
         {
           name: '视频',
-          id: 3
+          id: 1014
         },
         {
           name: '歌词',
-          id: 4
+          id: 1006
         },
         {
           name: '歌单',
-          id: 5
+          id: 1000
         },
         {
           name: '用户',
@@ -116,23 +121,29 @@ export default {
         ]
       },
       songsResult: [],
-      currNav: 0
+      currNav: 1
     }
   },
   methods: {
-    toggle(id) {
+    toggleNav(id) {
       this.currNav = id
+    },
+    async getList(keyword) {
+      // 进入 loading 效果
+      const { result } = await this.$axios.$get(`/api/search?type=${this.currNav}?keywords=${keyword}`)
+      this.$nextTick(() => {
+        console.log('搜索结果', result)
+        // 退出 loading 效果
+        this.songsResult = result.songs
+
+      })
+    },
+    getSuggest(keyword) {
+      console.log('获取搜索建议')
     }
   },
   mounted() {
-    const getSong = async () => {
-      const { result } = await this.$axios.$get('/api/search?keywords=绿色')
-      this.$nextTick(() => {
-        console.log(result)
-        this.songsResult = result.songs
-      })
-    }
-    getSong()
+
   }
 }
 </script>

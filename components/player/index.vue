@@ -186,6 +186,12 @@ export default {
     }
   },
 
+  mounted() {
+    if (this.player.list.length > 0 && this.alPicUrl.includes('img-bed')) {
+      this.getPic(this.player.currSong.id)
+    }
+  },
+
   components: {
     Button,
     Slider,

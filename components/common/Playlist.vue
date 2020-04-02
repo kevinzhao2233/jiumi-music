@@ -1,5 +1,12 @@
 <template>
-  <ul class="k-list-box">
+  <!-- <ul class="k-list-box"> -->
+  <transition-group
+    tag="ul"
+    name="flip-list"
+    class="k-list-box"
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+  >
     <li class="item" v-for="(item, index) in list" :key="index">
       <div class="left">
         <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
@@ -34,7 +41,8 @@
         <span class="time">{{ formateTime(item.duration) }}</span>
       </div>
     </li>
-  </ul>
+  </transition-group>
+  <!-- </ul> -->
 </template>
 
 <script>

@@ -70,6 +70,7 @@
       </ul>
       <hr class="line" />
       <div class="content-box">
+        <div class="dot-floating loading" v-if="loading"></div>
         <Playlist :list="songsResult" :control="true" v-if="currNav === 1" />
         <div v-if="currNav === 100">歌手</div>
       </div>
@@ -122,21 +123,22 @@ export default {
         }
       ],
       hot: {
-        artist: [
-          {
-            name: '陈雪凝',
-            id: 12382970,
-            picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
-            img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
-            albumSize: 19,
-            musicSize: 47,
-            mvSize: 6,
-            fansSize: 2634671
-          }
-        ]
+        // artist: [
+        //   {
+        //     name: '陈雪凝',
+        //     id: 12382970,
+        //     picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
+        //     img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
+        //     albumSize: 19,
+        //     musicSize: 47,
+        //     mvSize: 6,
+        //     fansSize: 2634671
+        //   }
+        // ]
       },
       songsResult: [],
-      currNav: 1
+      currNav: 1,
+      loading: false
     }
   },
   methods: {
@@ -169,12 +171,15 @@ export default {
      */
     async getList(keyword) {
       // 进入 loading 效果
+      this.loading = true
+      this.songsResult = [];
       const { result } = await this.$axios.$get(
         `/api/search?keywords=${keyword}&type=${this.currNav}`
       )
       this.$nextTick(() => {
         console.log('搜索结果', result)
         // 退出 loading 效果
+        this.loading = false
         this.songsResult = result.songs
       })
     },
@@ -190,12 +195,12 @@ export default {
       })
     },
     /**
-     * 相当于热门推荐，暂时嗝屁，网易云对其停止开放
+     * 相当于智能推荐，暂时嗝屁，网易云那边没了
      */
     async getHotSonger(keyword) {
       const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`)
       this.$nextTick(() => {
-        console.log('热门歌手',result)
+        console.log('热门歌手', result)
         this.hot = result.hot
       })
     }
@@ -210,6 +215,7 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
 @import '~assets/scss/mixins.scss';
+@import '~assets/scss/spin.scss';
 
 .container {
   width: 100%;
@@ -387,6 +393,12 @@ export default {
     .content-box {
       width: 100%;
       margin: 24px 0;
+      padding: 0 0 48px;
+      overflow-x: hidden;
+
+      .loading {
+        margin: 0 auto;
+      }
     }
   }
 }

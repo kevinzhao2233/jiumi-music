@@ -34,7 +34,7 @@ export default {
   methods: {
     // 添加音乐到当前播放列表
     addToList(msc) {
-      this.$store.commit('player/add', msc)
+      this.$store.commit('player/add', { msc })
     },
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.mscList })

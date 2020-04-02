@@ -52,15 +52,15 @@ export const mutations = {
   /**
    * 添加下一首
    * @param {*} state 当前state
-   * @param {*} param1 要添加的歌曲
+   * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
-  add(state, { id, name, artists, duration, album }) {
-    // 需要添加的歌曲在播放列表中的 index
+  add(state, { msc: { id, name, artists, duration, album }, type }) {
+    //需要添加的歌曲在播放列表中的 index
     const songIndex = state.list.findIndex(item => item.id === id)
     // 当前播放的歌曲的 index
     const currentIndex = state.list.findIndex(item => item.id === state.currSong.id)
     if (songIndex >= 0) {
-      // 如果已经存在，那就添加到下一首
+      // 如果已经存在，那就剪切到下一首
       const song = state.list.splice(songIndex, 1)
       state.list.splice(currentIndex + 1, 0, song[0])
     } else {
@@ -76,16 +76,21 @@ export const mutations = {
         art.push(item.name)
       })
       // 打包
-      const nextSong = {
+      const music = {
         id,
         name,
-        artists: art,
         duration,
+        artists: art,
         formatDuration,
         picUrl: album.picUrl
       }
-      // 插入到下一首
-      state.list.splice(currentIndex + 1, 0, nextSong)
+      if (type === 'push') {
+        state.list.push(music)
+      } else {
+        // 插入到下一首
+        state.list.splice(currentIndex + 1, 0, music)
+      }
+
       // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
       if (state.list.length === 1) {
         this.commit('player/loadSong', id)
@@ -126,7 +131,7 @@ export const mutations = {
   playAll(state, { msc, list }) {
     this.commit('player/removeAll')
     for (const item of list) {
-      this.commit('player/add', item)
+      this.commit('player/add', { msc: item, type: 'push' })
     }
     this.commit('player/loadSong', msc.id)
   },

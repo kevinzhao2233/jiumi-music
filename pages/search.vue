@@ -71,7 +71,14 @@
       <hr class="line" />
       <div class="content-box">
         <div class="dot-floating loading" v-if="loading"></div>
-        <Playlist :list="songsResult" :control="true" v-if="currNav === 1" />
+        <Playlist
+          :list="songsResult"
+          :control="true"
+          v-if="currNav === 1"
+          @add="addCurrentToList"
+          @play="playCurrent"
+          @enshrine="enshrineCurrent"
+        />
         <div v-if="currNav === 100">歌手</div>
       </div>
     </div>
@@ -143,6 +150,19 @@ export default {
   },
   methods: {
     /**
+     * 歌曲列表的操作
+     */
+    addCurrentToList(msc) {
+      this.$store.commit('player/add', msc)
+    },
+    playCurrent(msc) {
+      // this.$store.commit('player/playAll', { msc, list: this.mscList })
+      
+    },
+    enshrineCurrent(msc) {
+      this.$store.commit('player/enshrine', msc)
+    },
+    /**
      * 切换导航
      */
     toggleNav(id) {
@@ -172,7 +192,7 @@ export default {
     async getList(keyword) {
       // 进入 loading 效果
       this.loading = true
-      this.songsResult = [];
+      this.songsResult = []
       const { result } = await this.$axios.$get(
         `/api/search?keywords=${keyword}&type=${this.currNav}`
       )

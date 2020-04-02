@@ -1,5 +1,4 @@
 <template>
-  <!-- <ul class="k-list-box"> -->
   <transition-group
     tag="ul"
     name="flip-list"
@@ -7,7 +6,7 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"
   >
-    <li class="item" v-for="(item, index) in list" :key="index">
+    <li class="item" v-for="(item, index) in list" :key="item.id">
       <div class="left">
         <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
         <i class="idx icon iconfont icon-plus" @click="add(item.id)"></i>
@@ -42,7 +41,6 @@
       </div>
     </li>
   </transition-group>
-  <!-- </ul> -->
 </template>
 
 <script>

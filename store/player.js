@@ -26,7 +26,6 @@ export const state = () => ({
 })
 
 export const getters = {
-
   /**
    * 进度条两侧的时间
    */
@@ -50,17 +49,20 @@ export const getters = {
 }
 
 export const mutations = {
-
   /**
-   * 添加歌曲到播放列表
+   * 添加下一首
    * @param {*} state 当前state
-   * @param {*} param1 要添加到播放列表的歌曲
+   * @param {*} param1 要添加的歌曲
    */
   add(state, { id, name, artists, duration, album }) {
-    // 查找list中是否已经有这首歌了
-    const temp = state.list.findIndex(item => item.id === id)
-    if (temp >= 0) {
-      console.log('==播放列表里已经有了==')
+    // 需要添加的歌曲在播放列表中的 index
+    const songIndex = state.list.findIndex(item => item.id === id)
+    // 当前播放的歌曲的 index
+    const currentIndex = state.list.findIndex(item => item.id === state.currSong.id)
+    if (songIndex >= 0) {
+      // 如果已经存在，那就添加到下一首
+      const song = state.list.splice(songIndex, 1)
+      state.list.splice(currentIndex + 1, 0, song[0])
     } else {
       // 格式化时间
       let formatDuration = ''
@@ -73,16 +75,17 @@ export const mutations = {
       artists.map(item => {
         art.push(item.name)
       })
-
-      state.list.push({
+      // 打包
+      const nextSong = {
         id,
         name,
         artists: art,
         duration,
         formatDuration,
         picUrl: album.picUrl
-      })
-
+      }
+      // 插入到下一首
+      state.list.splice(currentIndex + 1, 0, nextSong)
       // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
       if (state.list.length === 1) {
         this.commit('player/loadSong', id)
@@ -92,7 +95,7 @@ export const mutations = {
 
   /**
    * 从播放列表删除一首歌
-   * @param {*} state 
+   * @param {*} state
    * @param {*} id 需要删除的歌曲 id
    */
   remove(state, id) {
@@ -104,7 +107,7 @@ export const mutations = {
 
   /**
    * 清空播放列表
-   * @param {*} state 
+   * @param {*} state
    */
   removeAll(state) {
     state.list = []
@@ -117,7 +120,7 @@ export const mutations = {
 
   /**
    * 播放全部歌曲
-   * @param {*} state 
+   * @param {*} state
    * @param {msc, list} param1 msc为点击播放后当前需要播放的歌曲， list为整个歌单列表
    */
   playAll(state, { msc, list }) {
@@ -130,7 +133,7 @@ export const mutations = {
 
   /**
    * 收藏歌曲
-   * @param {*} state 
+   * @param {*} state
    * @param {*} msc 需要收藏个歌曲
    */
   enshrine(state, msc) {
@@ -139,7 +142,7 @@ export const mutations = {
 
   /**
    * 将播放的音乐装载到audio里
-   * @param {*} state 
+   * @param {*} state
    * @param {*} id 装载歌曲的id
    */
   loadSong(state, id) {
@@ -160,7 +163,7 @@ export const mutations = {
 
   /**
    * 播放
-   * @param {*} state 
+   * @param {*} state
    * @param {*} id 需要播放的歌曲id
    */
   play(state, id) {
@@ -180,7 +183,7 @@ export const mutations = {
     state.currSong.isPlay = false
     this.dispatch({ type: 'player/updatePrg' })
   },
-  
+
   /**
    * 监听歌曲是否播放结束
    */
@@ -190,10 +193,10 @@ export const mutations = {
       this.commit('player/next')
     })
   },
-  
+
   /**
    * 更新进度条
-   * @param {*} state 
+   * @param {*} state
    * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度时间
    */
   updateProgress(state, setTime) {
@@ -283,7 +286,7 @@ export const mutations = {
 
   /**
    * 改变音量
-   * @param {*} state 
+   * @param {*} state
    * @param {*} value 要设置的音量
    */
   changeVol(state, value) {
@@ -297,7 +300,6 @@ export const mutations = {
 // setInterval 实例
 let progessInterval = null
 export const actions = {
-  
   /**
    * 更新进度条
    * @param {*} param0 state

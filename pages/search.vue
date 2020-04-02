@@ -75,7 +75,7 @@
           :list="songsResult"
           :control="true"
           v-if="currNav === 1"
-          @add="addCurrentToList"
+          @add="addintoList"
           @play="playCurrent"
           @enshrine="enshrineCurrent"
         />
@@ -152,12 +152,11 @@ export default {
     /**
      * 歌曲列表的操作
      */
-    addCurrentToList(msc) {
-      this.$store.commit('player/add', msc)
+    addintoList(msc) {
+      this.$store.commit('player/add', { msc })
     },
     playCurrent(msc) {
       // this.$store.commit('player/playAll', { msc, list: this.mscList })
-      
     },
     enshrineCurrent(msc) {
       this.$store.commit('player/enshrine', msc)

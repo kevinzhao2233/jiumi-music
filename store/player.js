@@ -11,7 +11,6 @@ const defaultCurrSong = {
     name: '--',
     artists: ['--', '---'],
     duration: 0,
-    picUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
   }
 }
 
@@ -54,7 +53,7 @@ export const mutations = {
    * @param {*} state 当前state
    * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
-  add(state, { msc: { id, name, artists, duration, album }, type }) {
+  add(state, { msc: { id, name, artists, duration }, type }) {
     //需要添加的歌曲在播放列表中的 index
     const songIndex = state.list.findIndex(item => item.id === id)
     // 当前播放的歌曲的 index
@@ -82,7 +81,6 @@ export const mutations = {
         duration,
         artists: art,
         formatDuration,
-        picUrl: album.picUrl
       }
       if (type === 'push') {
         state.list.push(music)

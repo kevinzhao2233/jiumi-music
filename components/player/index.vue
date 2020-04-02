@@ -4,7 +4,7 @@
       <div
         class="img"
         :style="{
-          background: `100% url(${player.currSong.detail.picUrl}?param=46y46) no-repeat`
+          background: `100% url(${alPicUrl}?param=46y46) no-repeat`
         }"
       >
         <div :class="player.list.length > 0 ? 'inner' : 'no-display'" @mousedown="clickCover">
@@ -20,7 +20,7 @@
       <div
         class="img-bg"
         :style="{
-          background: `100% url(${player.currSong.detail.picUrl}?param=46y46) no-repeat`
+          background: `100% url(${alPicUrl}?param=46y46) no-repeat`
         }"
       ></div>
       <div class="info">
@@ -100,19 +100,14 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'Player',
 
-  components: {
-    Button,
-    Slider,
-    CurrentPlaylist
-  },
-
   data() {
     return {
       mscProgressWidth: 0,
       hasAnimation: false,
       isShowList: false,
       isShowVolPanel: false,
-      isMusicPage: false
+      isMusicPage: false,
+      alPicUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
     }
   },
 
@@ -120,7 +115,19 @@ export default {
     ...mapState(['player']),
     ...mapGetters({
       mscTime: 'player/mscTime'
-    })
+    }),
+    currSongId() {
+      return this.player.currSong.id
+    }
+  },
+
+  watch: {
+    currSongId(newVal, oldVal) {
+      if (newVal !== 0 && newVal !== oldVal) {
+        // 获取封面
+        this.getPic(newVal)
+      }
+    }
   },
 
   methods: {
@@ -130,6 +137,13 @@ export default {
       switchMode: 'player/switchMode',
       changeVol: 'player/changeVol'
     }),
+    // 获取歌曲封面
+    async getPic(id) {
+      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`)
+      this.$nextTick(() => {
+        this.alPicUrl = songs[0].al.picUrl
+      })
+    },
     // 点击歌曲封面
     clickCover() {
       console.log('点击了歌曲封面')
@@ -137,7 +151,6 @@ export default {
     },
     // 选中进度滑块
     selectSlider(e) {
-      console.log('=====select')
       if (this.player.list.length > 0) {
         // 禁止自动更改进度条
         this.$store.dispatch({ type: 'player/updatePrg', mark: true })
@@ -171,6 +184,12 @@ export default {
     closeList() {
       this.isShowList = false
     }
+  },
+
+  components: {
+    Button,
+    Slider,
+    CurrentPlaylist
   }
 }
 </script>

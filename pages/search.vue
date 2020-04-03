@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="hot" v-if="hot.artist">
+    <div class="hot" v-if="hot.artist.length > 0">
       <div
         class="img"
         :style="{
@@ -56,7 +56,7 @@
           <span class="txt">播放歌手热门歌曲</span>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="list-box">
       <ul class="nav">
         <li
@@ -130,18 +130,18 @@ export default {
         }
       ],
       hot: {
-        // artist: [
-        //   {
-        //     name: '陈雪凝',
-        //     id: 12382970,
-        //     picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
-        //     img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
-        //     albumSize: 19,
-        //     musicSize: 47,
-        //     mvSize: 6,
-        //     fansSize: 2634671
-        //   }
-        // ]
+        artist: [
+          // {
+          //   name: '陈雪凝',
+          //   id: 12382970,
+          //   picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
+          //   img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
+          //   albumSize: 19,
+          //   musicSize: 47,
+          //   mvSize: 6,
+          //   fansSize: 2634671
+          // }
+        ]
       },
       songsResult: [],
       currNav: 1,
@@ -156,7 +156,10 @@ export default {
       this.$store.commit('player/add', { msc })
     },
     playCurrent(msc) {
-      // this.$store.commit('player/playAll', { msc, list: this.mscList })
+      this.$store.commit('player/add', { msc })
+      this.$nextTick(()=> {
+        this.$store.commit('player/next')
+      })
     },
     enshrineCurrent(msc) {
       this.$store.commit('player/enshrine', msc)
@@ -203,7 +206,7 @@ export default {
       })
     },
     /**
-     * 获取热搜关键词，将前 6 个存起来（意思一下嘛）
+     * 获取热搜关键词，将前 6 个存起来（对，我就是意思一下）
      */
     async getHotSearch() {
       const { result } = await this.$axios.$get(`/api/search/hot`)
@@ -214,13 +217,14 @@ export default {
       })
     },
     /**
-     * 相当于智能推荐，暂时嗝屁，网易云那边没了
+     * 相当于智能推荐，暂时只有匹配歌手，以后看情况添加 MV，专辑等等
      */
     async getHotSonger(keyword) {
       const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`)
       this.$nextTick(() => {
-        console.log('热门歌手', result)
-        this.hot = result.hot
+        if(result.artist) {
+          this.hot.artist = result.artist
+        }
       })
     }
   },

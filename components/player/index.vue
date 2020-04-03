@@ -132,8 +132,6 @@ export default {
 
   methods: {
     ...mapMutations({
-      next: 'player/next',
-      prev: 'player/prev',
       switchSong: 'player/switchSong',
       switchMode: 'player/switchMode',
       changeVol: 'player/changeVol'

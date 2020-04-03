@@ -130,18 +130,7 @@ export default {
         }
       ],
       hot: {
-        artist: [
-          // {
-          //   name: '陈雪凝',
-          //   id: 12382970,
-          //   picUrl: 'https://p1.music.126.net/UheOVkTuZEGnT1GarIj4Pw==/109951163985034688.jpg',
-          //   img1v1Url: 'https://p1.music.126.net/rh786RRpup1SxRQg8FDEKg==/109951163814926414.jpg',
-          //   albumSize: 19,
-          //   musicSize: 47,
-          //   mvSize: 6,
-          //   fansSize: 2634671
-          // }
-        ]
+        artist: []
       },
       songsResult: [],
       currNav: 1,
@@ -159,8 +148,8 @@ export default {
     // 播放当前歌曲
     playCurrent(msc) {
       this.$store.commit('player/add', { msc })
-      this.$nextTick(()=> {
-        this.$store.commit('player/next')
+      this.$nextTick(() => {
+        this.$store.commit('player/switchSong', 'next')
       })
     },
     // 收藏
@@ -201,7 +190,7 @@ export default {
         `/api/search?keywords=${keyword}&type=${this.currNav}`
       )
       this.$nextTick(() => {
-        // console.log('搜索结果', result)
+        console.log('搜索结果', result)
         this.loading = false
         this.songsResult = result.songs
       })
@@ -223,7 +212,7 @@ export default {
     async getHotSonger(keyword) {
       const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`)
       this.$nextTick(() => {
-        if(result.artist) {
+        if (result.artist) {
           this.hot.artist = result.artist
         }
       })

@@ -10,7 +10,7 @@ const defaultCurrSong = {
     id: 0,
     name: '--',
     artists: ['--', '---'],
-    duration: 0,
+    duration: 0
   }
 }
 
@@ -80,7 +80,7 @@ export const mutations = {
         name,
         duration,
         artists: art,
-        formatDuration,
+        formatDuration
       }
       if (type === 'push') {
         state.list.push(music)
@@ -215,9 +215,10 @@ export const mutations = {
   },
 
   /**
-   * 下一曲
+   * 切歌
+   * @param {*} state
    */
-  next(state) {
+  switchSong(state, direction) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
     } else {
@@ -227,41 +228,15 @@ export const mutations = {
           break
         case 2:
           const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-          const nextIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1
-          this.commit('player/loadSong', state.list[nextIndex].id)
-          break
-        case 3:
-          if (state.list.length > 1) {
-            let randomNum = 0
-            const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-            randomNum = Math.floor(Math.random() * state.list.length)
-            while (randomNum === currIndex) {
-              randomNum = Math.floor(Math.random() * state.list.length)
-            }
-            this.commit('player/loadSong', state.list[randomNum].id)
-          } else {
-            state.audio.load()
+          let switchIndex
+          if (direction === 'next') {
+            // 下一曲
+            switchIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1
+          } else if (direction === 'prev') {
+            // 上一曲
+            switchIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
           }
-          break
-      }
-    }
-  },
-
-  /**
-   * 上一曲
-   */
-  prev(state) {
-    if (state.currSong.id === 0) {
-      // 弹窗提示 添加歌曲到列表
-    } else {
-      switch (state.setting.mode) {
-        case 1:
-          state.audio.load()
-          break
-        case 2:
-          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-          const prevIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
-          this.commit('player/loadSong', state.list[prevIndex].id)
+          this.commit('player/loadSong', state.list[switchIndex].id)
           break
         case 3:
           if (state.list.length > 1) {

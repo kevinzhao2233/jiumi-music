@@ -152,15 +152,18 @@ export default {
     /**
      * 歌曲列表的操作
      */
+    // 添加到播放列表（下一曲播放）
     addintoList(msc) {
       this.$store.commit('player/add', { msc })
     },
+    // 播放当前歌曲
     playCurrent(msc) {
       this.$store.commit('player/add', { msc })
       this.$nextTick(()=> {
         this.$store.commit('player/next')
       })
     },
+    // 收藏
     enshrineCurrent(msc) {
       this.$store.commit('player/enshrine', msc)
     },
@@ -192,15 +195,13 @@ export default {
      * 获取搜索结果列表
      */
     async getList(keyword) {
-      // 进入 loading 效果
       this.loading = true
       this.songsResult = []
       const { result } = await this.$axios.$get(
         `/api/search?keywords=${keyword}&type=${this.currNav}`
       )
       this.$nextTick(() => {
-        console.log('搜索结果', result)
-        // 退出 loading 效果
+        // console.log('搜索结果', result)
         this.loading = false
         this.songsResult = result.songs
       })

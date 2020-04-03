@@ -71,6 +71,7 @@
       <hr class="line" />
       <div class="content-box">
         <div class="dot-floating loading" v-if="loading"></div>
+        <!-- 单曲列表 -->
         <Playlist
           :list="songsResult"
           :control="true"
@@ -79,7 +80,10 @@
           @play="playCurrent"
           @enshrine="enshrineCurrent"
         />
-        <div v-if="currNav === 100">歌手</div>
+        <!-- 歌手列表 -->
+        <SongList v-if="currNav === 100" :list="singerResult" />
+        <!-- 专辑列表 -->
+        <AlbumList v-if="currNav === 10" :list="albumResult" />
       </div>
     </div>
   </div>
@@ -88,16 +92,22 @@
 <script>
 import Inputbar from '~/components/common/Inputbar.vue'
 import Playlist from '~/components/common/Playlist.vue'
+import SongList from '~/components/common/SongList.vue'
+import AlbumList from '~/components/common/AlbumList.vue'
 
 export default {
   components: {
     Playlist,
-    Inputbar
+    Inputbar,
+    SongList,
+    AlbumList
   },
   data() {
     return {
       inputValue: '',
       hotSearch: [],
+      currNav: 10,
+      loading: false,
       keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
       nav: [
         {
@@ -133,8 +143,12 @@ export default {
         artist: []
       },
       songsResult: [],
-      currNav: 1,
-      loading: false
+      singerResult: [],
+      albumResult: [],
+      videoResult: [],
+      lyricsResult: [],
+      songlistResult: [],
+      userResult: []
     }
   },
   methods: {
@@ -192,7 +206,17 @@ export default {
       this.$nextTick(() => {
         console.log('搜索结果', result)
         this.loading = false
-        this.songsResult = result.songs
+        switch (this.currNav) {
+          case 1:
+            this.songsResult = result.songs
+            break
+          case 100:
+            this.singerResult = result.artists
+            break
+          case 10:
+            this.albumResult = result.albums
+            break
+        }
       })
     },
     /**

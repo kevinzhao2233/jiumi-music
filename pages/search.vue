@@ -105,6 +105,7 @@ export default {
   data() {
     return {
       inputValue: '',
+      tempVal: '',
       hotSearch: [],
       currNav: 10,
       loading: false,
@@ -175,6 +176,9 @@ export default {
      */
     toggleNav(id) {
       this.currNav = id
+      if(this.tempVal) {
+        this.launchSearch(this.tempVal)
+      }
     },
     /**
      * 点击热搜或历史搜索
@@ -186,7 +190,9 @@ export default {
     /**
      * 获取搜索框下的搜索建议
      */
-    getSuggest(keyword) {},
+    getSuggest(keyword) {
+      this.tempVal = keyword
+    },
     /**
      * 发起搜索
      */

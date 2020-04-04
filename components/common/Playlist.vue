@@ -1,7 +1,6 @@
 <template>
   <transition-group
     tag="ul"
-    name="flip-list"
     class="k-list-box"
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"

@@ -70,7 +70,7 @@
       </ul>
       <hr class="line" />
       <div class="content-box">
-        <div class="dot-floating loading" v-if="loading"></div>
+        <div class="dot-floating loading" v-show="loading"></div>
         <!-- 单曲列表 -->
         <Playlist
           :list="songsResult"
@@ -175,8 +175,9 @@ export default {
      * 切换导航
      */
     toggleNav(id) {
+      const temp = this.currNav
       this.currNav = id
-      if(this.tempVal) {
+      if(this.tempVal && temp !== id) {
         this.launchSearch(this.tempVal)
       }
     },
@@ -408,6 +409,7 @@ export default {
         border-radius: 16px;
         cursor: pointer;
         transition: 0.2s ease-out;
+        user-select: none;
 
         &.active {
           color: $mid-1;

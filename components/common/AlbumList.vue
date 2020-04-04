@@ -1,5 +1,11 @@
 <template>
-  <ul class="k-list-box">
+  <transition-group
+    tag="ul"
+    name="flip-list"
+    class="k-list-box"
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+  >
     <li class="item" v-for="item in list" :key="item.id">
       <div
         class="img"
@@ -13,7 +19,7 @@
       <span class="name" :title="item.name">{{ item.name }}</span>
       <span class="artist" :title="item.artist.name">{{ item.artist.name }}</span>
     </li>
-  </ul>
+  </transition-group>
 </template>
 
 <script>

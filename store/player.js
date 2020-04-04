@@ -193,7 +193,7 @@ export const mutations = {
   listenerAudio(state) {
     state.audio.addEventListener('ended', () => {
       this.commit('player/pause')
-      this.commit('player/switch', 'next')
+      this.commit('player/switchSong', 'next')
     })
   },
 

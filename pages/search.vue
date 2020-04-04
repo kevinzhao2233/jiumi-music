@@ -266,6 +266,9 @@ export default {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  background: url('~static/img/bg-m-2.png') no-repeat;
+  background-size: 100%;
+  background-position: bottom;
 
   .header {
     display: flex;

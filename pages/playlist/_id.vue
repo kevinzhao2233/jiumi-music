@@ -34,18 +34,24 @@
           标签：
           <span class="label-item" v-for="item in playlist.tags" :key="item">{{ item }}</span>
         </div>
-        <span class="count">播放量：3324</span>
-        <span class="count">收藏量：335</span>
+        <span class="count">播放量：{{ playlist.playCount }}</span>
+        <span class="count">收藏量：{{ playlist.subscribedCount }}</span>
       </div>
     </div>
     <div class="content">
       <Card>
         <h3 slot="title" class="title">歌曲列表</h3>
-        <Playlist :list="tracks" :pic="true" />
+        <Playlist
+          :list="tracks"
+          :pic="true"
+          @add="addintoList"
+          @play="playAll"
+          @enshrine="enshrineCurrent"
+        />
       </Card>
       <div class="sub">
         <span class="title">简介</span>
-        <span class="txt">{{playlist.description}}</span>
+        <span class="txt">{{ playlist.description }}</span>
       </div>
     </div>
   </div>
@@ -82,10 +88,21 @@ export default {
     async getSonger(id) {
       const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`)
       this.$nextTick(() => {
-        console.log(playlist)
         this.playlist = playlist
         this.tracks = playlist.tracks
       })
+    },
+
+    addintoList(msc) {
+      this.$store.commit('player/add', { msc })
+    },
+
+    playAll(msc) {
+      this.$store.commit('player/playAll', { msc, list: this.tracks })
+    },
+
+    enshrineCurrent(msc) {
+      this.$store.commit('player/enshrine', msc)
     }
   },
   created() {
@@ -151,7 +168,7 @@ export default {
       .creater {
         display: flex;
         align-items: center;
-        margin: 8px 0;
+        margin: 8px 0 16px;
 
         .avatar {
           width: 36px;

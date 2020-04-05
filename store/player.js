@@ -53,7 +53,11 @@ export const mutations = {
    * @param {*} state 当前state
    * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
-  add(state, { msc: { id, name, artists, duration }, type }) {
+  add(state, { msc: { id, name, artists, duration, ar, dt }, type }) {
+    if (!duration && dt) {
+      artists = ar
+      duration = dt
+    }
     //需要添加的歌曲在播放列表中的 index
     const songIndex = state.list.findIndex(item => item.id === id)
     // 当前播放的歌曲的 index

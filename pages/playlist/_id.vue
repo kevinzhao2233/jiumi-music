@@ -1,17 +1,38 @@
 <template>
   <div class="container">
     <div class="header">
-      <div class="img"></div>
+      <div
+        class="img"
+        :style="{
+          background: `url(${playlist.coverImgUrl}?param=240y240)`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }"
+      ></div>
+      <div
+        class="img-bg"
+        :style="{
+          background: `url(${playlist.coverImgUrl}?param=240y240)`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }"
+      ></div>
       <div class="info">
-        <span class="tit">百听不腻的神曲《网络热歌》</span>
+        <span class="tit">{{ playlist.name }}</span>
         <div class="creater">
-          <div class="avatar"></div>
-          <span class="name">莫离-Nice</span>
+          <div
+            class="avatar"
+            :style="{
+              background: `url(${playlist.creator.avatarUrl}?param=36y36)`,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat'
+            }"
+          ></div>
+          <span class="name">{{ playlist.creator.nickname }}</span>
         </div>
-        <div class="label">标签：
-          <span class="label-item">古风</span>
-          <span class="label-item">中二</span>
-          <span class="label-item">流行</span>
+        <div class="label">
+          标签：
+          <span class="label-item" v-for="item in playlist.tags" :key="item">{{ item }}</span>
         </div>
         <span class="count">播放量：3324</span>
         <span class="count">收藏量：335</span>
@@ -20,9 +41,12 @@
     <div class="content">
       <Card>
         <h3 slot="title" class="title">歌曲列表</h3>
-        <Playlist :list="list" />
+        <Playlist :list="tracks" :pic="true" />
       </Card>
-      <div class="sub"></div>
+      <div class="sub">
+        <span class="title">简介</span>
+        <span class="txt">{{playlist.description}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -38,15 +62,29 @@ export default {
   },
   data() {
     return {
-      list: []
+      playlist: {
+        name: '',
+        coverImgUrl: '',
+        tags: ['华语', '流行', '民谣'],
+        playCount: 0,
+        subscribedCount: 0,
+        description: '',
+        creator: {
+          id: 0,
+          nickname: '',
+          backgroundUrl: ''
+        }
+      },
+      tracks: []
     }
   },
   methods: {
     async getSonger(id) {
       const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`)
       this.$nextTick(() => {
-        console.log(playlist.tracks)
-        this.list = playlist.tracks
+        console.log(playlist)
+        this.playlist = playlist
+        this.tracks = playlist.tracks
       })
     }
   },
@@ -68,6 +106,7 @@ export default {
   overflow-y: auto;
 
   .header {
+    position: relative;
     display: flex;
     margin: 0 auto;
     padding: 0 24px;
@@ -82,8 +121,19 @@ export default {
       margin: 60px 48px 60px 0;
       width: 240px;
       height: 240px;
-      border-radius: 16px;
+      border-radius: 36px;
       background-color: #fff;
+      z-index: 10;
+    }
+
+    .img-bg {
+      position: absolute;
+      left: 24px;
+      bottom: 48px;
+      width: 240px;
+      height: 240px;
+      border-radius: 20%;
+      filter: blur(22px) brightness(105%);
     }
 
     .info {
@@ -94,7 +144,7 @@ export default {
 
       .tit {
         display: inline-block;
-        margin-bottom: 12px;
+        margin: 8px 0 12px;
         font-size: 28px;
       }
 
@@ -107,9 +157,6 @@ export default {
           width: 36px;
           height: 36px;
           border-radius: 40%;
-          background: url('http://p1.music.126.net/0MmmjoVGZNwdykwpL-tJLg==/109951164518168720.jpg?param=36y36')
-            no-repeat;
-          background-size: cover;
         }
         .name {
           margin-left: 8px;
@@ -141,12 +188,29 @@ export default {
   }
 
   .content {
+    display: flex;
     margin: 0 auto;
     padding: 0 24px 160px 24px;
     width: 1000px;
     @include respond-to(lg) {
       width: 100%;
       max-width: 1200px;
+    }
+
+    .sub {
+      margin: 48px 0 0 48px;
+      width: 300px;
+
+      .title {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 24px;
+      }
+
+      .txt {
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
     }
   }
 }

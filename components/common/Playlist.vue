@@ -13,7 +13,7 @@
           class="pic"
           v-if="pic"
           :style="{
-            background: `url(${item.album.picUrl}?param=40y40)`,
+            background: `url(${item.al ? item.al.picUrl : item.album.picUrl}?param=40y40)`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
           }"

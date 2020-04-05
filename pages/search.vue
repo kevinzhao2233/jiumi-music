@@ -61,7 +61,7 @@
       <ul class="nav">
         <li
           :class="item.id === currNav ? 'nav-item active' : 'nav-item'"
-          v-for="item in nav"
+          v-for="item in searchContent"
           :key="item.id"
           @mousedown="toggleNav(item.id)"
         >
@@ -73,17 +73,17 @@
         <div class="dot-floating loading" v-show="loading"></div>
         <!-- 单曲列表 -->
         <Playlist
-          :list="songsResult"
+          :list="searchContent[1].list"
           :control="true"
           v-if="currNav === 1"
           @add="addintoList"
           @play="playCurrent"
           @enshrine="enshrineCurrent"
         />
-        <!-- 歌手列表 -->
-        <SongList v-if="currNav === 100" :list="singerResult" />
         <!-- 专辑列表 -->
-        <AlbumList v-if="currNav === 10" :list="albumResult" />
+        <AlbumList v-if="currNav === 10" :list="searchContent[10].list" />
+        <!-- 歌手列表 -->
+        <SongList v-if="currNav === 100" :list="searchContent[100].list" />
       </div>
     </div>
   </div>
@@ -105,51 +105,45 @@ export default {
   data() {
     return {
       inputValue: '',
-      tempVal: '',
       hotSearch: [],
-      currNav: 10,
+      currNav: 1,
       loading: false,
       keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
-      nav: [
-        {
+      searchContent: {
+        1: {
           name: '单曲',
-          id: 1
+          id: 1,
+          list: []
         },
-        {
-          name: '歌手',
-          id: 100
-        },
-        {
+        10: {
           name: '专辑',
-          id: 10
+          id: 10,
+          list: []
         },
-        {
-          name: '视频',
-          id: 1014
+        100: {
+          name: '歌手',
+          id: 100,
+          list: []
         },
-        {
-          name: '歌词',
-          id: 1006
-        },
-        {
+        1000: {
           name: '歌单',
-          id: 1000
+          id: 1000,
+          list: []
         },
-        {
-          name: '用户',
-          id: 6
+        1006: {
+          name: '歌词',
+          id: 1006,
+          list: []
+        },
+        1014: {
+          name: '视频',
+          id: 1014,
+          list: []
         }
-      ],
+      },
       hot: {
         artist: []
-      },
-      songsResult: [],
-      singerResult: [],
-      albumResult: [],
-      videoResult: [],
-      lyricsResult: [],
-      songlistResult: [],
-      userResult: []
+      }
     }
   },
   methods: {
@@ -177,8 +171,8 @@ export default {
     toggleNav(id) {
       const temp = this.currNav
       this.currNav = id
-      if(this.tempVal && temp !== id) {
-        this.launchSearch(this.tempVal)
+      if (this.inputValue && temp !== id) {
+        this.launchSearch(this.inputValue)
       }
     },
     /**
@@ -192,7 +186,7 @@ export default {
      * 获取搜索框下的搜索建议
      */
     getSuggest(keyword) {
-      this.tempVal = keyword
+      this.inputValue = keyword
     },
     /**
      * 发起搜索
@@ -215,13 +209,13 @@ export default {
         this.loading = false
         switch (this.currNav) {
           case 1:
-            this.songsResult = result.songs
-            break
-          case 100:
-            this.singerResult = result.artists
+            this.searchContent[1].list = result.songs
             break
           case 10:
-            this.albumResult = result.albums
+            this.searchContent[10].list = result.albums
+            break
+          case 100:
+            this.searchContent[100].list = result.artists
             break
         }
       })

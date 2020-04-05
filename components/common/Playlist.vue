@@ -20,10 +20,16 @@
         ></div>
         <div class="content">
           <span class="msc-name">{{ item.name }}</span>
-          <div class="msc-art">
+          <div class="msc-art" v-if="item.artists">
             <span class="art-names" v-for="(art, index) in item.artists" :key="index">
               <span class="art-name">{{ art.name }}</span>
               <span class="placeholder" v-if="index < item.artists.length - 1"> / </span>
+            </span>
+          </div>
+          <div class="msc-art" v-if="item.ar">
+            <span class="art-names" v-for="(art, index) in item.ar" :key="index">
+              <span class="art-name">{{ art.name }}</span>
+              <span class="placeholder" v-if="index < item.ar.length - 1"> / </span>
             </span>
           </div>
         </div>
@@ -33,10 +39,10 @@
         </div>
       </div>
       <div class="center">
-        <span class="album">{{ item.album.name }}</span>
+        <span class="album">{{ item.album ? item.album.name : item.al.name }}</span>
       </div>
       <div class="right">
-        <span class="time">{{ formateTime(item.duration) }}</span>
+        <span class="time">{{ item.duration ? formateTime(item.duration) : formateTime(item.dt) }}</span>
       </div>
     </li>
   </transition-group>

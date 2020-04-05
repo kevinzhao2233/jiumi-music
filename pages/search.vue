@@ -84,6 +84,7 @@
         <AlbumList v-if="currNav === 10" :list="searchContent[10].list" />
         <!-- 歌手列表 -->
         <SongList v-if="currNav === 100" :list="searchContent[100].list" />
+        <div v-if="currNav > 100">开发者正在筹集头发~~</div>
       </div>
     </div>
   </div>

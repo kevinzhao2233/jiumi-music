@@ -202,7 +202,7 @@ export default {
       this.loading = true
       this.songsResult = []
       const { result } = await this.$axios.$get(
-        `/api/search?keywords=${keyword}&type=${this.currNav}`
+        `/api/search?keywords=${keyword}&type=${this.currNav}&limit=50`
       )
       this.$nextTick(() => {
         console.log('搜索结果', result)
@@ -243,7 +243,7 @@ export default {
       })
     }
   },
-  mounted() {
+  created() {
     // 获取热搜
     this.getHotSearch()
   }

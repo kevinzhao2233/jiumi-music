@@ -15,7 +15,9 @@
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
-      ></div>
+      >
+        <span class="sub">{{ item.size }}首</span>
+      </div>
       <span class="name" :title="item.name">{{ item.name }}</span>
       <span class="artist" :title="item.artist.name">{{ item.artist.name }}</span>
     </li>
@@ -28,7 +30,7 @@ export default {
 
   props: {
     list: {
-      type: Array,
+      type: Array
     }
   }
 }
@@ -56,6 +58,15 @@ export default {
       width: 130px;
       height: 130px;
 
+      .sub {
+        position: absolute;
+        bottom: 4px;
+        left: 8px;
+        opacity: 0;
+        color: $mid-1;
+        transition: all 0.2s;
+      }
+
       &::after {
         content: '';
         display: block;
@@ -67,6 +78,20 @@ export default {
 
       &:hover {
         cursor: pointer;
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          display: block;
+          width: 100%;
+          height: 48px;
+          background: linear-gradient(#55555500, #55555599);
+        }
+
+        .sub {
+          opacity: 1;
+        }
       }
     }
 

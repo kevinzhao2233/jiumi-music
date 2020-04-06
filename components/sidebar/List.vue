@@ -3,11 +3,11 @@
     <span class="tit">{{ items.title }}</span>
     <div class="list-box">
       <nuxt-link
-        :to="item.router ? item.router : '/playlist'"
         class="item"
         v-for="(item, index) in items.list"
         :key="index"
         :title="item.name"
+        :to="{ name: 'playlist-id', params: { id: item.id } }"
       >
         <i
           :class="item.icon ? `icon iconfont ${item.icon}` : 'icon iconfont icon-music_albums_fill'"

@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="content">
-      <Card>
+      <Card class="main-card">
         <h3 slot="title" class="title">歌曲列表</h3>
         <Playlist
           :list="tracks"
@@ -217,6 +217,10 @@ export default {
     @include respond-to(lg) {
       width: 100%;
       max-width: 1200px;
+    }
+
+    .main-card {
+      overflow: hidden;
     }
 
     .sub {

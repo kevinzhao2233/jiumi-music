@@ -19,7 +19,10 @@
           }"
         ></div>
         <div class="content">
-          <span class="msc-name">{{ item.name }}</span>
+          <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name">{{
+            item.name
+          }}</nuxt-link>
+          <!-- <span class="msc-name">{{ item.name }}</span> -->
           <div class="msc-art" v-if="item.artists">
             <span class="art-names" v-for="(art, index) in item.artists" :key="index">
               <span class="art-name">{{ art.name }}</span>
@@ -42,7 +45,9 @@
         <span class="album">{{ item.album ? item.album.name : item.al.name }}</span>
       </div>
       <div class="right">
-        <span class="time">{{ item.duration ? formateTime(item.duration) : formateTime(item.dt) }}</span>
+        <span class="time">{{
+          item.duration ? formateTime(item.duration) : formateTime(item.dt)
+        }}</span>
       </div>
     </li>
   </transition-group>

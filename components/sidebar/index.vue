@@ -13,21 +13,6 @@ export default {
   components: {
     List
   },
-  created() {
-    const uid = localStorage.getItem('uid')
-    const getUserList = async () => {
-      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`)
-      const createList = playlist.filter((data, index) => {
-        return data.userId.toString() === uid && index > 0
-      })
-      const enshrineList = playlist.filter(data => {
-        return data.userId.toString() !== uid
-      })
-      this.sidebarList.myCreate.list = createList
-      this.sidebarList.myEnshrine.list = enshrineList
-    }
-    getUserList()
-  },
 
   data() {
     return {
@@ -37,29 +22,34 @@ export default {
           title: '发现音乐',
           list: [
             {
+              id: '101',
               name: '搜索',
               icon: 'icon-search',
-              router: '/search'
+              router: 'search'
             },
             {
+              id: '102',
               name: '个性推荐',
               icon: 'icon-location_fill',
-              router: '/'
+              router: 'index'
             },
             {
+              id: '103',
               name: '歌单',
               icon: 'icon-music_albums_fill',
-              router: '/'
+              router: 'playlist'
             },
             {
+              id: '104',
               name: '歌手',
               icon: 'icon-person__fill',
-              router: '/'
+              router: 'singer'
             },
             {
+              id: '105',
               name: 'MV',
               icon: 'icon-videocam_fill',
-              router: '/'
+              router: 'mv'
             }
           ]
         },
@@ -67,19 +57,22 @@ export default {
           title: '我的音乐',
           list: [
             {
+              id: '201',
               name: '我的喜欢',
               icon: 'icon-heart_fill',
-              router: '/playlist'
+              router: 'playlist'
             },
             {
+              id: '202',
               name: '最近播放',
               icon: 'icon-clock_fill',
-              router: '/playlist'
+              router: 'playlist'
             },
             {
+              id: '203',
               name: '我的收藏',
               icon: 'icon-star_fill',
-              router: '/'
+              router: 'playlist'
             }
           ]
         },
@@ -96,6 +89,22 @@ export default {
         tagname: 'div'
       }
     }
+  },
+
+  created() {
+    const uid = localStorage.getItem('uid')
+    const getUserList = async () => {
+      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`)
+      const createList = playlist.filter((data, index) => {
+        return data.userId.toString() === uid && index > 0
+      })
+      const enshrineList = playlist.filter(data => {
+        return data.userId.toString() !== uid
+      })
+      this.sidebarList.myCreate.list = createList
+      this.sidebarList.myEnshrine.list = enshrineList
+    }
+    getUserList()
   }
 }
 </script>

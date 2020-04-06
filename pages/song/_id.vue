@@ -23,7 +23,10 @@
         <div class="label">
           歌手：
           <span class="art-names" v-for="(art, index) in song.ar" :key="index">
-            <span class="label-item">{{ art.name }}</span>
+            <nuxt-link
+              class="label-item"
+              :to="{ name: 'singer-id', params: { id: art.id } }"
+            >{{ art.name }}</nuxt-link>
             <span class="placeholder" v-if="index < song.ar.length - 1"> / </span>
           </span>
         </div>

@@ -10,7 +10,7 @@
     </div>
     <div class="k-main">
       <slot>
-        <span>卡片</span>
+        <span></span>
       </slot>
     </div>
   </div>

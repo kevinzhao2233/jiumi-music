@@ -23,10 +23,9 @@
         <div class="label">
           歌手：
           <span class="art-names" v-for="(art, index) in song.ar" :key="index">
-            <nuxt-link
-              class="label-item"
-              :to="{ name: 'singer-id', params: { id: art.id } }"
-            >{{ art.name }}</nuxt-link>
+            <nuxt-link class="label-item" :to="{ name: 'singer-id', params: { id: art.id } }">{{
+              art.name
+            }}</nuxt-link>
             <span class="placeholder" v-if="index < song.ar.length - 1"> / </span>
           </span>
         </div>
@@ -50,14 +49,27 @@
         <p class="content">{{ lrc }}</p>
       </Card>
       <div class="sub-card">
-        <Card class="main-card">
+        <Card>
           <h3 slot="title" class="title">相关歌单</h3>
-          <p>==========</p>
+          <div class="item" v-for="item in simiPlaylists" :key="item.id">
+            <div
+              class="img"
+              :style="{
+                background: `url(${item.coverImgUrl}?param=72y72)`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat'
+              }"
+            ></div>
+            <nuxt-link :to="{ name: 'playlist-id', params: { id: item.id } }" class="name">{{
+              item.name
+            }}</nuxt-link>
+            <span class="creator">{{ item.creator.nickname }}</span>
+          </div>
         </Card>
-        <Card class="main-card">
+        <!-- <Card>
           <h3 slot="title" class="title">相似歌曲</h3>
           <p>==========</p>
-        </Card>
+        </Card> -->
       </div>
     </div>
   </div>
@@ -86,7 +98,9 @@ export default {
         },
         publishTime: 0
       },
-      lrc: ''
+      lrc: '',
+      simiSongs: [],
+      simiPlaylists: []
     }
   },
   methods: {
@@ -101,11 +115,25 @@ export default {
       this.$nextTick(() => {
         this.lrc = lrc.lyric.replace(/\[(.+)\]/g, '')
       })
+    },
+    async getSimiPlaylists(id) {
+      const { playlists } = await this.$axios.$get(`/api/simi/playlist?id=${id}`)
+      this.$nextTick(() => {
+        this.simiPlaylists = playlists
+      })
+    },
+    async getSimiSongs(id) {
+      const { songs } = await this.$axios.$get(`/api/simi/song?id=${id}`)
+      this.$nextTick(() => {
+        this.simiSongs = songs
+      })
     }
   },
   mounted() {
     this.getSong(this.$route.params.id)
     this.getLrc(this.$route.params.id)
+    this.getSimiPlaylists(this.$route.params.id)
+    // this.getSimiSongs(this.$route.params.id)
   }
 }
 </script>
@@ -209,6 +237,42 @@ export default {
     .sub-card {
       margin: 48px 0 0 48px;
       width: 300px;
+
+      .item {
+        display: grid;
+        grid-template-columns: 80px 220px;
+        grid-template-rows: 40px 40px;
+        margin-bottom: 12px;
+        width: 100%;
+        height: 80px;
+
+        .img {
+          grid-row: 1/3;
+          grid-column: 1;
+          margin-right: 8px;
+          width: 72px;
+          height: 72px;
+          border-radius: 40%;
+        }
+
+        .name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          align-self: end;
+          white-space: nowrap;
+          color: $mid-10;
+          line-height: 32px;
+          cursor: pointer;
+
+          &:hover {
+            color: $main-6;
+          }
+        }
+
+        .creator {
+          color: $mid-7;
+        }
+      }
     }
   }
 }

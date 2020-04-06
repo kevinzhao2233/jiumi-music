@@ -21,7 +21,8 @@ export const state = () => ({
     vol: 0.7 // TODO: 需要函数防抖后保存进localStorage
   },
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
-  list: []
+  list: [],
+  upro: JSON.parse(localStorage.getItem('upro'))
 })
 
 export const getters = {
@@ -53,7 +54,7 @@ export const mutations = {
    * @param {*} state 当前state
    * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
-  add(state, { msc: { id, name, artists, duration, ar, dt }, type }) {
+  add(state, { msc: { id, name, artists, duration, ar, dt, fee }, type }) {
     if (!duration && dt) {
       artists = ar
       duration = dt
@@ -81,6 +82,7 @@ export const mutations = {
       // 打包
       const music = {
         id,
+        fee,
         name,
         duration,
         artists: art,
@@ -106,6 +108,7 @@ export const mutations = {
    * @param {*} id 需要删除的歌曲 id
    */
   remove(state, id) {
+    this.commit('player/switchSong', 'next')
     state.list.splice(
       state.list.findIndex(item => item.id === id),
       1
@@ -162,9 +165,22 @@ export const mutations = {
     state.audio = new Audio()
     state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
     // 将当前要播放的音乐信息缓存起来，减少一次异步请求
-    state.currSong.detail = state.list.find(item => item.id === id)
+    const msc = state.list.find(item => item.id === id)
+    state.currSong.detail = msc
+    state.currSong.id = id
     state.audio.addEventListener('canplaythrough', () => {
-      this.commit('player/play', id)
+      this.commit('player/play')
+    })
+    state.audio.addEventListener('error', () => {
+      console.log(state.audio.error, msc.fee)
+      if (state.audio.error && state.audio.error.code === 4) {
+        // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
+        if (state.list.length > 1 && state.setting.mode > 1) {
+          this.commit('player/switchSong', 'next')
+        } else {
+          alert('歌曲无法播放')
+        }
+      }
     })
   },
 
@@ -173,9 +189,8 @@ export const mutations = {
    * @param {*} state
    * @param {*} id 需要播放的歌曲id
    */
-  play(state, id) {
+  play(state) {
     state.audio.play()
-    state.currSong.id = id
     state.currSong.isPlay = true
     this.commit('player/listenerAudio')
     this.commit('player/changeVol', state.setting.vol)
@@ -225,6 +240,7 @@ export const mutations = {
   switchSong(state, direction) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
+      alert('歌单里没有歌，添加一首再播放吧')
     } else {
       switch (state.setting.mode) {
         case 1:

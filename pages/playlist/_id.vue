@@ -71,7 +71,7 @@ export default {
       playlist: {
         name: '',
         coverImgUrl: '',
-        tags: ['华语', '流行', '民谣'],
+        tags: [],
         playCount: 0,
         subscribedCount: 0,
         description: '',
@@ -180,6 +180,11 @@ export default {
           font-size: 16px;
           color: $mid-7;
           cursor: pointer;
+          transition: color 0.2s;
+
+          &:hover {
+            color: $main-6;
+          }
         }
       }
 

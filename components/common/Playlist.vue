@@ -22,16 +22,19 @@
           <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name">{{
             item.name
           }}</nuxt-link>
-          <!-- <span class="msc-name">{{ item.name }}</span> -->
           <div class="msc-art" v-if="item.artists">
             <span class="art-names" v-for="(art, index) in item.artists" :key="index">
-              <span class="art-name">{{ art.name }}</span>
+              <nuxt-link :to="{ name: 'singer-id', params: { id: art.id } }" class="art-name">{{
+                art.name
+              }}</nuxt-link>
               <span class="placeholder" v-if="index < item.artists.length - 1"> / </span>
             </span>
           </div>
           <div class="msc-art" v-if="item.ar">
             <span class="art-names" v-for="(art, index) in item.ar" :key="index">
-              <span class="art-name">{{ art.name }}</span>
+              <nuxt-link :to="{ name: 'singer-id', params: { id: art.id } }" class="art-name">{{
+                art.name
+              }}</nuxt-link>
               <span class="placeholder" v-if="index < item.ar.length - 1"> / </span>
             </span>
           </div>
@@ -182,9 +185,11 @@ export default {
           white-space: nowrap;
 
           .art-name {
+            color: $mid-6;
             cursor: pointer;
 
             &:hover {
+              color: $main-2;
               text-decoration: underline;
             }
           }
@@ -272,6 +277,10 @@ export default {
           }
           .msc-art {
             color: $mid-4;
+
+            .art-name {
+              color: $mid-4;
+            }
           }
         }
 

@@ -41,7 +41,12 @@
       <Card class="card">
         <h3 slot="title" class="title">热门歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist :list="hotSongs" />
+        <Playlist
+          :list="hotSongs"
+          @add="addintoList"
+          @play="playAll"
+          @enshrine="enshrineCurrent"
+        />
       </Card>
       <Card class="card">
         <h3 slot="title" class="title">专辑</h3>
@@ -73,6 +78,25 @@ export default {
     }
   },
   methods: {
+    /**
+     * 歌曲列表的操作
+     */
+    // 添加到播放列表（下一曲播放）
+    addintoList(msc) {
+      this.$store.commit('player/add', { msc })
+    },
+    // 播放所有
+    playAll(msc) {
+      this.$store.commit('player/playAll', { msc, list: this.hotSongs })
+    },
+    // 收藏
+    enshrineCurrent(msc) {
+      this.$store.commit('player/enshrine', msc)
+    },
+
+    /**
+     * 异步获取数据
+     */
     async getArtist(id) {
       const { artist, hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`)
       this.$nextTick(() => {

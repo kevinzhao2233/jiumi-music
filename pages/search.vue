@@ -35,23 +35,26 @@
       </div>
     </div>
     <div class="hot" v-if="hot.artist.length > 0">
-      <div
+      <nuxt-link
         class="img"
+        :to="{ name: 'singer-id', params: { id: hot.artist[0].id } }"
         :style="{
           background: `url(${hot.artist[0].img1v1Url}?param=108y108)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
-      ></div>
+      ></nuxt-link>
       <div class="info">
-        <span class="name">{{ hot.artist[0].name }}</span>
+        <nuxt-link class="name" :to="{ name: 'singer-id', params: { id: hot.artist[0].id } }">
+          {{ hot.artist[0].name }}
+        </nuxt-link>
         <div class="num">
           <span>单曲 {{ hot.artist[0].musicSize }}</span>
           <span>专辑 {{ hot.artist[0].albumSize }}</span>
           <span>MV {{ hot.artist[0].mvSize }}</span>
           <span>粉丝 {{ hot.artist[0].fansSize }}</span>
         </div>
-        <div class="btn">
+        <div class="btn" @click="playHotSong(hot.artist[0].id)">
           <i class="icon iconfont icon-play"></i>
           <span class="txt">播放歌手热门歌曲</span>
         </div>
@@ -166,6 +169,11 @@ export default {
     enshrineCurrent(msc) {
       this.$store.commit('player/enshrine', msc)
     },
+    // 播放歌手热门歌曲
+    async playHotSong(id) {
+      const songs = await this.getArtist(id)
+      this.$store.commit('player/playAll', { msc: songs[0], list: songs })
+    },
     /**
      * 切换导航
      */
@@ -242,6 +250,13 @@ export default {
           this.hot.artist = result.artist
         }
       })
+    },
+    /**
+     * 获取歌手热门 50 首歌曲
+     */
+    async getArtist(id) {
+      const { hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`)
+      return hotSongs
     }
   },
   created() {
@@ -354,6 +369,7 @@ export default {
         font-size: 16px;
         span {
           margin-right: 24px;
+          font-weight: 500;
         }
       }
 

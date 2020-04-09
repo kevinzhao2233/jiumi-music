@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="content" v-if="error">
+    <div class="content" v-if="error.statusCode">
       <h2>{{error.statusCode}}</h2>
       <span>{{error.message}}</span>
     </div>

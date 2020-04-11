@@ -138,7 +138,7 @@ export default {
       height: 100px;
       top: 40px;
       border-radius: 20%;
-      filter: blur(22px) brightness(105%);
+      filter: blur(22px);
 
       &.more {
         background: 100% / cover url('~static/img/moreThing.png') no-repeat;

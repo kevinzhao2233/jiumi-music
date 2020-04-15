@@ -2,7 +2,7 @@
   <div class="container">
     <Card>
       <h3 slot="title" class="title">每日歌曲推荐</h3>
-      <NoLogin v-if="!isLogin" @has-click="login"/>
+      <NoLogin v-if="!isLogin" @has-click="login" />
       <playlist
         v-else
         :list="mscList"
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     login() {
-      console.log('登录')
+      this.$router.push({ name: 'Login' })
     },
     // 添加音乐到当前播放列表
     addToList(msc) {

@@ -9,7 +9,6 @@ export default function({ $axios, error }) {
     const message = parseInt(err.response && err.response.data.code)
 
     switch (statusCode) {
-      case 400:
       case 404:
       case 500:
         error({ statusCode, message })

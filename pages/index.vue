@@ -13,10 +13,6 @@ import BottomPart from '~/components/explore/BottomPart.vue'
 
 export default {
   async asyncData({ $axios }) {
-    // 登录，将 uid 保存到 localStorage
-    // const login = await $axios.$get('/api/login/cellphone?phone=18793373455&password=kevin1121')
-    // localStorage.setItem('uid', login.account.id)
-    // localStorage.setItem('upro', JSON.stringify(login.profile))
     // 加载 banner图
     const { banners } = await $axios.$get('/api/banner')
     return {

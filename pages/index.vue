@@ -19,15 +19,36 @@ export default {
     // localStorage.setItem('upro', JSON.stringify(login.profile))
     // 加载 banner图
     const { banners } = await $axios.$get('/api/banner')
-    // 加载 推荐歌单
-    const { recommend } = await $axios.$get('/api/recommend/resource')
-
     return {
-      banners,
-      recommendRes: recommend
+      banners
     }
   },
-  data() {},
+  data() {
+    return {
+      recommendRes: []
+    }
+  },
+  methods: {
+    // 获取 推荐歌单 【需要登录】
+    async getRecommendList() {
+      const { recommend } = await this.$axios.$get('/api/recommend/resource')
+      this.recommendRes = recommend
+    },
+    // 获取 热门歌单
+    async getHotList() {
+      const {playlists} = await this.$axios.$get('/api/top/playlist?limit=10')
+      console.log(playlists)
+      this.recommendRes = playlists
+    }
+  },
+  created() {
+    this.getRecommendList().catch(err => {
+      // 如果没有登录，则换几个歌单
+      if (err.response.data.code === 301) {
+        this.getHotList()
+      }
+    })
+  },
   components: {
     Header,
     CenterCard,

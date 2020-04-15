@@ -138,6 +138,10 @@ export default {
   }
 }
 
+.k-box {
+  padding-bottom: 160px;
+}
+
 .content {
   display: flex;
   justify-content: space-between;

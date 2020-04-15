@@ -4,7 +4,7 @@
       <div
         class="img"
         :style="{
-          background: `url(${slide.picUrl}?param=120y132)`,
+          background: `url(${slide.picUrl ? slide.picUrl : slide.coverImgUrl}?param=120y132)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
@@ -13,7 +13,7 @@
       <div
         class="img-bg"
         :style="{
-          background: `url(${slide.picUrl}?param=120y132)`,
+          background: `url(${slide.picUrl ? slide.picUrl : slide.coverImgUrl}?param=120y132)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"

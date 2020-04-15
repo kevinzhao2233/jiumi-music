@@ -2,7 +2,9 @@
   <div class="container">
     <Card>
       <h3 slot="title" class="title">每日歌曲推荐</h3>
+      <NoLogin v-if="!isLogin" @has-click="login"/>
       <playlist
+        v-else
         :list="mscList"
         :pic="true"
         @add="addToList($event)"
@@ -15,23 +17,29 @@
 <script>
 import Card from '~/components/common/Card.vue'
 import Playlist from '~/components/common/Playlist.vue'
+import NoLogin from '~/components/common/NoLogin.vue'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'MusicList',
   components: {
     Card,
-    Playlist
+    Playlist,
+    NoLogin
   },
   data() {
     return {
-      mscList: []
+      mscList: [],
+      isLogin: false
     }
   },
   computed: {
     ...mapState(['todos'])
   },
   methods: {
+    login() {
+      console.log('登录')
+    },
     // 添加音乐到当前播放列表
     addToList(msc) {
       this.$store.commit('player/add', { msc })
@@ -41,16 +49,24 @@ export default {
     },
     enshrineSong(msc) {
       this.$store.commit('player/enshrine', msc)
-    }
-  },
-  mounted() {
-    const getSong = async () => {
+    },
+    /**
+     * 获取推荐歌曲 【需要登录】
+     */
+    async getSong() {
       const { recommend } = await this.$axios.$get('/api/recommend/songs')
       this.$nextTick(() => {
+        this.isLogin = true
         this.mscList = recommend
       })
     }
-    getSong()
+  },
+  created() {
+    this.getSong().catch(err => {
+      if (err.response.data.code === 301) {
+        this.isLogin = false
+      }
+    })
   }
 }
 </script>

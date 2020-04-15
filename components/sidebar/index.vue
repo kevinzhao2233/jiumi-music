@@ -104,7 +104,9 @@ export default {
       this.sidebarList.myCreate.list = createList
       this.sidebarList.myEnshrine.list = enshrineList
     }
-    getUserList()
+    if (uid) {
+      getUserList()
+    }
   }
 }
 </script>

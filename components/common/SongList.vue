@@ -7,16 +7,22 @@
     leave-active-class="animated fadeOut"
   >
     <li class="item" v-for="item in list" :key="item.id">
-      <div
+      <nuxt-link
         class="img"
         :title="item.name"
+        :to="{ name: 'singer-id', params: { id: item.id } }"
         :style="{
           background: `url(${item.img1v1Url}?param=130y144)`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
-      ></div>
-      <span class="name" :title="item.name">{{ item.name }}</span>
+      ></nuxt-link>
+      <nuxt-link
+        class="name"
+        :title="item.name"
+        :to="{ name: 'singer-id', params: { id: item.id } }"
+        >{{ item.name }}</nuxt-link
+      >
     </li>
   </transition-group>
 </template>
@@ -27,7 +33,7 @@ export default {
 
   props: {
     list: {
-      type: Array,
+      type: Array
     }
   }
 }
@@ -52,6 +58,7 @@ export default {
     text-align: center;
 
     .img {
+      display: block;
       width: 130px;
       height: 130px;
       border-radius: 36%;
@@ -70,6 +77,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: $mid-10;
       transition: all 0.2s ease-out;
       cursor: pointer;
 

@@ -6,7 +6,13 @@
     <div class="h-btn-box">
       <Button type="" icon="icon-gear_alt_fill1" title="设置" />
       <Button type="" icon="icon-envelope_fill" title="消息" />
-      <Button type="" icon="icon-person_fill" title="登录/注册" />
+      <Button
+        type=""
+        :icon="upro ? '' : 'icon-person_fill'"
+        :title="upro ? upro.nickname : '登录'"
+        :bgUrl="upro ? upro.avatarUrl : ''"
+        @has-click="clickAvatar"
+      />
     </div>
   </div>
 </template>
@@ -22,8 +28,22 @@ export default {
   },
   data() {
     return {
-      searchRes: ''
+      searchRes: '',
+      upro: null
     }
+  },
+  methods: {
+    clickAvatar() {
+      if (this.upro) {
+        console.log('已经登录，暂时放着')
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
+    }
+  },
+  created() {
+    const upro = localStorage.getItem('upro')
+    if (upro) this.upro = JSON.parse(upro)
   },
   components: {
     Banner,
@@ -46,6 +66,9 @@ export default {
     top: 0;
     right: 0;
     z-index: 10;
+
+    .avatar {
+    }
   }
 }
 </style>

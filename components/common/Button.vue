@@ -1,5 +1,9 @@
 <template>
-  <div :class="`k-box icon ${size} ${type}`" @click="handleClick">
+  <div
+    :class="`k-box icon ${size} ${type}`"
+    @click="handleClick"
+    :style="bgUrl ? { background: `url(${bgUrl}?param=36y36)` }: ''"
+  >
     <i :class="`icon iconfont ${icon}`"></i>
     <i v-if="mark" class="mark __mark">{{ mark > 999 ? '999+' : mark }}</i>
     <slot></slot>
@@ -28,6 +32,9 @@ export default {
     },
     mark: {
       type: Number
+    },
+    bgUrl: {
+      type: String
     }
   },
   methods: {

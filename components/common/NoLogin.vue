@@ -1,18 +1,13 @@
 <template>
   <div class="box">
     这里需要登录哦 φ(゜▽゜*)♪
-    <div class="btn" @click="submit">立马登录</div>
+    <nuxt-link :to="{name: 'Login'}" class="btn">立马登录</nuxt-link>
   </div>
 </template>
 
 <script>
 export default {
   name: 'NoLogin',
-  methods: {
-    submit() {
-      this.$emit('has-click')
-    }
-  }
 }
 </script>
 
@@ -26,6 +21,7 @@ export default {
   color: $main-6;
 
   .btn {
+    display: block;
     margin: 12px auto 0;
     width: 120px;
     height: 40px;

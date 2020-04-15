@@ -2,9 +2,9 @@
   <div class="container">
     <Card>
       <h3 slot="title" class="title">每日歌曲推荐</h3>
-      <NoLogin v-if="!isLogin" @has-click="login" />
+      <NoLogin v-if="loginState === 'noLogin'" />
       <playlist
-        v-else
+        v-if="loginState === 'login'"
         :list="mscList"
         :pic="true"
         @add="addToList($event)"
@@ -30,16 +30,13 @@ export default {
   data() {
     return {
       mscList: [],
-      isLogin: false
+      loginState: ''
     }
   },
   computed: {
     ...mapState(['todos'])
   },
   methods: {
-    login() {
-      this.$router.push({ name: 'Login' })
-    },
     // 添加音乐到当前播放列表
     addToList(msc) {
       this.$store.commit('player/add', { msc })
@@ -56,7 +53,7 @@ export default {
     async getSong() {
       const { recommend } = await this.$axios.$get('/api/recommend/songs')
       this.$nextTick(() => {
-        this.isLogin = true
+        this.loginState = 'login'
         this.mscList = recommend
       })
     }
@@ -64,7 +61,7 @@ export default {
   created() {
     this.getSong().catch(err => {
       if (err.response.data.code === 301) {
-        this.isLogin = false
+        this.loginState = 'noLogin'
       }
     })
   }

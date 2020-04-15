@@ -1575,7 +1575,7 @@
   -webkit-animation-name: fadeInRightBig;
   animation-name: fadeInRightBig;
 } */
-/* 
+
 @-webkit-keyframes fadeInUp {
   from {
     opacity: 0;
@@ -1608,7 +1608,7 @@
   -webkit-animation-name: fadeInUp;
   animation-name: fadeInUp;
 }
-
+/*
 @-webkit-keyframes fadeInUpBig {
   from {
     opacity: 0;

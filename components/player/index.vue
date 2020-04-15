@@ -22,7 +22,7 @@
         :style="{
           background: `100% url(${alPicUrl}?param=46y46) no-repeat`
         }"
-      ></div>
+      ></template>
       <div class="info">
         <span class="msc-name">{{ player.currSong.detail.name }}</span>
         <span class="msc-art">
@@ -32,7 +32,7 @@
           </span>
         </span>
       </div>
-    </div>
+    </template>
     <div class="l-control">
       <Button @has-click="switchSong('prev')" type="primary" icon="icon-backward_end_fill" />
       <Button
@@ -85,10 +85,17 @@
         @has-click="clickList"
       />
     </div>
-    <div class="playlist-box" :style="isShowList ? { height: '360px' } : { height: '0' }">
-      <CurrentPlaylist @close-list="closeList" />
-    </div>
-  </div>
+    <transition
+      v-if="isShowList"
+      tag="div"
+      enter-active-class="animated fadeInUp"
+      leave-active-class="animated fadeOutDown"
+    >
+      <div class="playlist-box">
+        <CurrentPlaylist @close-list="closeList" />
+      </div>
+    </transition>
+  </template>
 </template>
 
 <script>
@@ -202,6 +209,11 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
 @import '~assets/scss/mixins.scss';
+
+// 覆盖动画时常
+.animated {
+  animation-duration: 0.3s;
+}
 
 .player-box {
   position: relative;
@@ -356,12 +368,14 @@ export default {
     bottom: 80px;
     margin-right: 48px;
     width: 450px;
+    height: 400px;
     background-color: $mid-1;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     box-shadow: 0 -8px 24px -2px $mid-3;
     transition: height 0.3s ease;
     overflow: hidden;
+    z-index: -1;
   }
 }
 </style>

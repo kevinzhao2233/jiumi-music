@@ -155,7 +155,7 @@ export default {
 
 .list-box {
   padding: 0 8px 40px 8px;
-  height: 296px;
+  height: 336px;
   border-top: 1px solid $main-2;
   overflow-x: hidden;
   overflow-y: auto;

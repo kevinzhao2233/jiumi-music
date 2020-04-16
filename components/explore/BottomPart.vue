@@ -9,8 +9,8 @@
   </div>
 </template>
 <script>
-import MusicList from '~/components/explore/MusicList.vue'
-import Ranking from '~/components/explore/Ranking.vue'
+import MusicList from '~/components/explore/MusicList.vue';
+import Ranking from '~/components/explore/Ranking.vue';
 
 export default {
   name: 'BottomPart',
@@ -18,7 +18,7 @@ export default {
     MusicList,
     Ranking
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';

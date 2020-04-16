@@ -24,38 +24,38 @@ export default {
         password: ''
       },
       error: ''
-    }
+    };
   },
 
   methods: {
     async handleLogin() {
-      let loginRes
+      let loginRes;
       if (this.login.user.includes('@')) {
         loginRes = await this.$axios.$post('/api/login', {
           email: this.login.user,
           password: this.login.password,
           timestamp: Date.parse(new Date()) / 1000
-        })
+        });
       } else {
         loginRes = await this.$axios.$post('/api/login/cellphone', {
           phone: this.login.user,
           password: this.login.password,
           timestamp: Date.parse(new Date()) / 1000
-        })
+        });
       }
-      console.log(loginRes)
-      localStorage.setItem('uid', loginRes.account.id)
-      localStorage.setItem('upro', JSON.stringify(loginRes.profile))
-      this.$router.back()
+      console.log(loginRes);
+      localStorage.setItem('uid', loginRes.account.id);
+      localStorage.setItem('upro', JSON.stringify(loginRes.profile));
+      this.$router.back();
     },
     submit() {
-      this.error = ''
+      this.error = '';
       this.handleLogin().catch(err => {
-        if (err.response.data.code === 400) this.error = '账号或密码错误'
-      })
+        if (err.response.data.code === 400) this.error = '账号或密码错误';
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import Banner from '~/components/explore/Banner.vue'
-import Button from '~/components/common/Button.vue'
+import Banner from '~/components/explore/Banner.vue';
+import Button from '~/components/common/Button.vue';
 
 export default {
   name: 'Header',
@@ -30,26 +30,26 @@ export default {
     return {
       searchRes: '',
       upro: null
-    }
+    };
   },
   methods: {
     clickAvatar() {
       if (this.upro) {
-        console.log('已经登录，暂时放着')
+        console.log('已经登录，暂时放着');
       } else {
-        this.$router.push({ name: 'Login' })
+        this.$router.push({ name: 'Login' });
       }
     }
   },
   created() {
-    const upro = localStorage.getItem('upro')
-    if (upro) this.upro = JSON.parse(upro)
+    const upro = localStorage.getItem('upro');
+    if (upro) this.upro = JSON.parse(upro);
   },
   components: {
     Banner,
     Button
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

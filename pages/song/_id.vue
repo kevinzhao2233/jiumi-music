@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import Card from '~/components/common/Card.vue'
+import Card from '~/components/common/Card.vue';
 
 export default {
   components: {
@@ -101,41 +101,41 @@ export default {
       lrc: '',
       simiSongs: [],
       simiPlaylists: []
-    }
+    };
   },
   methods: {
     async getSong(id) {
-      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`)
+      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
       this.$nextTick(() => {
-        this.song = songs[0]
-      })
+        this.song = songs[0];
+      });
     },
     async getLrc(id) {
-      const { lrc } = await this.$axios.$get(`/api/lyric?id=${id}`)
+      const { lrc } = await this.$axios.$get(`/api/lyric?id=${id}`);
       this.$nextTick(() => {
-        this.lrc = lrc.lyric.replace(/\[(.+)\]/g, '')
-      })
+        this.lrc = lrc.lyric.replace(/\[(.+)\]/g, '');
+      });
     },
     async getSimiPlaylists(id) {
-      const { playlists } = await this.$axios.$get(`/api/simi/playlist?id=${id}`)
+      const { playlists } = await this.$axios.$get(`/api/simi/playlist?id=${id}`);
       this.$nextTick(() => {
-        this.simiPlaylists = playlists
-      })
+        this.simiPlaylists = playlists;
+      });
     },
     async getSimiSongs(id) {
-      const { songs } = await this.$axios.$get(`/api/simi/song?id=${id}`)
+      const { songs } = await this.$axios.$get(`/api/simi/song?id=${id}`);
       this.$nextTick(() => {
-        this.simiSongs = songs
-      })
+        this.simiSongs = songs;
+      });
     }
   },
   mounted() {
-    this.getSong(this.$route.params.id)
-    this.getLrc(this.$route.params.id)
-    this.getSimiPlaylists(this.$route.params.id)
+    this.getSong(this.$route.params.id);
+    this.getLrc(this.$route.params.id);
+    this.getSimiPlaylists(this.$route.params.id);
     // this.getSimiSongs(this.$route.params.id)
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

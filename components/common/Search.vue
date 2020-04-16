@@ -39,45 +39,45 @@ export default {
       isHover: false,
       inputData: '',
       timer: null
-    }
+    };
   },
   methods: {
     changeInputState(value) {
       switch (value) {
         case 'focus':
-          this.isFocused = true
-          break
+          this.isFocused = true;
+          break;
         case 'blur':
-          this.isHover = false
-          this.isFocused = false
-          break
+          this.isHover = false;
+          this.isFocused = false;
+          break;
         case 'hover':
-          this.isHover = true
-          this.$refs.input.focus()
-          break
+          this.isHover = true;
+          this.$refs.input.focus();
+          break;
         case 'leave':
           if (this.inputData === '') {
-            this.isHover = false
+            this.isHover = false;
           }
-          break
+          break;
       }
     },
     // 防抖处理
     handleInput() {
-      const timeout = 200
+      const timeout = 200;
       if (this.timer) {
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
       }
       this.timer = setTimeout(() => {
-        this.submit()
-      }, timeout)
+        this.submit();
+      }, timeout);
     },
     // 提交搜索
     submit() {
-      this.$emit('submit', this.inputData)
+      this.$emit('submit', this.inputData);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

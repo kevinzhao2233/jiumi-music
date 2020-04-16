@@ -30,7 +30,7 @@
   </swiper>
 </template>
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 export default {
   name: 'EcSlider',
@@ -53,37 +53,37 @@ export default {
         }
       },
       resizeTimer: null // 计时器
-    }
+    };
   },
   methods: {
     handleSwiper(direction) {
       if (direction === 'prev') {
-        this.$refs.ecSwiper.swiper.slidePrev()
+        this.$refs.ecSwiper.swiper.slidePrev();
       } else if (direction === 'next') {
-        this.$refs.ecSwiper.swiper.slideNext()
+        this.$refs.ecSwiper.swiper.slideNext();
       }
-      this.updateSwiperState()
+      this.updateSwiperState();
     },
     // 更新轮播状态
     updateSwiperState() {
       if (this.$refs.ecSwiper.swiper) {
-        const swiper = this.$refs.ecSwiper.swiper
-        const isBeginning = swiper.isBeginning
-        const isEnd = swiper.isEnd
-        this.$emit('judge-swiper-state', { isBeginning, isEnd })
+        const swiper = this.$refs.ecSwiper.swiper;
+        const isBeginning = swiper.isBeginning;
+        const isEnd = swiper.isEnd;
+        this.$emit('judge-swiper-state', { isBeginning, isEnd });
       }
     },
     goPlaylistDetail(id) {
-      this.$router.push({ name: 'playlist-id', params: { id: id } })
+      this.$router.push({ name: 'playlist-id', params: { id: id } });
     },
     // resize 的时候，函数防抖
     resizeWin() {
       if (this.resizeTimer) {
-        clearTimeout(this.resizeTimer)
+        clearTimeout(this.resizeTimer);
       }
       this.resizeTimer = setTimeout(() => {
-        this.updateSwiperState()
-      }, 400)
+        this.updateSwiperState();
+      }, 400);
     }
   },
   components: {
@@ -91,13 +91,13 @@ export default {
     swiperSlide
   },
   mounted() {
-    this.updateSwiperState()
-    window.addEventListener('resize', this.resizeWin)
+    this.updateSwiperState();
+    window.addEventListener('resize', this.resizeWin);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.resizeWin)
+    window.removeEventListener('resize', this.resizeWin);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

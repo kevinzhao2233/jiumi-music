@@ -2,7 +2,7 @@
   <div
     :class="`k-box icon ${size} ${type}`"
     @click="handleClick"
-    :style="bgUrl ? { background: `url(${bgUrl}?param=36y36)` }: ''"
+    :style="bgUrl ? { background: `url(${bgUrl}?param=36y36)` } : ''"
   >
     <i :class="`icon iconfont ${icon}`"></i>
     <i v-if="mark" class="mark __mark">{{ mark > 999 ? '999+' : mark }}</i>
@@ -17,9 +17,9 @@ export default {
     size: {
       validator: function(value) {
         if (typeof value === 'undefined') {
-          return 1
+          return 1;
         } else {
-          return typeof value === 'string' && ['large', 'small'].indexOf(value) !== -1
+          return typeof value === 'string' && ['large', 'small'].indexOf(value) !== -1;
         }
       }
     },
@@ -39,10 +39,10 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$emit('has-click')
+      this.$emit('has-click');
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

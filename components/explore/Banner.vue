@@ -15,12 +15,12 @@
   </swiper>
 </template>
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 export default {
   name: 'Banner',
   props: {
-    banners: Array,
+    banners: Array
   },
   data() {
     return {
@@ -40,13 +40,13 @@ export default {
           prevEl: '.swiper-button-prev'
         }
       }
-    }
+    };
   },
   components: {
     swiper,
     swiperSlide
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

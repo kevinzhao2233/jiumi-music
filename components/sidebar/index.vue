@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import List from './List.vue'
+import List from './List.vue';
 
 export default {
   name: 'Sidebar',
@@ -88,27 +88,27 @@ export default {
       settings: {
         tagname: 'div'
       }
-    }
+    };
   },
 
   created() {
-    const uid = localStorage.getItem('uid')
+    const uid = localStorage.getItem('uid');
     const getUserList = async () => {
-      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`)
+      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`);
       const createList = playlist.filter((data, index) => {
-        return data.userId.toString() === uid && index > 0
-      })
+        return data.userId.toString() === uid && index > 0;
+      });
       const enshrineList = playlist.filter(data => {
-        return data.userId.toString() !== uid
-      })
-      this.sidebarList.myCreate.list = createList
-      this.sidebarList.myEnshrine.list = enshrineList
-    }
+        return data.userId.toString() !== uid;
+      });
+      this.sidebarList.myCreate.list = createList;
+      this.sidebarList.myEnshrine.list = enshrineList;
+    };
     if (uid) {
-      getUserList()
+      getUserList();
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

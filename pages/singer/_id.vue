@@ -41,12 +41,7 @@
       <Card class="card">
         <h3 slot="title" class="title">热门歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist
-          :list="hotSongs"
-          @add="addintoList"
-          @play="playAll"
-          @enshrine="enshrineCurrent"
-        />
+        <Playlist :list="hotSongs" @add="addintoList" @play="playAll" @enshrine="enshrineCurrent" />
       </Card>
       <Card class="card">
         <h3 slot="title" class="title">专辑</h3>
@@ -58,9 +53,9 @@
 </template>
 
 <script>
-import Card from '~/components/common/Card.vue'
-import Playlist from '~/components/common/Playlist.vue'
-import AlbumList from '~/components/common/AlbumList.vue'
+import Card from '~/components/common/Card.vue';
+import Playlist from '~/components/common/Playlist.vue';
+import AlbumList from '~/components/common/AlbumList.vue';
 
 export default {
   components: {
@@ -75,7 +70,7 @@ export default {
       albums: {},
       mvs: {},
       story: {}
-    }
+    };
   },
   methods: {
     /**
@@ -83,47 +78,47 @@ export default {
      */
     // 添加到播放列表（下一曲播放）
     addintoList(msc) {
-      this.$store.commit('player/add', { msc })
+      this.$store.commit('player/add', { msc });
     },
     // 播放所有
     playAll(msc) {
-      this.$store.commit('player/playAll', { msc, list: this.hotSongs })
+      this.$store.commit('player/playAll', { msc, list: this.hotSongs });
     },
     // 收藏
     enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc)
+      this.$store.commit('player/enshrine', msc);
     },
 
     /**
      * 异步获取数据
      */
     async getArtist(id) {
-      const { artist, hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`)
+      const { artist, hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`);
       this.$nextTick(() => {
-        console.log(artist)
-        this.artist = artist
-        this.hotSongs = hotSongs
-      })
+        console.log(artist);
+        this.artist = artist;
+        this.hotSongs = hotSongs;
+      });
     },
     async getAlbum(id) {
-      const { hotAlbums } = await this.$axios.$get(`/api/artist/album?id=${id}`)
+      const { hotAlbums } = await this.$axios.$get(`/api/artist/album?id=${id}`);
       this.$nextTick(() => {
-        this.albums = hotAlbums
-      })
+        this.albums = hotAlbums;
+      });
     },
     async getMV(id) {
-      const { mvs } = await this.$axios.$get(`/api/artist/mv?id=${id}`)
+      const { mvs } = await this.$axios.$get(`/api/artist/mv?id=${id}`);
       this.$nextTick(() => {
-        this.mvs = mvs
-      })
+        this.mvs = mvs;
+      });
     }
   },
   mounted() {
-    this.getArtist(this.$route.params.id)
-    this.getAlbum(this.$route.params.id)
-    this.getMV(this.$route.params.id)
+    this.getArtist(this.$route.params.id);
+    this.getAlbum(this.$route.params.id);
+    this.getMV(this.$route.params.id);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

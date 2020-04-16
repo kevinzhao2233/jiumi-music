@@ -66,24 +66,24 @@ export default {
   },
   methods: {
     formateTime(duration) {
-      const min = Math.floor(duration / 60000)
-      const fMin = min > 9 ? min : '0' + min
-      const sec = Math.floor((duration / 1000) % 60)
-      const fSec = sec > 9 ? sec : '0' + sec
-      return `${fMin}:${fSec}`
+      const min = Math.floor(duration / 60000);
+      const fMin = min > 9 ? min : '0' + min;
+      const sec = Math.floor((duration / 1000) % 60);
+      const fSec = sec > 9 ? sec : '0' + sec;
+      return `${fMin}:${fSec}`;
     },
     // 点击了添加按钮
     add(id) {
-      this.$emit('add', id)
+      this.$emit('add', id);
     },
     play(id) {
-      this.$emit('play', id)
+      this.$emit('play', id);
     },
     enshrine(id) {
-      this.$emit('enshrine', id)
+      this.$emit('enshrine', id);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

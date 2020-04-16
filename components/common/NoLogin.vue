@@ -1,14 +1,14 @@
 <template>
   <div class="box">
     这里需要登录哦 φ(゜▽゜*)♪
-    <nuxt-link :to="{name: 'Login'}" class="btn">立马登录</nuxt-link>
+    <nuxt-link :to="{ name: 'Login' }" class="btn">立马登录</nuxt-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NoLogin',
-}
+  name: 'NoLogin'
+};
 </script>
 
 <style lang="scss" scoped>

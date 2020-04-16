@@ -99,10 +99,10 @@
 </template>
 
 <script>
-import Button from '~/components/common/Button.vue'
-import Slider from '~/components/common/Slider.vue'
-import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue'
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import Button from '~/components/common/Button.vue';
+import Slider from '~/components/common/Slider.vue';
+import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'Player',
@@ -115,7 +115,7 @@ export default {
       isShowVolPanel: false,
       isMusicPage: false,
       alPicUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
-    }
+    };
   },
 
   computed: {
@@ -124,7 +124,7 @@ export default {
       mscTime: 'player/mscTime'
     }),
     currSongId() {
-      return this.player.currSong.id
+      return this.player.currSong.id;
     }
   },
 
@@ -132,7 +132,7 @@ export default {
     currSongId(newVal, oldVal) {
       if (newVal !== 0 && newVal !== oldVal) {
         // 获取封面
-        this.getPic(newVal)
+        this.getPic(newVal);
       }
     }
   },
@@ -145,56 +145,56 @@ export default {
     }),
     // 获取歌曲封面
     async getPic(id) {
-      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`)
+      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
       this.$nextTick(() => {
-        this.alPicUrl = songs[0].al.picUrl
-      })
+        this.alPicUrl = songs[0].al.picUrl;
+      });
     },
     // 点击歌曲封面
     clickCover() {
-      console.log('点击了歌曲封面')
-      this.isMusicPage = !this.isMusicPage
+      console.log('点击了歌曲封面');
+      this.isMusicPage = !this.isMusicPage;
     },
     // 选中进度滑块
     selectSlider(e) {
       if (this.player.list.length > 0) {
         // 禁止自动更改进度条
-        this.$store.dispatch({ type: 'player/updatePrg', mark: true })
+        this.$store.dispatch({ type: 'player/updatePrg', mark: true });
       }
     },
     // 调整音乐进度
     adjustMscPosition(value) {
-      this.$store.commit('player/updateProgress', value)
-      this.$store.dispatch({ type: 'player/updatePrg' })
+      this.$store.commit('player/updateProgress', value);
+      this.$store.dispatch({ type: 'player/updatePrg' });
     },
     // 暂停播放
     playOrPause() {
       if (this.player.audio) {
         if (this.player.audio.paused) {
-          this.$store.commit('player/play')
+          this.$store.commit('player/play');
         } else {
-          this.$store.commit('player/pause')
+          this.$store.commit('player/pause');
         }
       }
     },
     cliskVolPanel() {
-      this.isShowVolPanel = !this.isShowVolPanel
+      this.isShowVolPanel = !this.isShowVolPanel;
     },
     closeVolPanel() {
-      this.isShowVolPanel = false
+      this.isShowVolPanel = false;
     },
     // 点击歌单按钮
     clickList() {
-      this.isShowList = !this.isShowList
+      this.isShowList = !this.isShowList;
     },
     closeList() {
-      this.isShowList = false
+      this.isShowList = false;
     }
   },
 
   mounted() {
     if (this.player.list.length > 0 && this.alPicUrl.includes('img-bed')) {
-      this.getPic(this.player.currSong.id)
+      this.getPic(this.player.currSong.id);
     }
   },
 
@@ -203,7 +203,7 @@ export default {
     Slider,
     CurrentPlaylist
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

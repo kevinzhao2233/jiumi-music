@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import PlaylistItem from './PlaylistItem.vue'
+import PlaylistItem from './PlaylistItem.vue';
 
 export default {
   name: 'Playlist',
@@ -52,22 +52,22 @@ export default {
   methods: {
     // 点击了添加按钮
     add(id) {
-      const msc = this.list.find(item => item.id === id)
-      this.$emit('add', msc)
+      const msc = this.list.find(item => item.id === id);
+      this.$emit('add', msc);
     },
     play(id) {
-      const msc = this.list.find(item => item.id === id)
-      this.$emit('play', msc)
+      const msc = this.list.find(item => item.id === id);
+      this.$emit('play', msc);
     },
     enshrine(id) {
-      const msc = this.list.find(item => item.id === id)
-      this.$emit('enshrine', msc)
+      const msc = this.list.find(item => item.id === id);
+      this.$emit('enshrine', msc);
     }
   },
   components: {
     PlaylistItem
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

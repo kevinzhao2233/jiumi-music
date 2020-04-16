@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="content" v-if="error.statusCode">
-      <h2>{{error.statusCode}}</h2>
-      <span>{{error.message}}</span>
+      <h2>{{ error.statusCode }}</h2>
+      <span>{{ error.message }}</span>
     </div>
   </div>
 </template>
@@ -10,9 +10,9 @@
 export default {
   props: ['error'],
   mounted() {
-    console.log(this.error)
+    console.log(this.error);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

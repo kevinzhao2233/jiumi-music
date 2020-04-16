@@ -12,7 +12,7 @@ const defaultCurrSong = {
     artists: ['--', '---'],
     duration: 0
   }
-}
+};
 
 export const state = () => ({
   audio: null,
@@ -23,30 +23,30 @@ export const state = () => ({
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: [],
   upro: JSON.parse(localStorage.getItem('upro'))
-})
+});
 
 export const getters = {
   /**
    * 进度条两侧的时间
    */
   mscTime(state) {
-    const { duration, currentTime } = state.currSong.time
+    const { duration, currentTime } = state.currSong.time;
     if (duration && currentTime) {
       const viewSec = sec => {
-        const s = Math.floor(sec % 60)
-        return s < 10 ? `0${s}` : s
-      }
-      const currTime = `${Math.floor(currentTime / 60)}:${viewSec(currentTime)}`
-      const totalTime = `${Math.floor(duration / 60)}:${viewSec(duration)}`
-      const progress = currentTime / duration
-      return { currTime, totalTime, progress }
+        const s = Math.floor(sec % 60);
+        return s < 10 ? `0${s}` : s;
+      };
+      const currTime = `${Math.floor(currentTime / 60)}:${viewSec(currentTime)}`;
+      const totalTime = `${Math.floor(duration / 60)}:${viewSec(duration)}`;
+      const progress = currentTime / duration;
+      return { currTime, totalTime, progress };
     }
-    const currTime = '00:00'
-    const totalTime = '00:00'
-    const progress = 0
-    return { currTime, totalTime, progress }
+    const currTime = '00:00';
+    const totalTime = '00:00';
+    const progress = 0;
+    return { currTime, totalTime, progress };
   }
-}
+};
 
 export const mutations = {
   /**
@@ -56,29 +56,29 @@ export const mutations = {
    */
   add(state, { msc: { id, name, artists, duration, ar, dt, fee }, type }) {
     if (!duration && dt) {
-      artists = ar
-      duration = dt
+      artists = ar;
+      duration = dt;
     }
     //需要添加的歌曲在播放列表中的 index
-    const songIndex = state.list.findIndex(item => item.id === id)
+    const songIndex = state.list.findIndex(item => item.id === id);
     // 当前播放的歌曲的 index
-    const currentIndex = state.list.findIndex(item => item.id === state.currSong.id)
+    const currentIndex = state.list.findIndex(item => item.id === state.currSong.id);
     if (songIndex >= 0) {
       // 如果已经存在，那就剪切到下一首
-      const song = state.list.splice(songIndex, 1)
-      state.list.splice(currentIndex + 1, 0, song[0])
+      const song = state.list.splice(songIndex, 1);
+      state.list.splice(currentIndex + 1, 0, song[0]);
     } else {
       // 格式化时间
-      let formatDuration = ''
-      const time = duration / 60000
-      const int = parseInt(time)
-      const dec = parseInt((time - int) * 60)
-      formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`
+      let formatDuration = '';
+      const time = duration / 60000;
+      const int = parseInt(time);
+      const dec = parseInt((time - int) * 60);
+      formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`;
       // 歌手
-      const art = []
+      const art = [];
       artists.map(item => {
-        art.push(item.name)
-      })
+        art.push(item.name);
+      });
       // 打包
       const music = {
         id,
@@ -87,17 +87,17 @@ export const mutations = {
         duration,
         artists: art,
         formatDuration
-      }
+      };
       if (type === 'push') {
-        state.list.push(music)
+        state.list.push(music);
       } else {
         // 插入到下一首
-        state.list.splice(currentIndex + 1, 0, music)
+        state.list.splice(currentIndex + 1, 0, music);
       }
 
       // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
       if (state.list.length === 1) {
-        this.commit('player/loadSong', id)
+        this.commit('player/loadSong', id);
       }
     }
   },
@@ -108,13 +108,13 @@ export const mutations = {
    * @param {*} id 需要删除的歌曲 id
    */
   remove(state, id) {
-    if(id === state.currSong.id){
-      this.commit('player/switchSong', 'next')
+    if (id === state.currSong.id) {
+      this.commit('player/switchSong', 'next');
     }
     state.list.splice(
       state.list.findIndex(item => item.id === id),
       1
-    )
+    );
   },
 
   /**
@@ -122,11 +122,11 @@ export const mutations = {
    * @param {*} state
    */
   removeAll(state) {
-    state.list = []
+    state.list = [];
     if (state.audio) {
-      this.commit('player/pause')
-      state.audio = null
-      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
+      this.commit('player/pause');
+      state.audio = null;
+      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong));
     }
   },
 
@@ -136,11 +136,11 @@ export const mutations = {
    * @param {msc, list} param1 msc为点击播放后当前需要播放的歌曲， list为整个歌单列表
    */
   playAll(state, { msc, list }) {
-    this.commit('player/removeAll')
+    this.commit('player/removeAll');
     for (const item of list) {
-      this.commit('player/add', { msc: item, type: 'push' })
+      this.commit('player/add', { msc: item, type: 'push' });
     }
-    this.commit('player/loadSong', msc.id)
+    this.commit('player/loadSong', msc.id);
   },
 
   /**
@@ -149,7 +149,7 @@ export const mutations = {
    * @param {*} msc 需要收藏个歌曲
    */
   enshrine(state, msc) {
-    console.log('收藏该曲', msc)
+    console.log('收藏该曲', msc);
   },
 
   /**
@@ -160,30 +160,30 @@ export const mutations = {
   loadSong(state, id) {
     // 清空audio
     if (state.audio) {
-      this.commit('player/pause')
-      state.audio = null
-      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong))
+      this.commit('player/pause');
+      state.audio = null;
+      state.currSong = JSON.parse(JSON.stringify(defaultCurrSong));
     }
-    state.audio = new Audio()
-    state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    state.audio = new Audio();
+    state.audio.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
     // 将当前要播放的音乐信息缓存起来，减少一次异步请求
-    const msc = state.list.find(item => item.id === id)
-    state.currSong.detail = msc
-    state.currSong.id = id
+    const msc = state.list.find(item => item.id === id);
+    state.currSong.detail = msc;
+    state.currSong.id = id;
     state.audio.addEventListener('canplaythrough', () => {
-      this.commit('player/play')
-    })
+      this.commit('player/play');
+    });
     state.audio.addEventListener('error', () => {
-      console.log(state.audio.error, msc.fee)
+      console.log(state.audio.error, msc.fee);
       if (state.audio.error && state.audio.error.code === 4) {
         // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
         if (state.list.length > 1 && state.setting.mode > 1) {
-          this.commit('player/switchSong', 'next')
+          this.commit('player/switchSong', 'next');
         } else {
-          alert('歌曲无法播放')
+          alert('歌曲无法播放');
         }
       }
-    })
+    });
   },
 
   /**
@@ -192,20 +192,20 @@ export const mutations = {
    * @param {*} id 需要播放的歌曲id
    */
   play(state) {
-    state.audio.play()
-    state.currSong.isPlay = true
-    this.commit('player/listenerAudio')
-    this.commit('player/changeVol', state.setting.vol)
-    this.dispatch({ type: 'player/updatePrg' })
+    state.audio.play();
+    state.currSong.isPlay = true;
+    this.commit('player/listenerAudio');
+    this.commit('player/changeVol', state.setting.vol);
+    this.dispatch({ type: 'player/updatePrg' });
   },
 
   /**
    * 暂停
    */
   pause(state) {
-    state.audio.pause()
-    state.currSong.isPlay = false
-    this.dispatch({ type: 'player/updatePrg' })
+    state.audio.pause();
+    state.currSong.isPlay = false;
+    this.dispatch({ type: 'player/updatePrg' });
   },
 
   /**
@@ -213,9 +213,9 @@ export const mutations = {
    */
   listenerAudio(state) {
     state.audio.addEventListener('ended', () => {
-      this.commit('player/pause')
-      this.commit('player/switchSong', 'next')
-    })
+      this.commit('player/pause');
+      this.commit('player/switchSong', 'next');
+    });
   },
 
   /**
@@ -224,15 +224,15 @@ export const mutations = {
    * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度时间
    */
   updateProgress(state, setTime) {
-    const time = state.currSong.time
-    time.duration = Math.floor(state.audio.duration)
+    const time = state.currSong.time;
+    time.duration = Math.floor(state.audio.duration);
     if (setTime) {
-      state.audio.currentTime = setTime * time.duration
-      time.currentTime = Math.floor(setTime * time.duration)
+      state.audio.currentTime = setTime * time.duration;
+      time.currentTime = Math.floor(setTime * time.duration);
     } else {
-      time.currentTime = Math.floor(state.audio.currentTime)
+      time.currentTime = Math.floor(state.audio.currentTime);
     }
-    time.progress = Math.floor(time.currentTime / time.duration) / 100
+    time.progress = Math.floor(time.currentTime / time.duration) / 100;
   },
 
   /**
@@ -242,37 +242,37 @@ export const mutations = {
   switchSong(state, direction) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
-      alert('歌单里没有歌，添加一首再播放吧')
+      alert('歌单里没有歌，添加一首再播放吧');
     } else {
       switch (state.setting.mode) {
         case 1:
-          state.audio.load()
-          break
+          state.audio.load();
+          break;
         case 2:
-          const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-          let switchIndex
+          const currIndex = state.list.findIndex(item => item.id === state.currSong.id);
+          let switchIndex;
           if (direction === 'next') {
             // 下一曲
-            switchIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1
+            switchIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1;
           } else if (direction === 'prev') {
             // 上一曲
-            switchIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1
+            switchIndex = currIndex === 0 ? state.list.length - 1 : currIndex - 1;
           }
-          this.commit('player/loadSong', state.list[switchIndex].id)
-          break
+          this.commit('player/loadSong', state.list[switchIndex].id);
+          break;
         case 3:
           if (state.list.length > 1) {
-            let randomNum = 0
-            const currIndex = state.list.findIndex(item => item.id === state.currSong.id)
-            randomNum = Math.floor(Math.random() * state.list.length)
+            let randomNum = 0;
+            const currIndex = state.list.findIndex(item => item.id === state.currSong.id);
+            randomNum = Math.floor(Math.random() * state.list.length);
             while (randomNum === currIndex) {
-              randomNum = Math.floor(Math.random() * state.list.length)
+              randomNum = Math.floor(Math.random() * state.list.length);
             }
-            this.commit('player/loadSong', state.list[randomNum].id)
+            this.commit('player/loadSong', state.list[randomNum].id);
           } else {
-            state.audio.load()
+            state.audio.load();
           }
-          break
+          break;
       }
     }
   },
@@ -281,7 +281,7 @@ export const mutations = {
    * 改变播放模式（单曲循环，顺序播放， 随机播放）
    */
   switchMode(state) {
-    state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1
+    state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1;
   },
 
   /**
@@ -290,15 +290,15 @@ export const mutations = {
    * @param {*} value 要设置的音量
    */
   changeVol(state, value) {
-    state.setting.vol = value
+    state.setting.vol = value;
     if (state.currSong.isPlay) {
-      state.audio.volume = value
+      state.audio.volume = value;
     }
   }
-}
+};
 
 // setInterval 实例
-let progessInterval = null
+let progessInterval = null;
 export const actions = {
   /**
    * 更新进度条
@@ -306,18 +306,18 @@ export const actions = {
    * @param {*} param1 标记，为 true 则停止进度，为空或 false 则为更新进度条
    */
   updatePrg({ state }, { mark }) {
-    clearInterval(progessInterval)
+    clearInterval(progessInterval);
     if (mark) {
-      clearInterval(progessInterval)
+      clearInterval(progessInterval);
     } else {
       if (!state.audio.paused) {
-        this.commit('player/updateProgress')
+        this.commit('player/updateProgress');
         progessInterval = setInterval(() => {
-          this.commit('player/updateProgress')
-        }, 1000)
+          this.commit('player/updateProgress');
+        }, 1000);
       } else {
-        clearInterval(progessInterval)
+        clearInterval(progessInterval);
       }
     }
   }
-}
+};

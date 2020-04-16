@@ -94,10 +94,10 @@
 </template>
 
 <script>
-import Inputbar from '~/components/common/Inputbar.vue'
-import Playlist from '~/components/common/Playlist.vue'
-import SongList from '~/components/common/SongList.vue'
-import AlbumList from '~/components/common/AlbumList.vue'
+import Inputbar from '~/components/common/Inputbar.vue';
+import Playlist from '~/components/common/Playlist.vue';
+import SongList from '~/components/common/SongList.vue';
+import AlbumList from '~/components/common/AlbumList.vue';
 
 export default {
   components: {
@@ -148,7 +148,7 @@ export default {
       hot: {
         artist: []
       }
-    }
+    };
   },
   methods: {
     /**
@@ -156,114 +156,114 @@ export default {
      */
     // 添加到播放列表（下一曲播放）
     addintoList(msc) {
-      this.$store.commit('player/add', { msc })
+      this.$store.commit('player/add', { msc });
     },
     // 播放当前歌曲
     playCurrent(msc) {
-      this.$store.commit('player/add', { msc })
+      this.$store.commit('player/add', { msc });
       this.$nextTick(() => {
-        this.$store.commit('player/switchSong', 'next')
-      })
+        this.$store.commit('player/switchSong', 'next');
+      });
     },
     // 收藏
     enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc)
+      this.$store.commit('player/enshrine', msc);
     },
     // 播放歌手热门歌曲
     async playHotSong(id) {
-      const songs = await this.getArtist(id)
-      this.$store.commit('player/playAll', { msc: songs[0], list: songs })
+      const songs = await this.getArtist(id);
+      this.$store.commit('player/playAll', { msc: songs[0], list: songs });
     },
     /**
      * 切换导航
      */
     toggleNav(id) {
-      const temp = this.currNav
-      this.currNav = id
+      const temp = this.currNav;
+      this.currNav = id;
       if (this.inputValue && temp !== id) {
-        this.launchSearch(this.inputValue)
+        this.launchSearch(this.inputValue);
       }
     },
     /**
      * 点击热搜或历史搜索
      */
     handleSearch(keyword) {
-      this.inputValue = keyword
-      this.getList(keyword)
+      this.inputValue = keyword;
+      this.getList(keyword);
     },
     /**
      * 获取搜索框下的搜索建议
      */
     getSuggest(keyword) {
-      this.inputValue = keyword
+      this.inputValue = keyword;
     },
     /**
      * 发起搜索
      */
     launchSearch(keyword) {
-      this.getHotSonger(keyword)
-      this.getList(keyword)
+      this.getHotSonger(keyword);
+      this.getList(keyword);
     },
     /**
      * 获取搜索结果列表
      */
     async getList(keyword) {
-      this.loading = true
-      this.songsResult = []
+      this.loading = true;
+      this.songsResult = [];
       const { result } = await this.$axios.$get(
         `/api/search?keywords=${keyword}&type=${this.currNav}&limit=50`
-      )
+      );
       this.$nextTick(() => {
-        console.log('搜索结果', result)
-        this.loading = false
+        console.log('搜索结果', result);
+        this.loading = false;
         switch (this.currNav) {
           case 1:
-            this.searchContent[1].list = result.songs
-            break
+            this.searchContent[1].list = result.songs;
+            break;
           case 10:
-            this.searchContent[10].list = result.albums
-            break
+            this.searchContent[10].list = result.albums;
+            break;
           case 100:
-            this.searchContent[100].list = result.artists
-            break
+            this.searchContent[100].list = result.artists;
+            break;
         }
-      })
+      });
     },
     /**
      * 获取热搜关键词，将前 6 个存起来（对，我就是意思一下）
      */
     async getHotSearch() {
-      const { result } = await this.$axios.$get(`/api/search/hot`)
+      const { result } = await this.$axios.$get(`/api/search/hot`);
       this.$nextTick(() => {
         result.hots.map((item, index) => {
-          if (index < 6) this.hotSearch.push(item.first)
-        })
-      })
+          if (index < 6) this.hotSearch.push(item.first);
+        });
+      });
     },
     /**
      * 相当于智能推荐，暂时只有匹配歌手，以后看情况添加 MV，专辑等等
      */
     async getHotSonger(keyword) {
-      const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`)
+      const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`);
       this.$nextTick(() => {
         if (result.artist) {
-          this.hot.artist = result.artist
+          this.hot.artist = result.artist;
         }
-      })
+      });
     },
     /**
      * 获取歌手热门 50 首歌曲
      */
     async getArtist(id) {
-      const { hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`)
-      return hotSongs
+      const { hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`);
+      return hotSongs;
     }
   },
   created() {
     // 获取热搜
-    this.getHotSearch()
+    this.getHotSearch();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

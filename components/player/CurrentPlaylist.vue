@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import CPlaylistItem from './CPlaylistItem.vue'
-import Card from '~/components/common/Card.vue'
-import { mapState, mapMutations } from 'vuex'
+import CPlaylistItem from './CPlaylistItem.vue';
+import Card from '~/components/common/Card.vue';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'CurrentPlaylist',
@@ -66,7 +66,7 @@ export default {
       play: 'player/loadSong'
     }),
     closeList() {
-      this.$emit('close-list')
+      this.$emit('close-list');
     }
   },
   mounted() {
@@ -79,15 +79,15 @@ export default {
         e.target.id !== 'playerPlaylistBtn'
       ) {
         // 如果点击的target不是这个组件，就收起来
-        this.closeList()
+        this.closeList();
       }
-    })
+    });
   },
   components: {
     Card,
     CPlaylistItem
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

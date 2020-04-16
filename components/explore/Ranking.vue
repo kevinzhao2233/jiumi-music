@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import Card from '~/components/common/Card.vue'
+import Card from '~/components/common/Card.vue';
 
 export default {
   name: 'Ranking',
@@ -75,14 +75,14 @@ export default {
   },
   mounted() {
     const getArtists = async () => {
-      const { list } = await this.$axios.$get('/api/toplist/artist')
+      const { list } = await this.$axios.$get('/api/toplist/artist');
       list.artists.map((data, index) => {
         if (index < 5) {
-          this.artists.push(data)
+          this.artists.push(data);
         }
-      })
-    }
-    getArtists()
+      });
+    };
+    getArtists();
   },
   data() {
     return {
@@ -114,9 +114,9 @@ export default {
         }
       ],
       artists: []
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

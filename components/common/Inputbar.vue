@@ -34,31 +34,31 @@ export default {
       keyword: '',
       timer: null,
       currSubmit: ''
-    }
+    };
   },
   watch: {
     value(newVal) {
-      this.keyword = newVal
+      this.keyword = newVal;
     }
   },
   methods: {
     submit() {
       if (this.currSubmit !== this.keyword) {
-        this.currSubmit = this.keyword
-        this.$emit('has-submit', this.keyword)
+        this.currSubmit = this.keyword;
+        this.$emit('has-submit', this.keyword);
       }
     },
     handleInput() {
-      const timeout = 160
+      const timeout = 160;
       if (this.timer) {
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
       }
       this.timer = setTimeout(() => {
-        this.$emit('has-input', this.keyword)
-      }, timeout)
+        this.$emit('has-input', this.keyword);
+      }, timeout);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

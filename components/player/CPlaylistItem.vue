@@ -34,13 +34,13 @@ export default {
   },
   methods: {
     play(id) {
-      this.$emit('play', id)
+      this.$emit('play', id);
     },
     remove(id) {
-      this.$emit('remove', id)
+      this.$emit('remove', id);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

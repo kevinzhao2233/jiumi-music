@@ -31,7 +31,7 @@ export default {
       type: Object
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

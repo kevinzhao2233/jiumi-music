@@ -33,7 +33,7 @@ export default {
       type: Array
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

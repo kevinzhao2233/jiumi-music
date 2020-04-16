@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import Sidebar from '~/components/sidebar'
-import Player from '~/components/player/index.vue'
+import Sidebar from '~/components/sidebar';
+import Player from '~/components/player/index.vue';
 
 export default {
   components: {
     Sidebar,
     Player
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -51,7 +51,7 @@ export default {
       flex: 1;
     }
   }
-  
+
   .bottom {
     position: fixed;
     bottom: 0;
@@ -73,7 +73,7 @@ export default {
 }
 /* 滚动条的滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 3px;
 }
 </style>

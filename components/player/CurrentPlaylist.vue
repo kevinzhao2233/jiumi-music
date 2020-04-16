@@ -14,35 +14,43 @@
       <i class="del-icon iconfont icon-multiply" @click="closeList"></i>
     </div>
     <ul class="list-box">
+      <RecycleScroller
+        v-if="player.list.length > 50"
+        :items="player.list"
+        :item-size="58"
+        key-fild="id"
+        :buffer="500"
+        page-mode
+        v-slot="{ item }"
+      >
+        <CPlaylistItem
+          :item="item"
+          :currSong="player.currSong"
+          @play="play($event)"
+          @remove="remove($event)"
+        />
+      </RecycleScroller>
       <transition-group
+        v-else
         name="flip-list"
         enter-active-class="animated fadeInLeft"
         leave-active-class="animated zoomOutRight"
       >
-        <li class="list" v-for="item in player.list" :key="item.id">
-          <i :class="player.currSong.id === item.id ? 'icon animate iconfont icon-music_note_' : 'icon animate'"></i>
-          <div class="item main">
-            <span class="name">{{ item.name }}</span>
-            <div class="btn-box">
-              <i class="icon iconfont icon-play_fill" @mousedown="play(item.id)"></i>
-              <i class="icon iconfont icon-ellipsis"></i>
-            </div>
-          </div>
-          <span class="item songer">
-            <span v-for="(songer, index) in item.artists" :key="songer"
-              >{{ index > 4 ? '' : `${songer}` }}
-              <span v-if="index < 4 && index !== item.artists.length - 1">/</span>
-            </span>
-          </span>
-          <span class="item time">{{ item.formatDuration }}</span>
-          <i class="icon del iconfont icon-multiply" @click="remove(item.id)"></i>
-        </li>
+        <CPlaylistItem
+          v-for="item in player.list"
+          :key="item.id"
+          :item="item"
+          :currSong="player.currSong"
+          @play="play($event)"
+          @remove="remove($event)"
+        />
       </transition-group>
     </ul>
   </Card>
 </template>
 
 <script>
+import CPlaylistItem from './CPlaylistItem.vue'
 import Card from '~/components/common/Card.vue'
 import { mapState, mapMutations } from 'vuex'
 
@@ -76,7 +84,8 @@ export default {
     })
   },
   components: {
-    Card
+    Card,
+    CPlaylistItem
   }
 }
 </script>
@@ -173,93 +182,6 @@ export default {
     text-align: center;
     border-radius: 6px;
     transition: all 0.2s ease-out;
-  }
-
-  .list {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 4px 0;
-    padding: 0 8px;
-    width: 100%;
-    height: 50px;
-    border-radius: 12px;
-    color: $mid-10;
-    transition: all 0.3s ease;
-
-    .animate {
-      flex: 0 0 1;
-      margin-right: 4px;
-      color: $main-6;
-    }
-
-    .del {
-      display: none;
-    }
-
-    .item {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-
-      &.main {
-        flex: 4;
-        display: flex;
-        align-items: center;
-
-        .name {
-          flex: 1;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .btn-box {
-          flex: 0 0 1;
-          margin: 0 12px 0 8px;
-          display: none;
-        }
-      }
-
-      &.songer {
-        flex: 2;
-        color: $mid-6;
-      }
-
-      &.time {
-        flex: 1;
-        font-weight: 500;
-        color: $mid-6;
-      }
-    }
-
-    &:hover {
-      background-color: $main-6;
-      color: $mid-1;
-      box-shadow: 0 14px 24px -16px $main-6;
-      .main .btn-box {
-        display: block;
-      }
-      .songer,
-      .time {
-        color: $mid-4;
-      }
-      .del {
-        display: inline-block;
-      }
-      .icon {
-        color: $mid-1;
-
-        &:hover {
-          background-color: $main-4;
-        }
-
-        &:active {
-          background-color: $main-2;
-          color: $main-6;
-        }
-      }
-    }
   }
 }
 </style>

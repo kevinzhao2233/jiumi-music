@@ -108,7 +108,9 @@ export const mutations = {
    * @param {*} id 需要删除的歌曲 id
    */
   remove(state, id) {
-    this.commit('player/switchSong', 'next')
+    if(id === state.currSong.id){
+      this.commit('player/switchSong', 'next')
+    }
     state.list.splice(
       state.list.findIndex(item => item.id === id),
       1

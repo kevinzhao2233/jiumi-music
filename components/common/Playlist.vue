@@ -47,10 +47,7 @@ export default {
     pic: {
       type: Boolean,
       default: false
-    },
-  },
-  data() {
-    return {}
+    }
   },
   methods: {
     // 点击了添加按钮

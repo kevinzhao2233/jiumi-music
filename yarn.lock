@@ -6758,6 +6758,11 @@ schema-utils@^2.0.0, schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
 
+scrollparent@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/scrollparent/download/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
+  integrity sha1-cV1bnMV3YPsivczDvvtb/gaxoxc=
+
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.npm.taobao.org/scss-tokenizer/download/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
@@ -7863,6 +7868,16 @@ vue-no-ssr@^1.1.1:
   resolved "https://registry.npm.taobao.org/vue-no-ssr/download/vue-no-ssr-1.1.1.tgz#875f3be6fb0ae41568a837f3ac1a80eaa137b998"
   integrity sha1-h1875vsK5BVoqDfzrBqA6qE3uZg=
 
+vue-observe-visibility@^0.4.4:
+  version "0.4.6"
+  resolved "https://registry.npm.taobao.org/vue-observe-visibility/download/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
+  integrity sha1-h4y4688weOQIB68pd06XEF69UZ4=
+
+vue-resize@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.npm.taobao.org/vue-resize/download/vue-resize-0.4.5.tgz#4777a23042e3c05620d9cbda01c0b3cc5e32dcea"
+  integrity sha1-R3eiMELjwFYg2cvaAcCzzF4y3Oo=
+
 vue-router@^3.1.3:
   version "3.1.6"
   resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.1.6.tgz?cache=0&sync_timestamp=1582736748125&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-3.1.6.tgz#45f5a3a3843e31702c061dd829393554e4328f89"
@@ -7902,6 +7917,15 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue-virtual-scroller@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/vue-virtual-scroller/download/vue-virtual-scroller-1.0.9.tgz#6c4e2288cb771610d741c058f5501b9de0ca99dc"
+  integrity sha1-bE4iiMt3FhDXQcBY9VAbneDKmdw=
+  dependencies:
+    scrollparent "^2.0.1"
+    vue-observe-visibility "^0.4.4"
+    vue-resize "^0.4.5"
 
 vue@^2.6.11:
   version "2.6.11"

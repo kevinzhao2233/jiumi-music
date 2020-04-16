@@ -7,9 +7,9 @@
         v-if="loginState === 'login'"
         :list="mscList"
         :pic="true"
+        @enshrine="enshrineSong($event)"
         @add="addToList($event)"
         @play="playAll($event)"
-        @enshrine="enshrineSong($event)"
       />
     </Card>
   </div>

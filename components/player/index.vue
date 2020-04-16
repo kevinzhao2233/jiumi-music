@@ -22,7 +22,7 @@
         :style="{
           background: `100% url(${alPicUrl}?param=46y46) no-repeat`
         }"
-      ></template>
+      ></div>
       <div class="info">
         <span class="msc-name">{{ player.currSong.detail.name }}</span>
         <span class="msc-art">
@@ -32,7 +32,7 @@
           </span>
         </span>
       </div>
-    </template>
+    </div>
     <div class="l-control">
       <Button @has-click="switchSong('prev')" type="primary" icon="icon-backward_end_fill" />
       <Button
@@ -95,7 +95,7 @@
         <CurrentPlaylist @close-list="closeList" />
       </div>
     </transition>
-  </template>
+  </div>
 </template>
 
 <script>

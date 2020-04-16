@@ -37,6 +37,7 @@ export default {
   */
   plugins: [
     '~/plugins/vue-awesome-swiper',
+    '~/plugins/vue-virtual-scroller',
     '~/plugins/axios'
   ],
   /*

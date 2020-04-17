@@ -38,7 +38,7 @@ export default {
     '~/plugins/vue-awesome-swiper',
     '~/plugins/vue-virtual-scroller',
     '~/plugins/axios',
-    '~/plugins/vue-notifications'
+    { src: '~/plugins/toast', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules

@@ -7868,6 +7868,11 @@ vue-no-ssr@^1.1.1:
   resolved "https://registry.npm.taobao.org/vue-no-ssr/download/vue-no-ssr-1.1.1.tgz#875f3be6fb0ae41568a837f3ac1a80eaa137b998"
   integrity sha1-h1875vsK5BVoqDfzrBqA6qE3uZg=
 
+vue-notifications@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/vue-notifications/download/vue-notifications-1.0.2.tgz#988a0f42b472eb28afdcae4d7300307da3de1734"
+  integrity sha1-mIoPQrRy6yiv3K5NcwAwfaPeFzQ=
+
 vue-observe-visibility@^0.4.4:
   version "0.4.6"
   resolved "https://registry.npm.taobao.org/vue-observe-visibility/download/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
@@ -7917,6 +7922,11 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue-toasted@^1.1.28:
+  version "1.1.28"
+  resolved "https://registry.npm.taobao.org/vue-toasted/download/vue-toasted-1.1.28.tgz#dbabb83acc89f7a9e8765815e491d79f0dc65c26"
+  integrity sha1-26u4OsyJ96nodlgV5JHXnw3GXCY=
 
 vue-virtual-scroller@^1.0.9:
   version "1.0.9"

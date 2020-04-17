@@ -34,7 +34,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-awesome-swiper', '~/plugins/vue-virtual-scroller', '~/plugins/axios'],
+  plugins: [
+    '~/plugins/vue-awesome-swiper',
+    '~/plugins/vue-virtual-scroller',
+    '~/plugins/axios',
+    '~/plugins/vue-notifications'
+  ],
   /*
    ** Nuxt.js dev-modules
    */

@@ -1,7 +1,7 @@
 <template>
   <div class="k-list-box">
     <RecycleScroller
-      v-if="list.length > 50"
+      v-if="list.length > 60"
       :items="list"
       :item-size="62"
       key-fild="id"

@@ -1,5 +1,5 @@
 <template>
-  <li class="item">
+  <li :class="item.privilege ? `${item.privilege.st > -1 ? 'item' : 'item no-cr'}` : 'item'">
     <div class="left">
       <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
       <i class="idx icon iconfont icon-plus" @click="add(item.id)"></i>
@@ -121,7 +121,6 @@ export default {
       line-height: 30px;
       font-weight: 500;
       border-radius: 40%;
-      transition: all 0.2s ease-out;
       cursor: pointer;
 
       &.num {
@@ -241,6 +240,13 @@ export default {
     }
   }
 
+  &.no-cr {
+    .left .content .msc-name,
+    .center .album {
+      color: $mid-6;
+    }
+  }
+
   &:hover {
     background-color: $main-6;
     color: $main-2;
@@ -298,6 +304,20 @@ export default {
     .center {
       .album {
         color: $mid-4;
+      }
+    }
+
+    &.no-cr {
+      .left .num {
+        display: inline-block;
+      }
+
+      .left .icon {
+        display: none;
+      }
+
+      .control {
+        display: none;
       }
     }
   }

@@ -27,12 +27,12 @@ export default {
   methods: {
     // 获取 推荐歌单 【需要登录】
     async getRecommendList() {
-      const { recommend } = await this.$axios.$get('/api/recommend/resource');
-      this.recommendRes = recommend;
+      const { result } = await this.$axios.$get('/api/personalized?limit=11');
+      this.recommendRes = result;
     },
     // 获取 热门歌单
     async getHotList() {
-      const { playlists } = await this.$axios.$get('/api/top/playlist?limit=10');
+      const { playlists } = await this.$axios.$get('/api/top/playlist?limit=11');
       console.log(playlists);
       this.recommendRes = playlists;
     }

@@ -60,7 +60,6 @@ export default {
               id: '201',
               name: '我的喜欢',
               icon: 'icon-heart_fill',
-              router: 'playlist'
             },
             {
               id: '202',
@@ -90,22 +89,26 @@ export default {
       }
     };
   },
-
-  created() {
-    const uid = localStorage.getItem('uid');
-    const getUserList = async () => {
-      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${uid}`);
+  methods: {
+    async fetchUserList(id) {
+      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${id}`);
       const createList = playlist.filter((data, index) => {
-        return data.userId.toString() === uid && index > 0;
+        return data.userId.toString() === id && index > 0;
       });
       const enshrineList = playlist.filter(data => {
-        return data.userId.toString() !== uid;
+        return data.userId.toString() !== id;
       });
       this.sidebarList.myCreate.list = createList;
       this.sidebarList.myEnshrine.list = enshrineList;
-    };
+      this.sidebarList.myMusic.list[0].id = playlist[0].id;
+    }
+  },
+
+  created() {
+    const uid = localStorage.getItem('uid');
+
     if (uid) {
-      getUserList();
+      this.fetchUserList(uid);
     }
   }
 };

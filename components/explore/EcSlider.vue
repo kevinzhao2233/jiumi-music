@@ -94,6 +94,9 @@ export default {
     this.updateSwiperState();
     window.addEventListener('resize', this.resizeWin);
   },
+  updated() {
+    this.updateSwiperState();
+  },
   beforeDestroy() {
     window.removeEventListener('resize', this.resizeWin);
   }

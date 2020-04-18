@@ -42,7 +42,23 @@
       <Card class="card">
         <h3 slot="title" class="title">包含歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist :list="songs" />
+        <Playlist :list="songs" @add="addintoList" @play="playAll" @enshrine="enshrineCurrent" />
+      </Card>
+      <Card class="sub-card">
+        <h3 slot="title" class="title">其他专辑</h3>
+        <div class="item" v-for="item in otherAlbums" :key="item.id" v-show="item.id !== album.id">
+          <nuxt-link
+            class="img"
+            :to="{ name: 'album-id', params: { id: item.id } }"
+            :style="{
+              background: `center / cover url(${item.picUrl}?param=x64y64) no-repeat`
+            }"
+          ></nuxt-link>
+          <nuxt-link :to="{ name: 'album-id', params: { id: item.id } }" class="name">{{
+            item.name
+          }}</nuxt-link>
+          <span class="public">{{ new Date(item.publishTime).toLocaleDateString() }}</span>
+        </div>
       </Card>
     </div>
   </div>
@@ -56,17 +72,37 @@ export default {
   data() {
     return {
       album: {},
-      songs: []
+      songs: [],
+      otherAlbums: []
     };
   },
   methods: {
+    /**
+     * 获取该专辑信息
+     */
     async fetchAlbum(id) {
       const { album, songs } = await this.$axios.$get(`/api/album?id=${id}`);
-      this.$nextTick(() => {
-        console.log(songs);
-        this.album = album;
-        this.songs = songs;
-      });
+      this.album = album;
+      this.songs = songs;
+      const { hotAlbums } = await this.$axios.$get(
+        `/api/artist/album?id=${this.album.artist.id}&limit=6`
+      );
+      this.otherAlbums = hotAlbums;
+    },
+    /**
+     * 播放音乐相关
+     */
+    // 添加到播放列表（下一曲播放）
+    addintoList(msc) {
+      this.$store.commit('player/add', { msc });
+    },
+    // 播放所有
+    playAll(msc) {
+      this.$store.commit('player/playAll', { msc, list: this.songs });
+    },
+    // 收藏
+    enshrineCurrent(msc) {
+      this.$store.commit('player/enshrine', msc);
     }
   },
   components: {
@@ -183,6 +219,7 @@ export default {
     }
   }
   .content {
+    display: flex;
     margin: 0 auto;
     padding: 0 24px 160px;
     width: 1000px;
@@ -200,6 +237,48 @@ export default {
       color: $main-6;
       user-select: none;
       cursor: pointer;
+    }
+
+    .sub-card {
+      margin: 48px 0 0 48px;
+      width: 300px;
+
+      .item {
+        display: grid;
+        grid-template-columns: 80px 220px;
+        grid-template-rows: 40px 40px;
+        margin-bottom: 12px;
+        width: 100%;
+        height: 80px;
+
+        .img {
+          display: flex;
+          grid-row: 1/3;
+          grid-column: 1;
+          margin-right: 8px;
+          width: 64px;
+          height: 64px;
+          border-radius: 40%;
+        }
+
+        .name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          align-self: end;
+          white-space: nowrap;
+          color: $mid-10;
+          line-height: 32px;
+          cursor: pointer;
+
+          &:hover {
+            color: $main-6;
+          }
+        }
+
+        .public {
+          color: $mid-7;
+        }
+      }
     }
   }
 }

@@ -7,9 +7,10 @@
     leave-active-class="animated fadeOut"
   >
     <li class="item" v-for="item in list" :key="item.id">
-      <div
+      <nuxt-link
         class="img"
         :title="item.name"
+        :to="{ name: 'album-id', params: { id: item.id } }"
         :style="{
           background: `url(${item.picUrl}?param=130y130)`,
           backgroundSize: 'cover',
@@ -17,9 +18,19 @@
         }"
       >
         <span class="sub">{{ item.size }}首</span>
-      </div>
-      <span class="name" :title="item.name">{{ item.name }}</span>
-      <span class="artist" :title="item.artist.name">{{ item.artist.name }}</span>
+      </nuxt-link>
+      <nuxt-link
+        class="name"
+        :title="item.name"
+        :to="{ name: 'album-id', params: { id: item.id } }"
+        >{{ item.name }}</nuxt-link
+      >
+      <nuxt-link
+        class="artist"
+        :title="item.artist.name"
+        :to="{ name: 'singer-id', params: { id: item.artist.id } }"
+        >{{ item.artist.name }}</nuxt-link
+      >
     </li>
   </transition-group>
 </template>
@@ -54,6 +65,7 @@ export default {
     height: 190px;
 
     .img {
+      display: block;
       position: relative;
       width: 130px;
       height: 130px;
@@ -101,6 +113,7 @@ export default {
       width: 150px;
       font-size: 16px;
       overflow: hidden;
+      color: $mid-10;
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
@@ -114,6 +127,7 @@ export default {
       @extend .name;
       margin-top: -2px;
       font-size: 14px;
+      color: $mid-10;
     }
   }
 }

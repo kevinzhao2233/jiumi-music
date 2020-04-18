@@ -39,7 +39,11 @@
       </div>
     </div>
     <div class="center">
-      <span class="album">{{ item.album ? item.album.name : item.al.name }}</span>
+      <nuxt-link
+        :to="{ name: 'album-id', params: { id: `${item.al ? item.al.id : item.album.id}` } }"
+        class="album"
+        >{{ item.album ? item.album.name : item.al.name }}</nuxt-link
+      >
     </div>
     <div class="right">
       <span class="time">{{

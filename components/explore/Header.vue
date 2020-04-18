@@ -35,7 +35,7 @@ export default {
   methods: {
     clickAvatar() {
       if (this.upro) {
-        console.log('已经登录，暂时放着');
+        this.$toast('你已经登录啦')
       } else {
         this.$router.push({ name: 'Login' });
       }
@@ -66,9 +66,6 @@ export default {
     top: 0;
     right: 0;
     z-index: 10;
-
-    .avatar {
-    }
   }
 }
 </style>

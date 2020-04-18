@@ -21,6 +21,7 @@ export default {
   background: $main-6;
   border-radius: 16px;
   color: $mid-1;
+  z-index: 100;
 }
 .fadein {
   animation: animate_in 0.25s;

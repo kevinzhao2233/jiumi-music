@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <transition-group
     tag="ul"
     name="flip-list"

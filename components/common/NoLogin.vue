@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div class="box">
     这里需要登录哦 φ(゜▽゜*)♪
     <nuxt-link :to="{ name: 'Login' }" class="btn">立马登录</nuxt-link>

@@ -182,7 +182,7 @@ export default {
       bottom: 0;
       width: 100%;
       height: 30%;
-      background: linear-gradient(transparent, $main-4);
+      background: linear-gradient(transparent, $mid-7);
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
       z-index: 20;

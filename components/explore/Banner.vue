@@ -127,12 +127,17 @@ export default {
 
       .msc-info {
         flex: 1;
+        color: $mid-6;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
 
         .msc-name {
           color: $mid-10;
+        }
+
+        .msc-art {
+          overflow: hidden;
         }
 
         .msc-art-name {
@@ -147,7 +152,6 @@ export default {
 
         .link {
           line-height: 22px;
-          transition: color 0.2s;
 
           &:hover {
             text-decoration: underline;
@@ -162,7 +166,6 @@ export default {
         .control {
           display: none;
           flex: 0 0 1;
-          margin-right: 64px;
           align-self: center;
 
           .btn {

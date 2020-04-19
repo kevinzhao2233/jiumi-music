@@ -26,7 +26,6 @@ export default {
 
 .e-container {
   display: flex;
-  margin-top: 12px;
   padding: 0 48px;
   min-width: 1000px;
   overflow: hidden;

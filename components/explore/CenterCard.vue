@@ -68,7 +68,7 @@ export default {
 @import '~assets/scss/config.scss';
 
 .ec-container {
-  margin: 8px auto;
+  margin: 0 auto;
   padding: 0 48px;
 
   .btn-box {

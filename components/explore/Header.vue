@@ -57,7 +57,10 @@ export default {
 
 .eh-container {
   position: relative;
-  padding-top: 12px;
+
+  .h-banner {
+    padding-top: 12px;
+  }
 
   .h-btn-box {
     position: absolute;

@@ -139,9 +139,9 @@ export default {
       margin: 0 20px;
       width: 80px;
       height: 100px;
-      top: 40px;
+      top: 36px;
       border-radius: 20%;
-      filter: blur(22px);
+      filter: blur(20px);
 
       &.more {
         background: 100% / cover url('~static/img/moreThing.png') no-repeat;

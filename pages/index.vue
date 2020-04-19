@@ -14,7 +14,8 @@ import BottomPart from '~/components/explore/BottomPart.vue';
 export default {
   async asyncData({ $axios }) {
     // 加载 banner图
-    const { banners } = await $axios.$get('/api/banner');
+    const { result } = await $axios.$get('/api/personalized/newsong');
+    const banners = result.slice(0, 9);
     return {
       banners
     };

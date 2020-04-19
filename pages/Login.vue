@@ -7,7 +7,13 @@
       placeholder="输入【电话号码】或【163邮箱】"
       v-model="login.user"
     />
-    <input type="password" class="input" placeholder="输入密码" v-model="login.password" />
+    <input
+      type="password"
+      class="input"
+      placeholder="输入密码"
+      v-model="login.password"
+      @keypress.enter="submit"
+    />
     <span class="message">{{ error }}</span>
     <div class="btn" @click="submit">登录</div>
   </div>
@@ -43,10 +49,11 @@ export default {
           timestamp: Date.parse(new Date()) / 1000
         });
       }
-      console.log(loginRes);
-      localStorage.setItem('uid', loginRes.account.id);
-      localStorage.setItem('upro', JSON.stringify(loginRes.profile));
-      this.$router.back();
+      if (loginRes.code === 200) {
+        localStorage.setItem('uid', loginRes.account.id);
+        localStorage.setItem('upro', JSON.stringify(loginRes.profile));
+        this.$router.back();
+      }
     },
     submit() {
       this.error = '';

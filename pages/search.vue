@@ -1,15 +1,14 @@
 <template>
   <div class="container">
     <div class="header">
-      <div class="search-box">
-        <Inputbar
-          placeholder="搜索歌曲、歌手、歌词"
-          icon="icon-search"
-          :value="inputValue"
-          @has-submit="launchSearch"
-          @has-input="getSuggest"
-        />
-      </div>
+      <Inputbar
+        class="search-box"
+        placeholder="搜索歌曲、歌手、歌词"
+        icon="icon-search"
+        :value="inputValue"
+        @has-submit="launchSearch"
+        @has-input="getSuggest"
+      />
       <div class="tip-box">
         <div class="tip">
           <span class="tit">热门搜索：</span>
@@ -21,7 +20,7 @@
             >{{ item }}</span
           >
         </div>
-        <div class="tip">
+        <!-- <div class="tip">
           <span class="tit">历史搜索：</span>
           <span
             class="keywords"
@@ -31,7 +30,7 @@
             >{{ item }}</span
           >
           <i class="icon iconfont icon-trash"></i>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="hot" v-if="hot.artist.length > 0">
@@ -39,9 +38,7 @@
         class="img"
         :to="{ name: 'singer-id', params: { id: hot.artist[0].id } }"
         :style="{
-          background: `url(${hot.artist[0].img1v1Url}?param=108y108)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${hot.artist[0].img1v1Url}?param=108y108) no-repeat`
         }"
       ></nuxt-link>
       <div class="info">
@@ -86,7 +83,7 @@
         <!-- 专辑列表 -->
         <AlbumList v-if="currNav === 10" :list="searchContent[10].list" />
         <!-- 歌手列表 -->
-        <SongList v-if="currNav === 100" :list="searchContent[100].list" />
+        <SingerList v-if="currNav === 100" :list="searchContent[100].list" />
         <div v-if="currNav > 100">开发者正在筹集头发~~</div>
       </div>
     </div>
@@ -96,16 +93,10 @@
 <script>
 import Inputbar from '~/components/common/Inputbar.vue';
 import Playlist from '~/components/common/Playlist.vue';
-import SongList from '~/components/common/SongList.vue';
+import SingerList from '~/components/common/SingerList.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
 
 export default {
-  components: {
-    Playlist,
-    Inputbar,
-    SongList,
-    AlbumList
-  },
   data() {
     return {
       inputValue: '',
@@ -171,7 +162,7 @@ export default {
     },
     // 播放歌手热门歌曲
     async playHotSong(id) {
-      const songs = await this.getArtist(id);
+      const songs = await this.fetchArtistHotSong(id);
       this.$store.commit('player/playAll', { msc: songs[0], list: songs });
     },
     /**
@@ -189,7 +180,7 @@ export default {
      */
     handleSearch(keyword) {
       this.inputValue = keyword;
-      this.getList(keyword);
+      this.fetchList(keyword);
     },
     /**
      * 获取搜索框下的搜索建议
@@ -201,20 +192,19 @@ export default {
      * 发起搜索
      */
     launchSearch(keyword) {
-      this.getHotSonger(keyword);
-      this.getList(keyword);
+      this.fetchHotSonger(keyword);
+      this.fetchList(keyword);
     },
     /**
      * 获取搜索结果列表
      */
-    async getList(keyword) {
+    async fetchList(keyword) {
       this.loading = true;
       this.songsResult = [];
       const { result } = await this.$axios.$get(
         `/api/search?keywords=${keyword}&type=${this.currNav}&limit=50`
       );
       this.$nextTick(() => {
-        console.log('搜索结果', result);
         this.loading = false;
         switch (this.currNav) {
           case 1:
@@ -232,7 +222,7 @@ export default {
     /**
      * 获取热搜关键词，将前 6 个存起来（对，我就是意思一下）
      */
-    async getHotSearch() {
+    async fetchHotSearch() {
       const { result } = await this.$axios.$get(`/api/search/hot`);
       this.$nextTick(() => {
         result.hots.map((item, index) => {
@@ -243,7 +233,7 @@ export default {
     /**
      * 相当于智能推荐，暂时只有匹配歌手，以后看情况添加 MV，专辑等等
      */
-    async getHotSonger(keyword) {
+    async fetchHotSonger(keyword) {
       const { result } = await this.$axios.$get(`/api/search/multimatch?keywords=${keyword}`);
       this.$nextTick(() => {
         if (result.artist) {
@@ -254,14 +244,20 @@ export default {
     /**
      * 获取歌手热门 50 首歌曲
      */
-    async getArtist(id) {
+    async fetchArtistHotSong(id) {
       const { hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`);
       return hotSongs;
     }
   },
+  components: {
+    Playlist,
+    Inputbar,
+    SingerList,
+    AlbumList
+  },
   created() {
     // 获取热搜
-    this.getHotSearch();
+    this.fetchHotSearch();
   }
 };
 </script>

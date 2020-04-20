@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <transition-group
     tag="ul"
     name="flip-list"
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'SongList',
+  name: 'SingerList',
 
   props: {
     list: {

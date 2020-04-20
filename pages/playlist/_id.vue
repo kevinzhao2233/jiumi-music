@@ -4,17 +4,13 @@
       <div
         class="img"
         :style="{
-          background: `url(${playlist.coverImgUrl}?param=240y240)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${playlist.coverImgUrl}?param=240y240) no-repeat`
         }"
       ></div>
       <div
         class="img-bg"
         :style="{
-          background: `url(${playlist.coverImgUrl}?param=240y240)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${playlist.coverImgUrl}?param=240y240) no-repeat`
         }"
       ></div>
       <div class="info">
@@ -23,9 +19,7 @@
           <div
             class="avatar"
             :style="{
-              background: `url(${playlist.creator.avatarUrl}?param=36y36)`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat'
+              background: `center / cover url(${playlist.creator.avatarUrl}?param=36y36) no-repeat`,
             }"
           ></div>
           <span class="name">{{ playlist.creator.nickname }}</span>
@@ -58,8 +52,8 @@
 </template>
 
 <script>
-import Playlist from '~/components/common/Playlist.vue'
-import Card from '~/components/common/Card.vue'
+import Playlist from '~/components/common/Playlist.vue';
+import Card from '~/components/common/Card.vue';
 
 export default {
   components: {
@@ -82,33 +76,33 @@ export default {
         }
       },
       tracks: []
-    }
+    };
   },
   methods: {
     async getSonger(id) {
-      const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`)
+      const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`);
       this.$nextTick(() => {
-        this.playlist = playlist
-        this.tracks = playlist.tracks
-      })
+        this.playlist = playlist;
+        this.tracks = playlist.tracks;
+      });
     },
 
     addintoList(msc) {
-      this.$store.commit('player/add', { msc })
+      this.$store.commit('player/add', { msc });
     },
 
     playAll(msc) {
-      this.$store.commit('player/playAll', { msc, list: this.tracks })
+      this.$store.commit('player/playAll', { msc, list: this.tracks });
     },
 
     enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc)
+      this.$store.commit('player/enshrine', msc);
     }
   },
   created() {
-    this.getSonger(this.$route.params.id)
+    this.getSonger(this.$route.params.id);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

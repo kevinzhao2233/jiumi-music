@@ -67,7 +67,7 @@ export default {
     return {
       artist: {},
       hotSongs: [],
-      albums: {},
+      albums: [],
       mvs: {},
       story: {}
     };
@@ -92,21 +92,20 @@ export default {
     /**
      * 异步获取数据
      */
-    async getArtist(id) {
+    async fetchArtist(id) {
       const { artist, hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`);
       this.$nextTick(() => {
-        console.log(artist);
         this.artist = artist;
         this.hotSongs = hotSongs;
       });
     },
-    async getAlbum(id) {
+    async fetchAlbum(id) {
       const { hotAlbums } = await this.$axios.$get(`/api/artist/album?id=${id}`);
       this.$nextTick(() => {
         this.albums = hotAlbums;
       });
     },
-    async getMV(id) {
+    async fetchMV(id) {
       const { mvs } = await this.$axios.$get(`/api/artist/mv?id=${id}`);
       this.$nextTick(() => {
         this.mvs = mvs;
@@ -114,9 +113,9 @@ export default {
     }
   },
   mounted() {
-    this.getArtist(this.$route.params.id);
-    this.getAlbum(this.$route.params.id);
-    this.getMV(this.$route.params.id);
+    this.fetchArtist(this.$route.params.id);
+    this.fetchAlbum(this.$route.params.id);
+    this.fetchMV(this.$route.params.id);
   }
 };
 </script>

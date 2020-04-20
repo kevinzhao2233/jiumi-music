@@ -4,15 +4,13 @@
       <div
         class="img"
         :style="{
-          background: `url(${song.al.picUrl}?param=240y240)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${song.al.picUrl}?param=240y240) no-repeat`,
         }"
       ></div>
       <div
         class="img-bg"
         :style="{
-          background: `url(${song.al.picUrl}?param=240y240)`,
+          background: `center / cover url(${song.al.picUrl}?param=240y240) no-repeat`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"

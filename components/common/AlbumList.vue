@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <transition-group
     tag="ul"
     name="flip-list"
@@ -12,9 +12,7 @@
         :title="item.name"
         :to="{ name: 'album-id', params: { id: item.id } }"
         :style="{
-          background: `url(${item.picUrl}?param=130y130)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${item.picUrl}?param=130y130) no-repeat`
         }"
       >
         <span class="sub">{{ item.size }}首</span>

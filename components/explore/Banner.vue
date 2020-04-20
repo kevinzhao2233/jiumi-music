@@ -165,6 +165,7 @@ export default {
 
         .control {
           display: none;
+          margin-right: 36px;
           flex: 0 0 1;
           align-self: center;
 
@@ -183,7 +184,6 @@ export default {
 
         .time {
           align-self: center;
-          margin-left: 24px;
           padding-right: 24px;
           font-weight: 500;
           color: $mid-6;
@@ -222,7 +222,11 @@ export default {
           }
         }
         .time {
+          display: none;
           color: $main-2;
+          @include respond-to(xl) {
+            display: inline-block;
+          }
         }
       }
     }

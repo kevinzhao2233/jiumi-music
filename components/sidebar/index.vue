@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-box">
-    <div class="block logo-box">啾咪音乐</div>
+    <img src="~/static/img/logo.png" class="block logo-box" alt="啾咪音乐">
     <List v-for="(items, index) in sidebarList" :key="index" :items="items"></List>
   </div>
 </template>
@@ -16,7 +16,6 @@ export default {
 
   data() {
     return {
-      // TODO: icon，路由 需要放到 list 中
       sidebarList: {
         explore: {
           title: '发现音乐',
@@ -29,7 +28,7 @@ export default {
             },
             {
               id: '102',
-              name: '个性推荐',
+              name: '发现音乐',
               icon: 'icon-location_fill',
               router: 'index'
             },
@@ -59,7 +58,7 @@ export default {
             {
               id: '201',
               name: '我的喜欢',
-              icon: 'icon-heart_fill',
+              icon: 'icon-heart_fill'
             },
             {
               id: '202',
@@ -103,7 +102,6 @@ export default {
       this.sidebarList.myMusic.list[0].id = playlist[0].id;
     }
   },
-
   created() {
     const uid = localStorage.getItem('uid');
 
@@ -128,15 +126,8 @@ export default {
     overflow: hidden;
 
     &.logo-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100px;
-      background-color: $aux-1;
-      border-radius: 16px;
-      font-size: 32px;
-      font-weight: 400;
-      color: $mid-10;
+      width: 110%;
+      height: auto;
     }
   }
 }

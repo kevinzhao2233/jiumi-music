@@ -1,8 +1,6 @@
 <template>
   <div class="eh-container">
-    <div class="h-banner">
-      <Banner :banners="banners" />
-    </div>
+    <Banner :banners="banners" />
     <div class="h-btn-box">
       <Button type="" icon="icon-gear_alt_fill1" title="设置" />
       <Button type="" icon="icon-envelope_fill" title="消息" />
@@ -35,7 +33,7 @@ export default {
   methods: {
     clickAvatar() {
       if (this.upro) {
-        this.$toast('你已经登录啦')
+        this.$toast('你已经登录啦');
       } else {
         this.$router.push({ name: 'Login' });
       }
@@ -57,10 +55,7 @@ export default {
 
 .eh-container {
   position: relative;
-
-  .h-banner {
-    padding-top: 12px;
-  }
+  padding-top: 12px;
 
   .h-btn-box {
     position: absolute;

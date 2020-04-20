@@ -13,7 +13,7 @@ import BottomPart from '~/components/explore/BottomPart.vue';
 
 export default {
   async asyncData({ $axios }) {
-    // 加载 banner 位置的新歌
+    // 加载 banner 位置的新歌, 网友精选歌单
     const { result: banner } = await $axios.$get('/api/personalized/newsong');
     const { result: hotList } = await $axios.$get('/api/personalized?limit=11');
     const banners = banner.slice(0, 9);
@@ -45,7 +45,7 @@ export default {
       .catch(err => {
         // 如果没有登录，则换个歌单
         if (err.response.data.code === 301) {
-          this.$toast('你还没有登录哦~~')
+          this.$toast('你还没有登录哦~~');
           this.recommendRes = this.hotList;
         }
       });

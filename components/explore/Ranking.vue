@@ -14,17 +14,13 @@
           <div
             class="img"
             :style="{
-              background: `url(${item.coverImgUrl}?param=120y120)`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat'
+              background: `center / cover url(${item.coverImgUrl}?param=120y120) no-repeat`,
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `url(${item.coverImgUrl}?param=120y120)`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat'
+              background: `center / cover url(${item.coverImgUrl}?param=120y120) no-repeat`,
             }"
           ></div>
         </nuxt-link>
@@ -43,17 +39,13 @@
           <div
             class="img"
             :style="{
-              background: `url(${item.picUrl}?param=120y120)`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat'
+              background: `center / cover url(${item.picUrl}?param=120y120) no-repeat`
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `url(${item.picUrl}?param=120y120)`,
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat'
+              background: `center / cover url(${item.picUrl}?param=120y120) no-repeat`
             }"
           ></div>
           <div class="script-box">
@@ -73,16 +65,14 @@ export default {
   components: {
     Card
   },
-  mounted() {
-    const getArtists = async () => {
+  methods: {
+    async fetchArtists() {
       const { list } = await this.$axios.$get('/api/toplist/artist');
-      list.artists.map((data, index) => {
-        if (index < 5) {
-          this.artists.push(data);
-        }
-      });
-    };
-    getArtists();
+      this.artists = list.artists.filter((data, index) => index < 5);
+    }
+  },
+  created() {
+    this.fetchArtists();
   },
   data() {
     return {

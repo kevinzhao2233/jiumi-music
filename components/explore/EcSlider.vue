@@ -1,26 +1,29 @@
 <template>
   <swiper class="swiper-box" :options="swiperOption" ref="ecSwiper">
     <swiper-slide v-for="slide in recommendRes" :key="slide.id">
-      <div
+      <nuxt-link
         class="img"
+        :to="{ name: 'playlist-id', params: { id: slide.id } }"
         :style="{
-          background: `url(${slide.picUrl ? slide.picUrl : slide.coverImgUrl}?param=120y132)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${
+            slide.picUrl ? slide.picUrl : slide.coverImgUrl
+          }?param=120y132) no-repeat`
         }"
-        @click="goPlaylistDetail(slide.id)"
-      ></div>
+      ></nuxt-link>
       <div
         class="img-bg"
         :style="{
-          background: `url(${slide.picUrl ? slide.picUrl : slide.coverImgUrl}?param=120y132)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${
+            slide.picUrl ? slide.picUrl : slide.coverImgUrl
+          }?param=120y132) no-repeat`
         }"
       ></div>
-      <span class="message" :title="slide.name" @click="goPlaylistDetail(slide.id)">{{
-        slide.name
-      }}</span>
+      <nuxt-link
+        class="message"
+        :title="slide.name"
+        :to="{ name: 'playlist-id', params: { id: slide.id } }"
+        >{{ slide.name }}</nuxt-link
+      >
     </swiper-slide>
     <swiper-slide>
       <nuxt-link :to="{ name: 'playlist' }" class="img more"></nuxt-link>
@@ -40,7 +43,7 @@ export default {
   data() {
     return {
       swiperOption: {
-        spaceBetween: 16,
+        spaceBetween: 24,
         allowTouchMove: false,
         slidesPerView: 'auto',
         slidesPerGroup: 7,
@@ -48,7 +51,7 @@ export default {
         breakpoints: {
           1240: {
             slidesPerView: 7,
-            spaceBetween: 16
+            spaceBetween: 24
           }
         }
       },
@@ -56,6 +59,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * 点击左右按钮
+     */
     handleSwiper(direction) {
       if (direction === 'prev') {
         this.$refs.ecSwiper.swiper.slidePrev();
@@ -64,7 +70,9 @@ export default {
       }
       this.updateSwiperState();
     },
-    // 更新轮播状态
+    /**
+     * 更新轮播状态
+     */
     updateSwiperState() {
       if (this.$refs.ecSwiper.swiper) {
         const swiper = this.$refs.ecSwiper.swiper;
@@ -72,9 +80,6 @@ export default {
         const isEnd = swiper.isEnd;
         this.$emit('judge-swiper-state', { isBeginning, isEnd });
       }
-    },
-    goPlaylistDetail(id) {
-      this.$router.push({ name: 'playlist-id', params: { id: id } });
     },
     // resize 的时候，函数防抖
     resizeWin() {

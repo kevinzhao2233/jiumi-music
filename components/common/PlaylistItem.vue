@@ -38,17 +38,13 @@
         <i class="btn iconfont icon-folder_fill_badge_plus" @click="enshrine(item.id)"></i>
       </div>
     </div>
-    <div class="center">
-      <nuxt-link
-        :to="{ name: 'album-id', params: { id: `${item.al ? item.al.id : item.album.id}` } }"
-        class="album"
-        >{{ item.album ? item.album.name : item.al.name }}</nuxt-link
-      >
-    </div>
-    <div class="right">
-      <span class="time">{{
-        item.duration ? formateTime(item.duration) : formateTime(item.dt)
-      }}</span>
+    <nuxt-link
+      class="center album"
+      :to="{ name: 'album-id', params: { id: `${item.al ? item.al.id : item.album.id}` } }"
+      >{{ item.album ? item.album.name : item.al.name }}</nuxt-link
+    >
+    <div class="right time">
+      {{ item.duration ? formateTime(item.duration) : formateTime(item.dt) }}
     </div>
   </li>
 </template>
@@ -214,7 +210,7 @@ export default {
     height: 100%;
     overflow: hidden;
 
-    .album {
+    &.album {
       line-height: 100%;
       color: $mid-8;
       overflow: hidden;
@@ -233,7 +229,7 @@ export default {
     display: flex;
     align-items: center;
 
-    .time {
+    &.time {
       padding: 0 24px;
       font-size: 14px;
       font-weight: 500;
@@ -301,10 +297,8 @@ export default {
         display: none;
       }
     }
-    .center {
-      .album {
-        color: $mid-4;
-      }
+    .center.album {
+      color: $mid-4;
     }
 
     &.no-cr {

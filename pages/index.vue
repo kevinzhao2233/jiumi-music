@@ -13,11 +13,13 @@ import BottomPart from '~/components/explore/BottomPart.vue';
 
 export default {
   async asyncData({ $axios }) {
-    // 加载 banner图
-    const { result } = await $axios.$get('/api/personalized/newsong');
-    const banners = result.slice(0, 9);
+    // 加载 banner 位置的新歌
+    const { result: banner } = await $axios.$get('/api/personalized/newsong');
+    const { result: hotList } = await $axios.$get('/api/personalized?limit=11');
+    const banners = banner.slice(0, 9);
     return {
-      banners
+      banners,
+      hotList
     };
   },
   data() {
@@ -26,25 +28,27 @@ export default {
     };
   },
   methods: {
-    // 获取 推荐歌单 【需要登录】
+    // 获取 推荐歌单 【第一个API需要登录，第二个不需要】
     async getRecommendList() {
-      const { result } = await this.$axios.$get('/api/personalized?limit=11');
-      this.recommendRes = result;
-    },
-    // 获取 热门歌单
-    async getHotList() {
-      const { playlists } = await this.$axios.$get('/api/top/playlist?limit=11');
-      console.log(playlists);
-      this.recommendRes = playlists;
+      const { recommend } = await this.$axios.$get('/api/recommend/resource');
+      return recommend;
     }
   },
   created() {
-    this.getRecommendList().catch(err => {
-      // 如果没有登录，则换几个歌单
-      if (err.response.data.code === 301) {
-        this.getHotList();
-      }
-    });
+    this.getRecommendList()
+      .then(recommend => {
+        this.recommendRes = recommend;
+        this.hotList.map((data, index) => {
+          if (index < 4) this.recommendRes.push(data);
+        });
+      })
+      .catch(err => {
+        // 如果没有登录，则换个歌单
+        if (err.response.data.code === 301) {
+          this.$toast('你还没有登录哦~~')
+          this.recommendRes = this.hotList;
+        }
+      });
   },
   components: {
     Header,

@@ -54,51 +54,32 @@ export const mutations = {
    * @param {*} state 当前state
    * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
-  add(state, { msc: { id, name, artists, duration, ar, dt, fee }, type }) {
-    if (!duration && dt) {
-      artists = ar;
-      duration = dt;
-    }
-    //需要添加的歌曲在播放列表中的 index
-    const songIndex = state.list.findIndex(item => item.id === id);
-    // 当前播放的歌曲的 index
-    const currentIndex = state.list.findIndex(item => item.id === state.currSong.id);
-    if (songIndex >= 0) {
-      // 如果已经存在，那就剪切到下一首
-      const song = state.list.splice(songIndex, 1);
-      state.list.splice(currentIndex + 1, 0, song[0]);
+  add(state, { msc, type }) {
+    if (type === 'push') {
+      // push 歌曲到列表最后
+      // 格式化
+      const music = formatMusic(msc);
+      // 将歌曲 push 到最后
+      state.list.push(music);
     } else {
-      // 格式化时间
-      let formatDuration = '';
-      const time = duration / 60000;
-      const int = parseInt(time);
-      const dec = parseInt((time - int) * 60);
-      formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`;
-      // 歌手
-      const art = [];
-      artists.map(item => {
-        art.push(item.name);
-      });
-      // 打包
-      const music = {
-        id,
-        fee,
-        name,
-        duration,
-        artists: art,
-        formatDuration
-      };
-      if (type === 'push') {
-        state.list.push(music);
+      // 插入歌曲到当前播放歌曲后一个
+      // 需要添加的歌曲在播放列表中的 index
+      const songIndex = state.list.findIndex(item => item.id === msc.id);
+      // 当前播放的歌曲的 index
+      const currentIndex = state.list.findIndex(item => item.id === state.currSong.id);
+      if (songIndex >= 0) {
+        // 如果已经存在，那就剪切到下一首
+        const song = state.list.splice(songIndex, 1);
+        state.list.splice(currentIndex + 1, 0, song[0]);
       } else {
-        // 插入到下一首
+        // 格式化后插入到下一首
+        const music = formatMusic(msc);
         state.list.splice(currentIndex + 1, 0, music);
       }
-
-      // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
-      if (state.list.length === 1) {
-        this.commit('player/loadSong', id);
-      }
+    }
+    // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
+    if (state.list.length === 1) {
+      this.commit('player/loadSong', msc.id);
     }
   },
 
@@ -109,7 +90,7 @@ export const mutations = {
    */
   remove(state, id) {
     if (id === state.currSong.id) {
-      this.commit('player/switchSong', 'next');
+      this.commit('player/switchSong', { direction: 'next' });
     }
     state.list.splice(
       state.list.findIndex(item => item.id === id),
@@ -140,7 +121,6 @@ export const mutations = {
     for (const item of list) {
       this.commit('player/add', { msc: item, type: 'push' });
     }
-    this.commit('player/loadSong', msc.id);
   },
 
   /**
@@ -170,15 +150,16 @@ export const mutations = {
     const msc = state.list.find(item => item.id === id);
     state.currSong.detail = msc;
     state.currSong.id = id;
-    state.audio.addEventListener('canplaythrough', () => {
-      this.commit('player/play');
+    state.audio.addEventListener('canplay', () => {
+      if (state.audio.paused) {
+        this.commit('player/play');
+      }
     });
-    state.audio.addEventListener('error', () => {
-      console.log(state.audio.error, msc.fee);
+    state.audio.addEventListener('error', e => {
       if (state.audio.error && state.audio.error.code === 4) {
         // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
         if (state.list.length > 1 && state.setting.mode > 1) {
-          this.commit('player/switchSong', 'next');
+          this.commit('player/switchSong', { direction: 'next' });
         } else {
           alert('歌曲无法播放');
         }
@@ -194,9 +175,9 @@ export const mutations = {
   play(state) {
     state.audio.play();
     state.currSong.isPlay = true;
-    this.commit('player/listenerAudio');
     this.commit('player/changeVol', state.setting.vol);
     this.dispatch({ type: 'player/updatePrg' });
+    this.commit('player/listenerAudio');
   },
 
   /**
@@ -212,16 +193,18 @@ export const mutations = {
    * 监听歌曲是否播放结束
    */
   listenerAudio(state) {
-    state.audio.addEventListener('ended', () => {
+    const handleFun = () => {
       this.commit('player/pause');
-      this.commit('player/switchSong', 'next');
-    });
+      this.commit('player/switchSong', { direction: 'next' });
+    };
+    state.audio.removeEventListener('ended', handleFun);
+    state.audio.addEventListener('ended', handleFun);
   },
 
   /**
    * 更新进度条
    * @param {*} state
-   * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度时间
+   * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度, 小数 / 百分比
    */
   updateProgress(state, setTime) {
     const time = state.currSong.time;
@@ -239,7 +222,7 @@ export const mutations = {
    * 切歌
    * @param {*} state
    */
-  switchSong(state, direction) {
+  switchSong(state, { direction, from }) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
       alert('歌单里没有歌，添加一首再播放吧');
@@ -303,21 +286,49 @@ export const actions = {
   /**
    * 更新进度条
    * @param {*} param0 state
-   * @param {*} param1 标记，为 true 则停止进度，为空或 false 则为更新进度条
+   * @param {*} param1 标记，为 true 则停止进度(在拖动进度条时需要禁止更新进度)，为空或 false 则为更新进度条
    */
   updatePrg({ state }, { mark }) {
     clearInterval(progessInterval);
-    if (mark) {
-      clearInterval(progessInterval);
-    } else {
-      if (!state.audio.paused) {
+    if (!mark && !state.audio.paused) {
+      this.commit('player/updateProgress');
+      progessInterval = setInterval(() => {
         this.commit('player/updateProgress');
-        progessInterval = setInterval(() => {
-          this.commit('player/updateProgress');
-        }, 1000);
-      } else {
-        clearInterval(progessInterval);
-      }
+      }, 1000);
+    } else {
+      clearInterval(progessInterval);
     }
   }
+};
+
+/**
+ * 格式化数据
+ * @param {*} param0
+ */
+const formatMusic = ({ id, name, artists, duration, ar, dt, fee }) => {
+  // 统一格式
+  if (!duration && dt) {
+    artists = ar;
+    duration = dt;
+  }
+  // 格式化时间
+  let formatDuration = '';
+  const time = duration / 60000;
+  const int = parseInt(time);
+  const dec = parseInt((time - int) * 60);
+  formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`;
+  // 歌手, 试试 reduce
+  const art = [];
+  artists.map(item => {
+    art.push(item.name);
+  });
+  // 打包
+  return {
+    id,
+    fee,
+    name,
+    duration,
+    artists: art,
+    formatDuration
+  };
 };

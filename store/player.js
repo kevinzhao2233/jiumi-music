@@ -1,3 +1,5 @@
+import { formatMusic } from './common.js';
+
 const defaultCurrSong = {
   isPlay: false,
   id: 0,
@@ -56,13 +58,10 @@ export const mutations = {
    */
   add(state, { msc, type }) {
     if (type === 'push') {
-      // push 歌曲到列表最后
-      // 格式化
+      // 格式化后将歌曲 push 到最后
       const music = formatMusic(msc);
-      // 将歌曲 push 到最后
       state.list.push(music);
     } else {
-      // 插入歌曲到当前播放歌曲后一个
       // 需要添加的歌曲在播放列表中的 index
       const songIndex = state.list.findIndex(item => item.id === msc.id);
       // 当前播放的歌曲的 index
@@ -129,6 +128,7 @@ export const mutations = {
    * @param {*} msc 需要收藏个歌曲
    */
   enshrine(state, msc) {
+    // TODO: 收藏歌曲
     console.log('收藏该曲', msc);
   },
 
@@ -197,7 +197,6 @@ export const mutations = {
       this.commit('player/pause');
       this.commit('player/switchSong', { direction: 'next' });
     };
-    state.audio.removeEventListener('ended', handleFun);
     state.audio.addEventListener('ended', handleFun);
   },
 
@@ -299,36 +298,4 @@ export const actions = {
       clearInterval(progessInterval);
     }
   }
-};
-
-/**
- * 格式化数据
- * @param {*} param0
- */
-const formatMusic = ({ id, name, artists, duration, ar, dt, fee }) => {
-  // 统一格式
-  if (!duration && dt) {
-    artists = ar;
-    duration = dt;
-  }
-  // 格式化时间
-  let formatDuration = '';
-  const time = duration / 60000;
-  const int = parseInt(time);
-  const dec = parseInt((time - int) * 60);
-  formatDuration = `${int > 9 ? int : '0' + int}:${dec > 9 ? dec : '0' + dec}`;
-  // 歌手, 试试 reduce
-  const art = [];
-  artists.map(item => {
-    art.push(item.name);
-  });
-  // 打包
-  return {
-    id,
-    fee,
-    name,
-    duration,
-    artists: art,
-    formatDuration
-  };
 };

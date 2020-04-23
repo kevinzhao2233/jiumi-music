@@ -3,15 +3,16 @@
     <div class="left">
       <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
       <i class="idx icon iconfont icon-plus" @click="add(item.id)"></i>
-      <div
+      <nuxt-link
         class="pic"
         v-if="pic"
+        :to="{ name: 'song-id', params: { id: item.id } }"
         :style="{
           background: `center / cover url(${
-            item.al ? item.al.picUrl : item.album.picUrl
+            item.al ? item.al.picUrl.replace(/^http:/,'https:') : item.album.picUrl.replace(/^http:/,'https:')
           }?param=40y40) no-repeat`
         }"
-      ></div>
+      ></nuxt-link>
       <div class="content">
         <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name">{{
           item.name
@@ -131,6 +132,7 @@ export default {
     }
 
     .pic {
+      display: block;
       margin-right: 16px;
       width: 40px;
       height: 40px;

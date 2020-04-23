@@ -4,20 +4,20 @@
       <div
         class="bg"
         :style="{
-          background: `center / cover url(${artist.picUrl}) no-repeat`
+          background: `center / cover url(${artist.picUrl.replace(/^http:/,'https:')}) no-repeat`
         }"
       ></div>
       <div class="header-main">
         <div
           class="img"
           :style="{
-            background: `center / cover url(${artist.img1v1Url}?param=240y240) no-repeat`
+            background: `center / cover url(${artist.img1v1Url.replace(/^http:/,'https:')}?param=240y240) no-repeat`
           }"
         ></div>
         <div
           class="img-bg"
           :style="{
-            background: `center / cover url(${artist.img1v1Url}?param=240y240) no-repeat`
+            background: `center / cover url(${artist.img1v1Url.replace(/^http:/,'https:')}?param=240y240) no-repeat`
           }"
         ></div>
         <div class="info">

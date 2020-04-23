@@ -12,7 +12,7 @@
         :title="item.name"
         :to="{ name: 'album-id', params: { id: item.id } }"
         :style="{
-          background: `center / cover url(${item.picUrl}?param=130y130) no-repeat`
+          background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=130y130) no-repeat`
         }"
       >
         <span class="sub">{{ item.size }}首</span>

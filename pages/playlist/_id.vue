@@ -4,13 +4,19 @@
       <div
         class="img"
         :style="{
-          background: `center / cover url(${playlist.coverImgUrl}?param=240y240) no-repeat`
+          background: `center / cover url(${playlist.coverImgUrl.replace(
+            /^http:/,
+            'https:'
+          )}?param=240y240) no-repeat`
         }"
       ></div>
       <div
         class="img-bg"
         :style="{
-          background: `center / cover url(${playlist.coverImgUrl}?param=240y240) no-repeat`
+          background: `center / cover url(${playlist.coverImgUrl.replace(
+            /^http:/,
+            'https:'
+          )}?param=240y240) no-repeat`
         }"
       ></div>
       <div class="info">
@@ -19,7 +25,7 @@
           <div
             class="avatar"
             :style="{
-              background: `center / cover url(${playlist.creator.avatarUrl}?param=36y36) no-repeat`,
+              background: `center / cover url(${playlist.creator.avatarUrl}?param=36y36) no-repeat`
             }"
           ></div>
           <span class="name">{{ playlist.creator.nickname }}</span>
@@ -82,6 +88,7 @@ export default {
     async getSonger(id) {
       const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`);
       this.$nextTick(() => {
+        playlist.creator.avatarUrl.replace(/^http:/, 'https:');
         this.playlist = playlist;
         this.tracks = playlist.tracks;
       });

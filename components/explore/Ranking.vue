@@ -14,13 +14,13 @@
           <div
             class="img"
             :style="{
-              background: `center / cover url(${item.coverImgUrl}?param=120y120) no-repeat`,
+              background: `center / cover url(${item.coverImgUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`,
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `center / cover url(${item.coverImgUrl}?param=120y120) no-repeat`,
+              background: `center / cover url(${item.coverImgUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`,
             }"
           ></div>
         </nuxt-link>
@@ -39,13 +39,13 @@
           <div
             class="img"
             :style="{
-              background: `center / cover url(${item.picUrl}?param=120y120) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `center / cover url(${item.picUrl}?param=120y120) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`
             }"
           ></div>
           <div class="script-box">

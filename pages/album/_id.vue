@@ -4,20 +4,20 @@
       <div
         class="bg"
         :style="{
-          background: `center / cover url(${album.picUrl}?param=x600y180) no-repeat`
+          background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x600y180) no-repeat`
         }"
       ></div>
       <div class="header-main">
         <div
           class="img"
           :style="{
-            background: `center / cover url(${album.picUrl}?param=x240y240) no-repeat`
+            background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x240y240) no-repeat`
           }"
         ></div>
         <div
           class="img-bg"
           :style="{
-            background: `center / cover url(${album.picUrl}?param=x240y240) no-repeat`
+            background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x240y240) no-repeat`
           }"
         ></div>
         <div class="info">
@@ -51,7 +51,7 @@
             class="img"
             :to="{ name: 'album-id', params: { id: item.id } }"
             :style="{
-              background: `center / cover url(${item.picUrl}?param=x64y64) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=x64y64) no-repeat`
             }"
           ></nuxt-link>
           <nuxt-link :to="{ name: 'album-id', params: { id: item.id } }" class="name">{{

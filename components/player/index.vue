@@ -34,13 +34,21 @@
       </div>
     </div>
     <div class="l-control">
-      <Button @has-click="switchSong('prev')" type="primary" icon="icon-backward_end_fill" />
+      <Button
+        @has-click="switchSong({ direction: 'prev' })"
+        type="primary"
+        icon="icon-backward_end_fill"
+      />
       <Button
         @has-click="playOrPause"
         type="primary"
         :icon="player.currSong.isPlay ? 'icon-pause_fill' : 'icon-play_fill'"
       />
-      <Button @has-click="switchSong('next')" type="primary" icon="icon-forward_end_fill" />
+      <Button
+        @has-click="switchSong({ direction: 'next' })"
+        type="primary"
+        icon="icon-forward_end_fill"
+      />
     </div>
     <div class="progress">
       <span class="time">{{ mscTime.currTime }}</span>

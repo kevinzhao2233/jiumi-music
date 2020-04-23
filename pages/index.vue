@@ -43,9 +43,13 @@ export default {
         });
       })
       .catch(err => {
-        // 如果没有登录，则换个歌单
+        // 如果没有登录，换个歌单，并在第一次打开网页时提示
         if (err.response.data.code === 301) {
-          this.$toast('你还没有登录哦~~');
+          const isNoLogin = sessionStorage.getItem('noLogin');
+          if (!isNoLogin) {
+            sessionStorage.setItem('noLogin', true);
+            this.$toast('你还没有登录哦~~');
+          }
           this.recommendRes = this.hotList;
         }
       });

@@ -6,7 +6,7 @@
     <div class="item main">
       <span class="name">{{ item.name }}</span>
       <div class="btn-box">
-        <i class="icon iconfont icon-play_fill" @mousedown="play(item.id)"></i>
+        <i class="icon iconfont icon-play_fill" @click="play(item.id)"></i>
         <i class="icon iconfont icon-ellipsis"></i>
       </div>
     </div>

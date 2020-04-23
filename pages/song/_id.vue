@@ -4,13 +4,13 @@
       <div
         class="img"
         :style="{
-          background: `center / cover url(${song.al.picUrl}?param=240y240) no-repeat`,
+          background: `center / cover url(${song.al.picUrl.replace(/^http:/,'https:')}?param=240y240) no-repeat`
         }"
       ></div>
       <div
         class="img-bg"
         :style="{
-          background: `center / cover url(${song.al.picUrl}?param=240y240) no-repeat`,
+          background: `center / cover url(${song.al.picUrl.replace(/^http:/,'https:')}?param=240y240) no-repeat`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat'
         }"
@@ -50,14 +50,15 @@
         <Card>
           <h3 slot="title" class="title">相关歌单</h3>
           <div class="item" v-for="item in simiPlaylists" :key="item.id">
-            <div
+            <nuxt-link
               class="img"
+              :to="{ name: 'playlist-id', params: { id: item.id } }"
               :style="{
                 background: `url(${item.coverImgUrl}?param=72y72)`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat'
               }"
-            ></div>
+            ></nuxt-link>
             <nuxt-link :to="{ name: 'playlist-id', params: { id: item.id } }" class="name">{{
               item.name
             }}</nuxt-link>

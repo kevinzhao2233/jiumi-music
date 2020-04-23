@@ -120,6 +120,7 @@ export const mutations = {
     for (const item of list) {
       this.commit('player/add', { msc: item, type: 'push' });
     }
+    this.commit('player/loadSong', msc.id)
   },
 
   /**
@@ -221,7 +222,7 @@ export const mutations = {
    * 切歌
    * @param {*} state
    */
-  switchSong(state, { direction, from }) {
+  switchSong(state, { direction }) {
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
       alert('歌单里没有歌，添加一首再播放吧');

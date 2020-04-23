@@ -6,7 +6,7 @@
         <div
           class="img"
           :style="{
-            background: `center / cover url(${item.song.album.picUrl}?param=72y72) no-repeat`
+            background: `center / cover url(${item.song.album.picUrl.replace(/^http:/,'https:')}?param=72y72) no-repeat`
           }"
         >
           <div class="play"></div>

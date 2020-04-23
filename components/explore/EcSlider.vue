@@ -6,7 +6,9 @@
         :to="{ name: 'playlist-id', params: { id: slide.id } }"
         :style="{
           background: `center / cover url(${
-            slide.picUrl ? slide.picUrl : slide.coverImgUrl
+            slide.picUrl
+              ? slide.picUrl.replace(/^http:/,'https:')
+              : slide.coverImgUrl.replace(/^http:/,'https:')
           }?param=120y132) no-repeat`
         }"
       ></nuxt-link>
@@ -14,7 +16,9 @@
         class="img-bg"
         :style="{
           background: `center / cover url(${
-            slide.picUrl ? slide.picUrl : slide.coverImgUrl
+            slide.picUrl
+              ? slide.picUrl.replace(/^http:/,'https:')
+              : slide.coverImgUrl.replace(/^http:/,'https:')
           }?param=120y132) no-repeat`
         }"
       ></div>
@@ -43,19 +47,13 @@ export default {
   data() {
     return {
       swiperOption: {
-        spaceBetween: 24,
+        spaceBetween: 0,
         allowTouchMove: false,
         slidesPerView: 'auto',
         slidesPerGroup: 7,
-        loopFillGroupWithBlank: true,
-        breakpoints: {
-          1240: {
-            slidesPerView: 7,
-            spaceBetween: 24
-          }
-        }
+        loopFillGroupWithBlank: true
       },
-      resizeTimer: null // 计时器
+      resizeTimer: null // 计时器(函数防抖用)
     };
   },
   methods: {
@@ -121,7 +119,8 @@ export default {
   }
 
   .swiper-slide {
-    width: 116px;
+    margin-right: 24px;
+    width: 120px;
     height: 100%;
     text-align: center;
     cursor: pointer;

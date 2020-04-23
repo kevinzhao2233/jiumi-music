@@ -38,7 +38,7 @@
         class="img"
         :to="{ name: 'singer-id', params: { id: hot.artist[0].id } }"
         :style="{
-          background: `center / cover url(${hot.artist[0].img1v1Url}?param=108y108) no-repeat`
+          background: `center / cover url(${hot.artist[0].img1v1Url.replace(/^http:/,'https:')}?param=108y108) no-repeat`
         }"
       ></nuxt-link>
       <div class="info">

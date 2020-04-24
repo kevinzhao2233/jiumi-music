@@ -2,8 +2,18 @@
   <div class="eh-container">
     <Banner :banners="banners" />
     <div class="h-btn-box">
-      <Button type="" icon="icon-gear_alt_fill1" title="设置" />
-      <Button type="" icon="icon-envelope_fill" title="消息" />
+      <Button
+        type=""
+        icon="icon-gear_alt_fill1"
+        title="设置"
+        @has-click="$toast('开发者正在筹集头发~~')"
+      />
+      <Button
+        type=""
+        icon="icon-envelope_fill"
+        title="消息"
+        @has-click="$toast('开发者正在筹集头发~~')"
+      />
       <Button
         type=""
         :icon="upro ? '' : 'icon-person_fill'"

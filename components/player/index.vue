@@ -63,7 +63,7 @@
       <span class="time">{{ mscTime.totalTime }}</span>
     </div>
     <div class="r-control">
-      <Button icon="icon-heart_fill" />
+      <Button icon="icon-heart_fill" @has-click="$toast('开发者正在筹集头发~~')" />
       <Button
         @has-click="switchMode"
         :icon="
@@ -160,7 +160,8 @@ export default {
     },
     // 点击歌曲封面
     clickCover() {
-      console.log('点击了歌曲封面');
+      // TODO：点击歌曲封面
+      this.$toast('开发者正在筹集头发~~');
       this.isMusicPage = !this.isMusicPage;
     },
     // 选中进度滑块

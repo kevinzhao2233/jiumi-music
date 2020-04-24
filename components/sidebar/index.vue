@@ -1,17 +1,23 @@
 <template>
   <div class="sidebar-box">
-    <img src="~/static/img/logo.png" class="block logo-box" alt="啾咪音乐">
-    <List v-for="(items, index) in sidebarList" :key="index" :items="items"></List>
+    <img src="~/static/img/logo.png" class="block logo-box" alt="啾咪音乐" />
+    <List :items="sidebarList.explore" />
+    <List :items="sidebarList.myMusic" v-if="isLogin" />
+    <NoLogin v-else />
+    <List :items="sidebarList.myCreate" />
+    <List :items="sidebarList.myEnshrine" />
   </div>
 </template>
 
 <script>
+import NoLogin from '~/components/common/NoLogin.vue';
 import List from './List.vue';
 
 export default {
   name: 'Sidebar',
   components: {
-    List
+    List,
+    NoLogin
   },
 
   data() {
@@ -64,13 +70,13 @@ export default {
               id: '202',
               name: '最近播放',
               icon: 'icon-clock_fill',
-              router: 'playlist'
+              router: 'current'
             },
             {
               id: '203',
               name: '我的收藏',
               icon: 'icon-star_fill',
-              router: 'playlist'
+              router: 'enshrine'
             }
           ]
         },
@@ -83,12 +89,13 @@ export default {
           list: []
         }
       },
-      settings: {
-        tagname: 'div'
-      }
+      isLogin: false
     };
   },
   methods: {
+    /**
+     * 获取用户歌单列表
+     */
     async fetchUserList(id) {
       const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${id}`);
       const createList = playlist.filter((data, index) => {
@@ -100,14 +107,45 @@ export default {
       this.sidebarList.myCreate.list = createList;
       this.sidebarList.myEnshrine.list = enshrineList;
       this.sidebarList.myMusic.list[0].id = playlist[0].id;
+      // 更新侧边显示效果
+      this.$nextTick(() => {
+        this.switchSidebarEff(this.$route);
+      });
+    },
+
+    /**
+     * 切换歌单列表显示效果
+     */
+    switchSidebarEff(to) {
+      for (const key in this.sidebarList) {
+        if (this.sidebarList.hasOwnProperty(key)) {
+          const myList = this.sidebarList[key];
+          for (const item of myList.list) {
+            this.$set(item, 'active', false);
+            if (item.router === to.name) {
+              this.$set(item, 'active', true);
+            } else if (to.name === 'playlist-id' && Number(item.id) === Number(to.params.id)) {
+              this.$set(item, 'active', true);
+            }
+          }
+        }
+      }
     }
   },
   created() {
     const uid = localStorage.getItem('uid');
-
     if (uid) {
       this.fetchUserList(uid);
+      this.isLogin = true;
+    } else {
+      this.isLogin = false;
     }
+  },
+  mounted() {
+    this.$router.beforeEach((to, from, next) => {
+      this.switchSidebarEff(to);
+      next();
+    });
   }
 };
 </script>

@@ -2,22 +2,18 @@
   <div class="block">
     <span class="tit">{{ items.title }}</span>
     <div class="list-box">
-      <nuxt-link
-        class="item"
+      <div
+        :class="item.active ? 'item active' : 'item'"
         v-for="(item, index) in items.list"
+        @click="switchRouter(item)"
         :key="index"
         :title="item.name"
-        :to="
-          item.router
-            ? { name: item.router, params: { id: item.id } }
-            : { name: 'playlist-id', params: { id: item.id } }
-        "
       >
         <i
           :class="item.icon ? `icon iconfont ${item.icon}` : 'icon iconfont icon-music_albums_fill'"
         ></i>
         <span>{{ item.name }}</span>
-      </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +25,12 @@ export default {
   props: {
     items: {
       type: Object
+    }
+  },
+
+  methods: {
+    switchRouter(item) {
+      this.$router.push({ name: item.router || 'playlist-id', params: { id: item.id } });
     }
   }
 };
@@ -87,7 +89,6 @@ export default {
 
       &.active {
         color: $main-6;
-        background-color: $main-1;
       }
 
       &:hover {

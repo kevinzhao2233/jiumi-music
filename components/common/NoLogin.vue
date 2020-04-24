@@ -16,7 +16,7 @@ export default {
 
 .box {
   width: 100%;
-  height: 100%;
+  height: 100px;
   text-align: center;
   color: $main-6;
 

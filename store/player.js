@@ -120,7 +120,7 @@ export const mutations = {
     for (const item of list) {
       this.commit('player/add', { msc: item, type: 'push' });
     }
-    this.commit('player/loadSong', msc.id)
+    this.commit('player/loadSong', msc.id);
   },
 
   /**
@@ -156,7 +156,8 @@ export const mutations = {
         this.commit('player/play');
       }
     });
-    state.audio.addEventListener('error', e => {
+    this.commit('player/listenerAudio');
+    state.audio.addEventListener('error', () => {
       if (state.audio.error && state.audio.error.code === 4) {
         // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
         if (state.list.length > 1 && state.setting.mode > 1) {
@@ -178,7 +179,6 @@ export const mutations = {
     state.currSong.isPlay = true;
     this.commit('player/changeVol', state.setting.vol);
     this.dispatch({ type: 'player/updatePrg' });
-    this.commit('player/listenerAudio');
   },
 
   /**
@@ -194,11 +194,10 @@ export const mutations = {
    * 监听歌曲是否播放结束
    */
   listenerAudio(state) {
-    const handleFun = () => {
+    state.audio.addEventListener('ended', () => {
       this.commit('player/pause');
-      this.commit('player/switchSong', { direction: 'next' });
-    };
-    state.audio.addEventListener('ended', handleFun);
+      this.commit('player/switchSong', { direction: 'next', lastSongId: state.currSong.id });
+    });
   },
 
   /**
@@ -222,7 +221,11 @@ export const mutations = {
    * 切歌
    * @param {*} state
    */
-  switchSong(state, { direction }) {
+  switchSong(state, { direction, lastSongId }) {
+    console.log(lastSongId);
+    if (lastSongId) {
+      this.dispatch({ type: 'player/scrobble', id: lastSongId });
+    }
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
       alert('歌单里没有歌，添加一首再播放吧');
@@ -298,5 +301,9 @@ export const actions = {
     } else {
       clearInterval(progessInterval);
     }
+  },
+  async scrobble({}, { id }) {
+    const { code } = await this.$axios.$get(`/api/scrobble?id=${id}`);
+    if (code === 200) console.log('听歌打卡，成功');
   }
 };

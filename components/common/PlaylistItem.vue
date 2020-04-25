@@ -20,7 +20,8 @@
       <div class="content">
         <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name"
           >{{ item.name }}
-          <span class="alia">{{ item.alia.length > 0 ? `（${item.alia}）` : '' }}</span>
+          <span class="alia" v-if="item.alia">{{ item.alia.length > 0 ? `（${item.alia}）` : '' }}</span>
+          <span class="alia" v-if="item.alias">{{ item.alias.length > 0 ? `（${item.alias[0]}）` : '' }}</span>
         </nuxt-link>
         <div class="msc-art" v-if="item.artists">
           <span class="art-names" v-for="(art, index) in item.artists" :key="index">

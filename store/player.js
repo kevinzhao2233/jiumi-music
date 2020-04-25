@@ -12,7 +12,8 @@ const defaultCurrSong = {
     id: 0,
     name: '--',
     artists: ['--', '---'],
-    duration: 0
+    duration: 0,
+    sourcePlaylistId: 0
   }
 };
 
@@ -196,7 +197,10 @@ export const mutations = {
   listenerAudio(state) {
     state.audio.addEventListener('ended', () => {
       this.commit('player/pause');
-      this.commit('player/switchSong', { direction: 'next', lastSongId: state.currSong.id });
+      this.commit('player/switchSong', {
+        direction: 'next',
+        lastMsc: state.currSong
+      });
     });
   },
 
@@ -221,10 +225,9 @@ export const mutations = {
    * 切歌
    * @param {*} state
    */
-  switchSong(state, { direction, lastSongId }) {
-    console.log(lastSongId);
-    if (lastSongId) {
-      this.dispatch({ type: 'player/scrobble', id: lastSongId });
+  switchSong(state, { direction, lastMsc }) {
+    if (lastMsc) {
+      this.dispatch({ type: 'player/scrobble', lastMsc });
     }
     if (state.currSong.id === 0) {
       // 弹窗提醒，添加歌曲后点击播放
@@ -302,8 +305,13 @@ export const actions = {
       clearInterval(progessInterval);
     }
   },
-  async scrobble({}, { id }) {
-    const { code } = await this.$axios.$get(`/api/scrobble?id=${id}`);
-    if (code === 200) console.log('听歌打卡，成功');
+  async scrobble({}, { lastMsc }) {
+    const msc = lastMsc.detail;
+    const { code } = await this.$axios.$get(
+      `/api/scrobble?id=${msc.id}&sourceid=${msc.sourcePlaylistId}&time=${Math.floor(
+        msc.duration / 1000
+      )}`
+    );
+    if (code === 200) console.log('听歌打卡成功');
   }
 };

@@ -91,6 +91,7 @@ export default {
         playlist.creator.avatarUrl.replace(/^http:/, 'https:');
         playlist.tracks.map((item, index) => {
           item.privilege = privileges[index];
+          item.sourcePlaylistId = id;
         });
         this.playlist = playlist;
         this.tracks = playlist.tracks;

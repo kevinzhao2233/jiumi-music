@@ -2,9 +2,9 @@
  * 格式化数据
  * @param {*} param0
  */
-export const formatMusic = ({ id, name, artists, duration, ar, dt, fee }) => {
+export const formatMusic = ({ id, name, artists, duration, ar, dt, fee, sourcePlaylistId }) => {
   // 统一格式
-  if (!duration && dt) {
+  if (ar && !artists) {
     artists = ar;
     duration = dt;
   }
@@ -26,6 +26,7 @@ export const formatMusic = ({ id, name, artists, duration, ar, dt, fee }) => {
     name,
     duration,
     artists: art,
-    formatDuration
+    formatDuration,
+    sourcePlaylistId
   };
 };

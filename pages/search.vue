@@ -33,7 +33,7 @@
         </div> -->
       </div>
     </div>
-    <div class="hot" v-if="hot.artist.length > 0">
+    <div class="hot" v-if="hot.artist !== null">
       <nuxt-link
         class="img"
         :to="{ name: 'singer-id', params: { id: hot.artist[0].id } }"
@@ -140,7 +140,7 @@ export default {
         }
       },
       hot: {
-        artist: []
+        artist: null
       }
     };
   },

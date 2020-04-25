@@ -107,10 +107,6 @@ export default {
       this.sidebarList.myCreate.list = createList;
       this.sidebarList.myEnshrine.list = enshrineList;
       this.sidebarList.myMusic.list[0].id = playlist[0].id;
-      // 更新侧边显示效果
-      this.$nextTick(() => {
-        this.switchSidebarEff(this.$route);
-      });
     },
 
     /**
@@ -135,13 +131,17 @@ export default {
   created() {
     const uid = localStorage.getItem('uid');
     if (uid) {
-      this.fetchUserList(uid);
+      this.fetchUserList(uid).then(() => {
+        // 更新侧边显示效果
+        this.switchSidebarEff(this.$route);
+      });
       this.isLogin = true;
     } else {
       this.isLogin = false;
     }
   },
   mounted() {
+    this.switchSidebarEff(this.$route);
     this.$router.beforeEach((to, from, next) => {
       this.switchSidebarEff(to);
       next();

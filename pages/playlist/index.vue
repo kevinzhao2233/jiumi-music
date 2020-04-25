@@ -1,8 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container" ref="page">
     <div class="select-box">
       <div class="drop-box">{{ currentCat }}</div>
-      <div class="hot-cat" v-for="item in hotPlaylistTags" :key="item.id">
+      <div
+        class="hot-cat"
+        v-for="item in hotPlaylistTags"
+        :key="item.id"
+        @click="fetchPlaylists(item.name)"
+      >
         {{ item.name }}
       </div>
     </div>
@@ -25,7 +30,7 @@
         <span class="title">{{ item.name }}</span>
       </nuxt-link>
     </div>
-    <div class="empty"></div>
+    <div class="empty" ref="loadTag"></div>
   </div>
 </template>
 
@@ -34,13 +39,31 @@ export default {
   async asyncData({ $axios }) {
     // 加载 banner 位置的新歌, 网友精选歌单
     const { tags } = await $axios.$get('/api/playlist/hot');
-    const { playlists, cat } = await $axios.$get('/api/top/playlist?limit=50');
+    const { playlists, cat } = await $axios.$get('/api/top/playlist?cat=全部&limit=100');
     return {
       hotPlaylistTags: tags,
       playlists,
       currentCat: cat
     };
-  }
+  },
+  methods: {
+    async fetchPlaylists(cat, offset) {
+      const { playlists } = await this.$axios.$get(`/api/top/playlist?cat=${cat}&limit=100`);
+      // console.log(playlists);
+      // this.playlists = this.playlists.concat(playlists);
+      this.playlists = playlists;
+    },
+    handleScroll() {
+      if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
+        const offset = this.playlists.length / 50;
+        this.fetchPlaylists(offset);
+        this.$refs.page.removeEventListener('scroll', this.handleScroll);
+      }
+    }
+  },
+  mounted() {
+    // this.$refs.page.addEventListener('scroll', this.handleScroll);
+  },
 };
 </script>
 

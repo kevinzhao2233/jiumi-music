@@ -86,9 +86,12 @@ export default {
   },
   methods: {
     async getSonger(id) {
-      const { playlist } = await this.$axios.$get(`/api/playlist/detail?id=${id}`);
+      const { playlist, privileges } = await this.$axios.$get(`/api/playlist/detail?id=${id}`);
       this.$nextTick(() => {
         playlist.creator.avatarUrl.replace(/^http:/, 'https:');
+        playlist.tracks.map((item, index) => {
+          item.privilege = privileges[index];
+        });
         this.playlist = playlist;
         this.tracks = playlist.tracks;
       });

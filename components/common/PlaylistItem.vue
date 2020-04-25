@@ -1,6 +1,7 @@
 <template>
   <li :class="item.privilege ? `${item.privilege.st > -1 ? 'item' : 'item no-cr'}` : 'item'">
     <div class="left">
+      <!-- 序号、加号、图片 -->
       <span class="idx num">{{ index + 1 > 9 ? index + 1 : `0${index + 1}` }}</span>
       <i class="idx icon iconfont icon-plus" @click="add(item.id)"></i>
       <nuxt-link
@@ -9,14 +10,18 @@
         :to="{ name: 'song-id', params: { id: item.id } }"
         :style="{
           background: `center / cover url(${
-            item.al ? item.al.picUrl.replace(/^http:/,'https:') : item.album.picUrl.replace(/^http:/,'https:')
+            item.al
+              ? item.al.picUrl.replace(/^http:/, 'https:')
+              : item.album.picUrl.replace(/^http:/, 'https:')
           }?param=40y40) no-repeat`
         }"
       ></nuxt-link>
+      <!-- 歌名歌手 -->
       <div class="content">
-        <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name">{{
-          item.name
-        }}</nuxt-link>
+        <nuxt-link :to="{ name: 'song-id', params: { id: item.id } }" class="msc-name"
+          >{{ item.name }}
+          <span class="alia">{{ item.alia.length > 0 ? `（${item.alia}）` : '' }}</span>
+        </nuxt-link>
         <div class="msc-art" v-if="item.artists">
           <span class="art-names" v-for="(art, index) in item.artists" :key="index">
             <nuxt-link :to="{ name: 'singer-id', params: { id: art.id } }" class="art-name">{{
@@ -34,16 +39,19 @@
           </span>
         </div>
       </div>
+      <!-- 中间按钮 -->
       <div class="control">
         <i class="btn iconfont icon-play_fill" @click="play(item.id)"></i>
         <i class="btn iconfont icon-folder_fill_badge_plus" @click="enshrine(item.id)"></i>
       </div>
     </div>
+    <!-- 专辑 -->
     <nuxt-link
       class="center album"
       :to="{ name: 'album-id', params: { id: `${item.al ? item.al.id : item.album.id}` } }"
       >{{ item.album ? item.album.name : item.al.name }}</nuxt-link
     >
+    <!-- 时间 -->
     <div class="right time">
       {{ item.duration ? formateTime(item.duration) : formateTime(item.dt) }}
     </div>
@@ -154,6 +162,10 @@ export default {
         line-height: 22px;
         cursor: pointer;
 
+        .alia {
+          color: $mid-6;
+        }
+
         &:hover {
           text-decoration: underline;
         }
@@ -240,7 +252,7 @@ export default {
 
   &.no-cr {
     .left .content .msc-name,
-    .center .album {
+    .center.album {
       color: $mid-6;
     }
   }
@@ -265,6 +277,9 @@ export default {
       .content {
         .msc-name {
           color: $mid-1;
+          .alia {
+          color: $mid-4;
+        }
         }
         .msc-art {
           color: $mid-4;

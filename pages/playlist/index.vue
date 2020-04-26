@@ -14,10 +14,11 @@
     </div>
     <div class="playlist-box">
       <nuxt-link
-        :to="{ name: 'playlist-id', params: { id: item.id } }"
         class="list-box"
         v-for="(item, index) in playlists"
+        :to="{ name: 'playlist-id', params: { id: item.id } }"
         :key="item.id + index"
+        :title="item.name"
       >
         <div
           class="img"
@@ -28,6 +29,7 @@
             )}?param=132y140) no-repeat`
           }"
         ></div>
+        <span class="count-mark">{{ formatPlayCount(item.playCount) }}</span>
         <span class="title">{{ item.name }}</span>
       </nuxt-link>
     </div>
@@ -60,6 +62,15 @@ export default {
       this.loading = false;
       this.currentCat = cat;
       this.playlists = this.playlists.concat(playlists);
+    },
+    formatPlayCount(count) {
+      if (count / 100000000 > 1) {
+        return Math.floor(count / 100000000) + '亿';
+      }
+      if (count / 10000 > 1) {
+        return Math.floor(count / 10000) + '万';
+      }
+      return count;
     },
     handleClick(cat) {
       if (this.currentCat === cat) return;
@@ -152,6 +163,7 @@ export default {
     }
 
     .list-box {
+      position: relative;
       display: block;
       width: 132px;
       height: 188px;
@@ -162,6 +174,17 @@ export default {
         width: 132px;
         height: 140px;
         border-radius: 8px;
+      }
+
+      .count-mark {
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;
+        padding: 1px 8px;
+        color: $mid-1;
+        background-color: #55555533;
+        border-radius: 10px;
       }
 
       .title {

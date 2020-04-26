@@ -50,12 +50,13 @@ export default {
               icon: 'icon-person__fill',
               router: 'singer'
             },
-            {
-              id: '105',
-              name: 'MV',
-              icon: 'icon-videocam_fill',
-              router: 'mv'
-            }
+            // TODO: MV
+            // {
+            //   id: '105',
+            //   name: 'MV',
+            //   icon: 'icon-videocam_fill',
+            //   router: 'mv'
+            // }
           ]
         },
         myMusic: {

@@ -1,10 +1,15 @@
 <template>
   <div class="container" ref="page">
     <div class="select-box">
-      <div class="drop-box">{{ currentCat }}</div>
-      <div class="hot-cat" @click="handleClick('全部')">全部</div>
+      <!-- <div class="drop-box">{{ currentCat }}</div> -->
       <div
-        class="hot-cat"
+        :class="currentCat === '全部' ? 'hot-cat active' : 'hot-cat'"
+        @click="handleClick('全部')"
+      >
+        全部
+      </div>
+      <div
+        :class="currentCat === item.name ? 'hot-cat active' : 'hot-cat'"
         v-for="item in hotPlaylistTags"
         :key="item.id"
         @click="handleClick(item.name)"
@@ -137,6 +142,11 @@ export default {
       user-select: none;
       transition: background-color 0.2s, color 0.2s;
       cursor: pointer;
+
+      &.active {
+        background-color: $main-6;
+        color: $mid-1;
+      }
 
       &:hover {
         background-color: $main-6;

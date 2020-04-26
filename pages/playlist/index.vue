@@ -2,11 +2,12 @@
   <div class="container" ref="page">
     <div class="select-box">
       <div class="drop-box">{{ currentCat }}</div>
+      <div class="hot-cat" @click="handleClick('全部')">全部</div>
       <div
         class="hot-cat"
         v-for="item in hotPlaylistTags"
         :key="item.id"
-        @click="fetchPlaylists(item.name)"
+        @click="handleClick(item.name)"
       >
         {{ item.name }}
       </div>
@@ -30,7 +31,9 @@
         <span class="title">{{ item.name }}</span>
       </nuxt-link>
     </div>
-    <div class="empty" ref="loadTag"></div>
+    <div class="empty" ref="loadTag">
+      <div v-show="loading" class="loading dot-windmill"></div>
+    </div>
   </div>
 </template>
 
@@ -46,17 +49,30 @@ export default {
       currentCat: cat
     };
   },
+  data: () => ({
+    loading: false
+  }),
   methods: {
-    async fetchPlaylists(offset, cat = '全部', limit = 60) {
+    async fetchPlaylists(cat, offset = 0, limit = 60) {
       const { playlists } = await this.$axios.$get(
         `/api/top/playlist?cat=${cat}&limit=${limit}&offset=${offset}`
       );
+      this.loading = false;
+      this.currentCat = cat;
       this.playlists = this.playlists.concat(playlists);
+    },
+    handleClick(cat) {
+      if (this.currentCat === cat) return;
+      this.playlists = [];
+      this.currentCat = cat;
+      this.loading = true;
+      this.fetchPlaylists(cat);
     },
     handleScroll() {
       if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
         const offset = this.playlists.length;
-        this.fetchPlaylists(offset);
+        this.fetchPlaylists(this.currentCat, offset);
+        this.loading = true;
         this.$refs.page.removeEventListener('scroll', this.handleScroll);
       }
     }
@@ -100,7 +116,6 @@ export default {
       color: $mid-1;
       border-radius: 6px;
       user-select: none;
-      cursor: pointer;
     }
 
     .hot-cat {
@@ -172,6 +187,10 @@ export default {
   .empty {
     height: 200px;
     padding-bottom: 160px;
+
+    .loading {
+      margin: 40px auto;
+    }
   }
 }
 </style>

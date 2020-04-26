@@ -15,8 +15,8 @@
       <nuxt-link
         :to="{ name: 'playlist-id', params: { id: item.id } }"
         class="list-box"
-        v-for="item in playlists"
-        :key="item.id"
+        v-for="(item, index) in playlists"
+        :key="item.id + index"
       >
         <div
           class="img"
@@ -37,9 +37,9 @@
 <script>
 export default {
   async asyncData({ $axios }) {
-    // 加载 banner 位置的新歌, 网友精选歌单
+    // 加载歌单分类和“全部”分类的内容（提前加载）
     const { tags } = await $axios.$get('/api/playlist/hot');
-    const { playlists, cat } = await $axios.$get('/api/top/playlist?cat=全部&limit=100');
+    const { playlists, cat } = await $axios.$get('/api/top/playlist?cat=全部&limit=60');
     return {
       hotPlaylistTags: tags,
       playlists,
@@ -47,23 +47,26 @@ export default {
     };
   },
   methods: {
-    async fetchPlaylists(cat, offset) {
-      const { playlists } = await this.$axios.$get(`/api/top/playlist?cat=${cat}&limit=100`);
-      // console.log(playlists);
-      // this.playlists = this.playlists.concat(playlists);
-      this.playlists = playlists;
+    async fetchPlaylists(offset, cat = '全部', limit = 60) {
+      const { playlists } = await this.$axios.$get(
+        `/api/top/playlist?cat=${cat}&limit=${limit}&offset=${offset}`
+      );
+      this.playlists = this.playlists.concat(playlists);
     },
     handleScroll() {
       if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
-        const offset = this.playlists.length / 50;
+        const offset = this.playlists.length;
         this.fetchPlaylists(offset);
         this.$refs.page.removeEventListener('scroll', this.handleScroll);
       }
     }
   },
   mounted() {
-    // this.$refs.page.addEventListener('scroll', this.handleScroll);
+    this.$refs.page.addEventListener('scroll', this.handleScroll);
   },
+  updated() {
+    this.$refs.page.addEventListener('scroll', this.handleScroll);
+  }
 };
 </script>
 

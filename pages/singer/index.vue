@@ -1,25 +1,25 @@
 <template>
   <div class="container" ref="page">
     <div class="select-box">
-      <div class="hot-cat active">
-        热门
+      <div
+        v-for="item in artArea"
+        :class="defaultSelect.area === item.id ? 'cat active' : 'cat'"
+        :key="item.id"
+        @click="handleSelect({ id: item.id, cat: 'area' })"
+      >
+        {{ item.name }}
       </div>
     </div>
-    <!-- <div class="art-list-box">
-      <div class="list-box" v-for="(item, index) in artists" :key="item.id + index">
-        <nuxt-link
-          class="img"
-          :to="{ name: 'singer-id', params: { id: item.id } }"
-          :style="{
-            background: `center / cover url(${item.img1v1Url.replace(
-              /^http:/,
-              'https:'
-            )}?param=140y140) no-repeat`
-          }"
-        ></nuxt-link>
-        <span class="name">{{ item.name }}</span>
+    <div class="select-box">
+      <div
+        v-for="item in artType"
+        :class="defaultSelect.type === item.id ? 'cat active' : 'cat'"
+        :key="item.id"
+        @click="handleSelect({ id: item.id, cat: 'type' })"
+      >
+        {{ item.name }}
       </div>
-    </div> -->
+    </div>
     <SingerList class="list" :list="artists" />
     <div class="empty" ref="loadTag">
       <div v-show="loading" class="loading dot-windmill"></div>
@@ -38,6 +38,8 @@ export default {
     };
   },
   data: () => ({
+    loading: false,
+    defaultSelect: { area: -1, type: -1 },
     artArea: [
       {
         id: -1,
@@ -81,21 +83,26 @@ export default {
         id: 3,
         name: '乐队'
       }
-    ],
-    loading: false
+    ]
   }),
   methods: {
-    async fetchArtists(offset = 0, limit = 42) {
+    async fetchArtists({ area, type }, offset = 0, limit = 42) {
       const { artists } = await this.$axios.$get(
-        `/api/artist/list?limit=${limit}&offset=${offset}`
+        `/api/artist/list?area=${area}&type=${type}&limit=${limit}&offset=${offset}`
       );
       this.loading = false;
       this.artists = this.artists.concat(artists);
     },
+    handleSelect({ id, cat }) {
+      this.loading = true;
+      this.defaultSelect[cat] = id;
+      this.artists = [];
+      this.fetchArtists(this.defaultSelect, 0);
+    },
     handleScroll() {
       if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
         const offset = this.artists.length;
-        this.fetchArtists(offset);
+        this.fetchArtists(this.defaultSelect, offset);
         this.loading = true;
         this.$refs.page.removeEventListener('scroll', this.handleScroll);
       }
@@ -104,9 +111,9 @@ export default {
   mounted() {
     this.$refs.page.addEventListener('scroll', this.handleScroll);
   },
-  // updated() {
-  //   this.$refs.page.addEventListener('scroll', this.handleScroll);
-  // },
+  updated() {
+    this.$refs.page.addEventListener('scroll', this.handleScroll);
+  },
   components: {
     SingerList
   }
@@ -126,17 +133,19 @@ export default {
   .select-box {
     position: relative;
     display: flex;
-    align-items: center;
-    margin: 0 auto;
+    margin: 12px auto;
     padding: 0 24px;
     width: 1000px;
-    height: 100px;
     @include respond-to(lg) {
       width: 100%;
       max-width: 1200px;
     }
 
-    .hot-cat {
+    &:first-child {
+      margin-top: 36px;
+    }
+
+    .cat {
       margin: 0 4px;
       padding: 8px 16px;
       color: $mid-8;
@@ -163,7 +172,7 @@ export default {
 
   .list {
     grid-gap: 24px;
-    margin: 0 auto;
+    margin: 36px auto;
     padding: 0 24px;
     width: 1000px;
     @include respond-to(lg) {

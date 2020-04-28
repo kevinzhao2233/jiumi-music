@@ -28,7 +28,7 @@ export default {
     };
   },
   methods: {
-    // 获取 推荐歌单 【第一个API需要登录，第二个不需要】
+    // 获取 推荐歌单 【需要登录】
     async getRecommendList() {
       const { recommend } = await this.$axios.$get('/api/recommend/resource');
       return recommend;
@@ -39,7 +39,8 @@ export default {
       .then(recommend => {
         this.recommendRes = recommend;
         this.hotList.map((data, index) => {
-          if (index < 4) this.recommendRes.push(data);
+          const isRepetion = this.recommendRes.findIndex(item => item.id === data.id);
+          if (index < 4 && isRepetion < 0) this.recommendRes.push(data);
         });
       })
       .catch(err => {
@@ -51,6 +52,8 @@ export default {
             this.$toast('你还没有登录哦~~');
           }
           this.recommendRes = this.hotList;
+        } else {
+          console.log('首页，判断登录发生错误', err);
         }
       });
   },

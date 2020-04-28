@@ -25,9 +25,9 @@
       >
       <nuxt-link
         class="artist"
-        :title="item.artist.name"
-        :to="{ name: 'singer-id', params: { id: item.artist.id } }"
-        >{{ item.artist.name }}</nuxt-link
+        :title="item.artists[0].name"
+        :to="{ name: 'singer-id', params: { id: item.artists[0].id } }"
+        >{{ item.artists[0].name }}</nuxt-link
       >
     </li>
   </transition-group>
@@ -41,7 +41,7 @@ export default {
     list: {
       type: Array
     }
-  }
+  },
 };
 </script>
 

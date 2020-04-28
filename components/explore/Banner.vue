@@ -69,7 +69,7 @@ export default {
     play(msc) {
       this.$store.commit('player/add', { msc });
       this.$nextTick(() => {
-        this.$store.commit('player/switchSong', 'next');
+        this.$store.commit('player/switchSong', {direction: 'next'});
       });
     }
   },

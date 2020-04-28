@@ -222,8 +222,9 @@ export const mutations = {
   },
 
   /**
-   * 切歌
-   * @param {*} state
+   * 
+   * @param {*} state state
+   * @param {*} param1 direction：上一曲还是下一曲；lastMsc：刚刚播放完的歌
    */
   switchSong(state, { direction, lastMsc }) {
     if (lastMsc) {
@@ -239,7 +240,7 @@ export const mutations = {
           break;
         case 2:
           const currIndex = state.list.findIndex(item => item.id === state.currSong.id);
-          let switchIndex;
+          let switchIndex = -1;
           if (direction === 'next') {
             // 下一曲
             switchIndex = currIndex === state.list.length - 1 ? 0 : currIndex + 1;

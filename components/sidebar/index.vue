@@ -3,9 +3,9 @@
     <img src="~/static/img/logo.png" class="block logo-box" alt="啾咪音乐" />
     <List :items="sidebarList.explore" />
     <List :items="sidebarList.myMusic" v-if="isLogin" />
-    <NoLogin v-else />
-    <List :items="sidebarList.myCreate" />
-    <List :items="sidebarList.myEnshrine" />
+    <List :items="sidebarList.myCreate" v-if="isLogin" />
+    <List :items="sidebarList.myEnshrine" v-if="isLogin" />
+    <NoLogin message="登录后显示你的歌单" v-else />
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
               name: '歌手',
               icon: 'icon-person__fill',
               router: 'singer'
-            },
+            }
             // TODO: MV
             // {
             //   id: '105',

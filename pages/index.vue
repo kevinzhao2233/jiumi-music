@@ -29,18 +29,18 @@ export default {
   },
   methods: {
     // 获取 推荐歌单 【需要登录】
-    async getRecommendList() {
+    async fetchRecommendList() {
       const { recommend } = await this.$axios.$get('/api/recommend/resource');
       return recommend;
     }
   },
   created() {
-    this.getRecommendList()
-      .then(recommend => {
-        this.recommendRes = recommend;
-        this.hotList.map((data, index) => {
+    this.fetchRecommendList()
+      .then(recommendList => {
+        this.recommendRes = recommendList;
+        this.hotList.map(data => {
           const isRepetion = this.recommendRes.findIndex(item => item.id === data.id);
-          if (index < 4 && isRepetion < 0) this.recommendRes.push(data);
+          if (this.recommendRes.length < 20 && isRepetion < 0) this.recommendRes.push(data);
         });
       })
       .catch(err => {

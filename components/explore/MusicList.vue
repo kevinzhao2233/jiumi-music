@@ -1,7 +1,7 @@
 <template>
   <Card class="container">
     <h3 slot="title" class="title">每日歌曲推荐</h3>
-    <NoLogin v-if="loginState === 'noLogin'" />
+    <NoLogin message="登陆后展示你的每日推荐" v-if="loginState === 'noLogin'" />
     <playlist
       v-if="loginState === 'login'"
       :list="mscList"

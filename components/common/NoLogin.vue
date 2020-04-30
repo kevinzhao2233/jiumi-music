@@ -1,13 +1,19 @@
-<template functional>
+<template>
   <div class="box">
-    这里需要登录哦 φ(゜▽゜*)♪
+    {{ message }} φ(゜▽゜*)♪
     <nuxt-link :to="{ name: 'Login' }" class="btn">立马登录</nuxt-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NoLogin'
+  name: 'NoLogin',
+  props: {
+    message: {
+      type: String,
+      default: '这里需要登录哦'
+    }
+  }
 };
 </script>
 

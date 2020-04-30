@@ -55,7 +55,7 @@ export const mutations = {
   /**
    * 添加下一首
    * @param {*} state 当前state
-   * @param {*} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
+   * @param {Object} param1 要添加的歌曲，添加进歌曲的方式（是否为 push）
    */
   add(state, { msc, type }) {
     if (type === 'push') {
@@ -86,7 +86,7 @@ export const mutations = {
   /**
    * 从播放列表删除一首歌
    * @param {*} state
-   * @param {*} id 需要删除的歌曲 id
+   * @param {Number} id 需要删除的歌曲 id
    */
   remove(state, id) {
     if (id === state.currSong.id) {
@@ -114,7 +114,7 @@ export const mutations = {
   /**
    * 播放全部歌曲
    * @param {*} state
-   * @param {msc, list} param1 msc为点击播放后当前需要播放的歌曲， list为整个歌单列表
+   * @param {Object} param1 msc为点击播放后当前需要播放的歌曲， list为整个歌单列表
    */
   playAll(state, { msc, list }) {
     this.commit('player/removeAll');
@@ -127,7 +127,7 @@ export const mutations = {
   /**
    * 收藏歌曲
    * @param {*} state
-   * @param {*} msc 需要收藏个歌曲
+   * @param {Object} msc 需要收藏个歌曲
    */
   enshrine(state, msc) {
     // TODO: 收藏歌曲
@@ -137,7 +137,7 @@ export const mutations = {
   /**
    * 将播放的音乐装载到audio里
    * @param {*} state
-   * @param {*} id 装载歌曲的id
+   * @param {Number} id 装载歌曲的id
    */
   loadSong(state, id) {
     // 清空audio
@@ -173,7 +173,6 @@ export const mutations = {
   /**
    * 播放
    * @param {*} state
-   * @param {*} id 需要播放的歌曲id
    */
   play(state) {
     state.audio.play();
@@ -207,7 +206,7 @@ export const mutations = {
   /**
    * 更新进度条
    * @param {*} state
-   * @param {*} setTime 点击进度条或拖动进度条滑块生成的进度, 小数 / 百分比
+   * @param {Number} setTime 点击进度条或拖动进度条滑块生成的进度, 小数 / 百分比
    */
   updateProgress(state, setTime) {
     const time = state.currSong.time;
@@ -222,9 +221,9 @@ export const mutations = {
   },
 
   /**
-   * 
+   *
    * @param {*} state state
-   * @param {*} param1 direction：上一曲还是下一曲；lastMsc：刚刚播放完的歌
+   * @param {Object} param1 direction：上一曲还是下一曲；lastMsc：刚刚播放完的歌
    */
   switchSong(state, { direction, lastMsc }) {
     if (lastMsc) {
@@ -276,8 +275,8 @@ export const mutations = {
 
   /**
    * 改变音量
-   * @param {*} state
-   * @param {*} value 要设置的音量
+   * @param {Object} state
+   * @param {Number} value 要设置的音量
    */
   changeVol(state, value) {
     state.setting.vol = value;
@@ -292,8 +291,8 @@ let progessInterval = null;
 export const actions = {
   /**
    * 更新进度条
-   * @param {*} param0 state
-   * @param {*} param1 标记，为 true 则停止进度(在拖动进度条时需要禁止更新进度)，为空或 false 则为更新进度条
+   * @param {Object} param0 state
+   * @param {Object} param1 标记，为 true 则停止进度(在拖动进度条时需要禁止更新进度)，为空或 false 则为更新进度条
    */
   updatePrg({ state }, { mark }) {
     clearInterval(progessInterval);
@@ -306,6 +305,12 @@ export const actions = {
       clearInterval(progessInterval);
     }
   },
+
+  /**
+   * 听歌打卡
+   * @param {Object} param0 占位符
+   * @param {Object} param1 上一首歌曲
+   */
   async scrobble({}, { lastMsc }) {
     const msc = lastMsc.detail;
     const { code } = await this.$axios.$get(

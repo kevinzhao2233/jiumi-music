@@ -76,10 +76,10 @@ export const mutations = {
         const music = formatMusic(msc);
         state.list.splice(currentIndex + 1, 0, music);
       }
-    }
-    // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
-    if (state.list.length === 1) {
-      this.commit('player/loadSong', msc.id);
+      // 判断list中歌的数量，如果只有刚刚添加的一个，就直接装载到audio
+      if (state.list.length === 1) {
+        this.commit('player/loadSong', msc.id);
+      }
     }
   },
 

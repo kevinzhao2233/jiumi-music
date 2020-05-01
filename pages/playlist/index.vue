@@ -163,7 +163,7 @@ export default {
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(auto-fill, 132px);
-    grid-gap: 24px;
+    grid-gap: 36px 24px;
     margin: 0 auto;
     padding: 0 24px;
     width: 1000px;

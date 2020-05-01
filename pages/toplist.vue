@@ -77,10 +77,9 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
 @import '~assets/scss/mixins.scss';
-@import '~assets/scss/spin.scss';
 
 .container {
-  padding: 48px 160px;
+  padding: 48px 0 160px;
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
@@ -100,7 +99,7 @@ export default {
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(auto-fill, 132px);
-    grid-gap: 48px 24px;
+    grid-gap: 36px 24px;
 
     .list-item {
       position: relative;

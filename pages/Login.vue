@@ -93,6 +93,7 @@ export default {
     height: 24px;
     border: none;
     border-bottom: 1px solid $mid-6;
+    background: $mid-1;
     letter-spacing: 1px;
   }
 

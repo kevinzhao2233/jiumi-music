@@ -2,25 +2,35 @@
   <div class="k-box">
     <Card>
       <h3 slot="title">云音乐榜</h3>
-      <nuxt-link :to="{ name: 'toplist' }" class="link" slot="controls" href="/">更多</nuxt-link>
+      <nuxt-link :to="{ name: 'toplist' }" class="link" slot="controls">更多</nuxt-link>
       <ul class="content">
         <nuxt-link
           class="list"
           v-for="item in toplist"
           :key="item.id"
           :title="item.name"
-          :to="{ name: 'playlist-id', params: { id: `toplist${item.id}` } }"
+          :to="
+            item.id > 0
+              ? { name: 'playlist-id', params: { id: item.id } }
+              : { name: 'artistToplist' }
+          "
         >
           <div
             class="img"
             :style="{
-              background: `center / cover url(${item.coverImgUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`,
+              background: `center / cover url(${item.coverImgUrl.replace(
+                /^http:/,
+                'https:'
+              )}?param=120y120) no-repeat`
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `center / cover url(${item.coverImgUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`,
+              background: `center / cover url(${item.coverImgUrl.replace(
+                /^http:/,
+                'https:'
+              )}?param=120y120) no-repeat`
             }"
           ></div>
         </nuxt-link>
@@ -28,7 +38,7 @@
     </Card>
     <Card>
       <h3 slot="title">歌手榜</h3>
-      <nuxt-link :to="{ name: 'toplist' }" class="link" slot="controls">更多</nuxt-link>
+      <nuxt-link :to="{ name: 'artistToplist' }" class="link" slot="controls">更多</nuxt-link>
       <ul class="content">
         <nuxt-link
           class="list"
@@ -39,13 +49,19 @@
           <div
             class="img"
             :style="{
-              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(
+                /^http:/,
+                'https:'
+              )}?param=120y120) no-repeat`
             }"
           ></div>
           <div
             class="img-bg"
             :style="{
-              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=120y120) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(
+                /^http:/,
+                'https:'
+              )}?param=120y120) no-repeat`
             }"
           ></div>
           <div class="script-box">
@@ -66,43 +82,34 @@ export default {
     Card
   },
   methods: {
+    /**
+     * 获取歌手榜
+     */
     async fetchArtists() {
       const { list } = await this.$axios.$get('/api/toplist/artist');
       this.artists = list.artists.filter((data, index) => index < 5);
+    },
+    /**
+     * 获取排行榜
+     */
+    async fetchToplist() {
+      const { list, artistToplist } = await this.$axios.$get('/api/toplist');
+      this.toplist = list.slice(0, 4);
+      const arToplist = {
+        coverImgUrl: artistToplist.coverUrl,
+        name: artistToplist.name,
+        id: 0
+      };
+      this.toplist.push(arToplist);
     }
   },
   created() {
     this.fetchArtists();
+    this.fetchToplist();
   },
   data() {
     return {
-      toplist: [
-        {
-          coverImgUrl: 'http://p2.music.126.net/N2HO5xfYEqyQ8q6oxCw8IQ==/18713687906568048.jpg',
-          name: '云音乐新歌榜',
-          id: 0
-        },
-        {
-          coverImgUrl: 'http://p2.music.126.net/GhhuF6Ep5Tq9IEvLsyCN7w==/18708190348409091.jpg',
-          name: '云音乐热歌榜',
-          id: 1
-        },
-        {
-          coverImgUrl: 'http://p2.music.126.net/sBzD11nforcuh1jdLSgX7g==/18740076185638788.jpg',
-          name: '网易原创歌曲榜',
-          id: 2
-        },
-        {
-          coverImgUrl: 'http://p2.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg',
-          name: '云音乐飙升榜',
-          id: 3
-        },
-        {
-          coverImgUrl: 'http://p2.music.126.net/MJdmNzZwTCz0b4IpHJV6Wg==/109951162865487429.jpg',
-          name: '云音乐歌手榜',
-          id: 4
-        }
-      ],
+      toplist: [],
       artists: []
     };
   }

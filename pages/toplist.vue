@@ -80,7 +80,7 @@ export default {
 @import '~assets/scss/spin.scss';
 
 .container {
-  padding-bottom: 160px;
+  padding: 48px 160px;
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
@@ -88,7 +88,7 @@ export default {
 }
 
 .toplist-card {
-  margin: 48px auto 0;
+  margin: 0 auto;
   padding: 0 24px;
   width: 1000px;
   @include respond-to(lg) {

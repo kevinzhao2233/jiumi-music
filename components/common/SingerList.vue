@@ -45,14 +45,13 @@ export default {
   justify-content: space-between;
   grid-template-columns: repeat(auto-fill, 130px);
   grid-gap: 24px;
-  padding: 0 24px;
   width: 100%;
   color: $mid-10;
 
   .item {
     margin: 0 0 12px;
     width: 130px;
-    height: 190px;
+    height: 168px;
     text-align: center;
 
     .img {

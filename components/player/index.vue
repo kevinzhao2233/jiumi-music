@@ -140,7 +140,7 @@ export default {
     currSongId(newVal, oldVal) {
       if (newVal !== 0 && newVal !== oldVal) {
         // 获取封面
-        this.getPic(newVal);
+        this.fetchPic(newVal);
       }
     }
   },
@@ -152,7 +152,7 @@ export default {
       changeVol: 'player/changeVol'
     }),
     // 获取歌曲封面
-    async getPic(id) {
+    async fetchPic(id) {
       const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
       this.$nextTick(() => {
         this.alPicUrl = songs[0].al.picUrl;
@@ -203,7 +203,7 @@ export default {
 
   mounted() {
     if (this.player.list.length > 0 && this.alPicUrl.includes('img-bed')) {
-      this.getPic(this.player.currSong.id);
+      this.fetchPic(this.player.currSong.id);
     }
   },
 
@@ -229,7 +229,7 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: $mid-1;
 
   & > div {
     display: flex;

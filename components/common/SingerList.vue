@@ -12,9 +12,7 @@
         :title="item.name"
         :to="{ name: 'singer-id', params: { id: item.id } }"
         :style="{
-          background: `url(${item.img1v1Url}?param=130y144)`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          background: `center / cover url(${item.img1v1Url}?param=130y144) no-repeat`,
         }"
       ></nuxt-link>
       <nuxt-link

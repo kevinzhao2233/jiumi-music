@@ -103,25 +103,37 @@ export default {
     };
   },
   methods: {
-    async getSong(id) {
+    /**
+     * 获取歌曲
+     */
+    async fetchSong(id) {
       const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
       this.$nextTick(() => {
         this.song = songs[0];
       });
     },
-    async getLrc(id) {
+    /**
+     * 获取歌词
+     */
+    async fetchLrc(id) {
       const { lrc } = await this.$axios.$get(`/api/lyric?id=${id}`);
       this.$nextTick(() => {
         this.lrc = lrc.lyric.replace(/\[(.+)\]/g, '');
       });
     },
-    async getSimiPlaylists(id) {
+    /**
+     * 获取相似歌单
+     */
+    async fetchSimiPlaylists(id) {
       const { playlists } = await this.$axios.$get(`/api/simi/playlist?id=${id}`);
       this.$nextTick(() => {
         this.simiPlaylists = playlists;
       });
     },
-    async getSimiSongs(id) {
+    /**
+     * 获取相似单曲，由于歌曲需要可以立即播放，先鸽喽
+     */
+    async fetchSimiSongs(id) {
       const { songs } = await this.$axios.$get(`/api/simi/song?id=${id}`);
       this.$nextTick(() => {
         this.simiSongs = songs;
@@ -129,10 +141,10 @@ export default {
     }
   },
   mounted() {
-    this.getSong(this.$route.params.id);
-    this.getLrc(this.$route.params.id);
-    this.getSimiPlaylists(this.$route.params.id);
-    // this.getSimiSongs(this.$route.params.id)
+    this.fetchSong(this.$route.params.id);
+    this.fetchLrc(this.$route.params.id);
+    this.fetchSimiPlaylists(this.$route.params.id);
+    // this.fetchSimiSongs(this.$route.params.id)
   }
 };
 </script>

@@ -1,5 +1,8 @@
 <template>
   <div class="player-box" ref="playerBox">
+    <div class="player-view-box" v-if="isMusicPage">
+      <PlayerView :songDetail="songDetail" @close-view="clickCover()" />
+    </div>
     <div class="discover">
       <div
         class="img"
@@ -110,6 +113,7 @@
 import Button from '~/components/common/Button.vue';
 import Slider from '~/components/common/Slider.vue';
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue';
+import PlayerView from '~/components/player/PlayerView.vue';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -122,6 +126,7 @@ export default {
       isShowList: false,
       isShowVolPanel: false,
       isMusicPage: false,
+      songDetail: null,
       alPicUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
     };
   },
@@ -151,17 +156,19 @@ export default {
       switchMode: 'player/switchMode',
       changeVol: 'player/changeVol'
     }),
-    // 获取歌曲封面
+    // 获取歌曲详情和封面
     async fetchPic(id) {
-      const { songs } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
+      const { songs, privileges } = await this.$axios.$get(`/api/song/detail?ids=${id}`);
       this.$nextTick(() => {
+        this.songDetail = songs[0];
+        this.songDetail.privileges = privileges;
         this.alPicUrl = songs[0].al.picUrl;
       });
     },
     // 点击歌曲封面
     clickCover() {
       // TODO：点击歌曲封面
-      this.$toast('开发者正在筹集头发~~');
+      // this.$toast('开发者正在筹集头发~~');
       this.isMusicPage = !this.isMusicPage;
     },
     // 选中进度滑块
@@ -210,7 +217,8 @@ export default {
   components: {
     Button,
     Slider,
-    CurrentPlaylist
+    CurrentPlaylist,
+    PlayerView
   }
 };
 </script>
@@ -235,6 +243,16 @@ export default {
     display: flex;
     margin: 0 24px;
     height: 100%;
+  }
+
+  .player-view-box {
+    position: fixed;
+    display: block;
+    margin: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
   }
 
   .discover {

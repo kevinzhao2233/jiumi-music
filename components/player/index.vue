@@ -251,8 +251,11 @@ export default {
     margin: 0;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 1240px;
     height: calc(100vh - 80px);
+    @include respond-to(lg) {
+      width: 100%;
+    }
   }
 
   .discover {

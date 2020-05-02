@@ -1,12 +1,15 @@
 <template>
   <div class="player-view">
     <div class="disc-box">
-      <div
-        class="disc-cir"
-        :style="{
-          background: `center / cover url(${songDetail.al.picUrl}?param=400y400) no-repeat`
-        }"
-      ></div>
+      <div class="box active">
+        <i class="bg"></i>
+        <div
+          class="disc-cir"
+          :style="{
+            background: `center / cover url(${songDetail.al.picUrl}?param=400y400) no-repeat`
+          }"
+        ></div>
+      </div>
     </div>
     <div class="lrc-box">
       <span class="tit">{{ songDetail.name }}</span>
@@ -96,6 +99,18 @@ export default {
 @import '~assets/scss/config.scss';
 @import '~assets/scss/mixins.scss';
 
+@keyframes circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .player-view {
   display: flex;
   justify-content: space-between;
@@ -125,17 +140,67 @@ export default {
   width: 45%;
   height: 680px;
 
+  .box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    height: 360px;
+    z-index: 100;
+
+    &.active {
+      .bg {
+        content: '';
+        position: absolute;
+        left: 5%;
+        top: 2%;
+        background-color: #f5469155;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        transform-origin: 45% 50%;
+        // animation: circle 12s linear infinite;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        left: -6%;
+        top: -6%;
+        background-color: #f546913f;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        transform-origin: 58% 50%;
+        // animation: circle 15s linear infinite;
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        left: -4%;
+        top: 8%;
+        background-color: #f5469122;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        transform-origin: 50% 43%;
+        // animation: circle 18s linear infinite;
+      }
+    }
+  }
   .disc-cir {
-    width: 400px;
-    height: 400px;
+    width: 360px;
+    height: 360px;
     border-radius: 50%;
-    background-color: #fff;
+    z-index: 10;
+    // animation: circle 24s linear infinite;
   }
 }
 
 .lrc-box {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   padding: 60px 0 0;
   width: 55%;
   height: 680px;
@@ -171,7 +236,8 @@ export default {
 
   .lrc {
     flex: 1;
-    padding: 24px 0;
+    margin-top: 24px;
+    padding: 24px 98px 24px 0;
     white-space: pre-wrap;
     overflow: auto;
 

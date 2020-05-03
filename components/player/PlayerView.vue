@@ -7,7 +7,7 @@
       }"
     ></div>
     <div class="disc-box">
-      <div class="box active">
+      <div :class="isPlaying ? 'box active' : 'box'">
         <i class="bg"></i>
         <div
           class="disc-cir"
@@ -70,6 +70,9 @@ export default {
     ...mapState(['player']),
     currSongId() {
       return this.player.currSong.id;
+    },
+    isPlaying() {
+      return this.player.currSong.isPlay;
     }
   },
 
@@ -104,18 +107,6 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/scss/config.scss';
 @import '~assets/scss/mixins.scss';
-
-@keyframes circle {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 .player-view {
   display: flex;
@@ -164,40 +155,22 @@ export default {
 
     &.active {
       .bg {
-        content: '';
-        position: absolute;
+        @include playerBg(#fffa, 6s);
         left: 5%;
         top: 2%;
-        background-color: #ffffff65;
-        width: 360px;
-        height: 360px;
-        border-radius: 50%;
         transform-origin: 45% 48%;
-        animation: circle 6s linear infinite;
       }
       &::after {
-        content: '';
-        position: absolute;
+        @include playerBg(#fff7, 8s);
         left: -5%;
         top: -5%;
-        background-color: #ffffff4f;
-        width: 360px;
-        height: 360px;
-        border-radius: 50%;
         transform-origin: 54% 56%;
-        animation: circle 8s linear infinite;
       }
       &::before {
-        content: '';
-        position: absolute;
+        @include playerBg(#fff3, 12s);
         left: -4%;
         top: 8%;
-        background-color: #ffffff22;
-        width: 360px;
-        height: 360px;
-        border-radius: 50%;
         transform-origin: 54% 43%;
-        animation: circle 12s linear infinite;
       }
     }
   }
@@ -206,7 +179,6 @@ export default {
     height: 360px;
     border-radius: 50%;
     z-index: 10;
-    // animation: circle 24s linear infinite;
   }
 }
 
@@ -251,7 +223,7 @@ export default {
   .lrc {
     flex: 1;
     margin-top: 24px;
-    padding: 24px 98px 24px 0;
+    padding: 24px 200px 24px 0;
     white-space: pre-wrap;
     overflow: auto;
 

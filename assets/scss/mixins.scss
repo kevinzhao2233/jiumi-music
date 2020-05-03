@@ -34,3 +34,25 @@
     box-shadow: 0 0 4px 1px $fg-color;
   }
 }
+
+@mixin playerBg($color, $duration) {
+  content: '';
+  position: absolute;
+  background-color: $color;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  animation: circle $duration 0.4s linear infinite;
+}
+
+@keyframes circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

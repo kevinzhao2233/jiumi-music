@@ -253,6 +253,7 @@ export default {
     top: 0;
     width: 1240px;
     height: calc(100vh - 80px);
+    z-index: -1;
     @include respond-to(lg) {
       width: 100%;
     }

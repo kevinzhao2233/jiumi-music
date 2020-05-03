@@ -1,5 +1,11 @@
 <template>
   <div class="player-view">
+    <div
+      class="img-bg"
+      :style="{
+        background: `center / cover url(${songDetail.al.picUrl}?param=400y400) no-repeat`
+      }"
+    ></div>
     <div class="disc-box">
       <div class="box active">
         <i class="bg"></i>
@@ -113,8 +119,10 @@ export default {
 
 .player-view {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  position: relative;
+  margin: 0 auto;
   padding-bottom: 160px;
   width: 100%;
   height: 100%;
@@ -124,12 +132,17 @@ export default {
 
   /* 滚动条 */
   &::-webkit-scrollbar {
-    width: 6px;
+    display: none;
   }
-  /* 滚动条的滑块 */
-  &::-webkit-scrollbar-thumb {
-    background-color: #fff;
-    border-radius: 3px;
+
+  .img-bg {
+    position: fixed;
+    left: -2%;
+    top: -2%;
+    width: 104%;
+    height: 100%;
+    z-index: 0;
+    filter: blur(24px) brightness(1.2) opacity(0.3);
   }
 }
 
@@ -137,8 +150,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45%;
+  width: 42%;
   height: 680px;
+  z-index: 10;
 
   .box {
     position: relative;
@@ -147,7 +161,6 @@ export default {
     align-items: center;
     width: 360px;
     height: 360px;
-    z-index: 100;
 
     &.active {
       .bg {
@@ -155,36 +168,36 @@ export default {
         position: absolute;
         left: 5%;
         top: 2%;
-        background-color: #f5469155;
+        background-color: #ffffff65;
         width: 360px;
         height: 360px;
         border-radius: 50%;
-        transform-origin: 45% 50%;
-        // animation: circle 12s linear infinite;
+        transform-origin: 45% 48%;
+        animation: circle 6s linear infinite;
       }
       &::after {
         content: '';
         position: absolute;
-        left: -6%;
-        top: -6%;
-        background-color: #f546913f;
+        left: -5%;
+        top: -5%;
+        background-color: #ffffff4f;
         width: 360px;
         height: 360px;
         border-radius: 50%;
-        transform-origin: 58% 50%;
-        // animation: circle 15s linear infinite;
+        transform-origin: 54% 56%;
+        animation: circle 8s linear infinite;
       }
       &::before {
         content: '';
         position: absolute;
         left: -4%;
         top: 8%;
-        background-color: #f5469122;
+        background-color: #ffffff22;
         width: 360px;
         height: 360px;
         border-radius: 50%;
-        transform-origin: 50% 43%;
-        // animation: circle 18s linear infinite;
+        transform-origin: 54% 43%;
+        animation: circle 12s linear infinite;
       }
     }
   }
@@ -202,10 +215,11 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   padding: 60px 0 0;
-  width: 55%;
+  width: 42%;
   height: 680px;
   overflow: hidden;
   text-overflow: ellipsis;
+  z-index: 10;
 
   .tit {
     display: inline-block;
@@ -247,7 +261,7 @@ export default {
     }
     /* 滚动条的滑块 */
     &::-webkit-scrollbar-thumb {
-      background-color: #fff;
+      background-color: #fff4;
       border-radius: 3px;
     }
   }

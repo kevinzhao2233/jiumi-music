@@ -16,7 +16,6 @@
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
 import NoLogin from '~/components/common/NoLogin.vue';
-import { mapState } from 'vuex';
 
 export default {
   name: 'MusicList',
@@ -30,9 +29,6 @@ export default {
       mscList: [],
       loginState: ''
     };
-  },
-  computed: {
-    ...mapState(['todos'])
   },
   methods: {
     // 添加音乐到当前播放列表

@@ -1,4 +1,4 @@
-import { formatMusic } from './common.js';
+import { formatMusic, getLocalStorage, setLocalStorage } from './common.js';
 
 const defaultCurrSong = {
   isPlay: false,
@@ -11,7 +11,7 @@ const defaultCurrSong = {
   detail: {
     id: 0,
     name: '--',
-    artists: ['--', '---'],
+    artists: [{ id: 0, name: '--' }],
     duration: 0,
     sourcePlaylistId: 0
   }
@@ -25,6 +25,7 @@ export const state = () => ({
   },
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: [],
+  localList: getLocalStorage('localList') || [],
   upro: JSON.parse(localStorage.getItem('upro'))
 });
 
@@ -158,13 +159,16 @@ export const mutations = {
       }
     });
     this.commit('player/listenerAudio');
+    this.commit('player/saveSongToLocal', msc);
     state.audio.addEventListener('error', () => {
       if (state.audio.error && state.audio.error.code === 4) {
         // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
         if (state.list.length > 1 && state.setting.mode > 1) {
           this.commit('player/switchSong', { direction: 'next' });
+          // 从本地删除
+          this.commit('player/removeSongInLocal', msc);
         } else {
-          alert('歌曲无法播放');
+          alert('出现意外的大问题');
         }
       }
     });
@@ -283,6 +287,33 @@ export const mutations = {
     if (state.currSong.isPlay) {
       state.audio.volume = value;
     }
+  },
+
+  /**
+   * 保存歌曲到本地 -- 最近播放
+   * @param {Object} state
+   * @param {Objct} msc 需要添加到本地的歌曲
+   */
+  saveSongToLocal(state, msc) {
+    console.log('msc', msc);
+    const index = state.localList.findIndex(item => Number(item.id) === Number(msc.id));
+    console.log('index', index);
+    if (index < 0) {
+      state.localList.unshift(msc);
+    } else {
+      const music = state.localList.splice(index, 1)[0];
+      console.log('music', music);
+      state.localList.unshift(music);
+    }
+    setLocalStorage('localList', state.localList);
+  },
+
+  removeSongInLocal(state, msc) {
+    const index = state.localList.findIndex(item => Number(item.id) === Number(msc.id));
+    if (index >= 0) {
+      state.localList.splice(index, 1);
+    }
+    setLocalStorage('localList', state.localList);
   }
 };
 

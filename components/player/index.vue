@@ -29,8 +29,8 @@
       <div class="info">
         <span class="msc-name">{{ player.currSong.detail.name }}</span>
         <span class="msc-art">
-          <span v-for="(songer, index) in player.currSong.detail.artists" :key="songer"
-            >{{ index > 4 ? '' : `${songer}` }}
+          <span v-for="(songer, index) in player.currSong.detail.artists" :key="songer.id"
+            >{{ index > 4 ? '' : `${songer.name}` }}
             <span v-if="index < 4 && index !== player.currSong.detail.artists.length - 1">/</span>
           </span>
         </span>

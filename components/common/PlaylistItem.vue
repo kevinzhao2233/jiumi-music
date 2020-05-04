@@ -49,7 +49,7 @@
     <!-- 专辑 -->
     <nuxt-link
       class="center album"
-      :to="{ name: 'album-id', params: { id: `${item.al ? item.al.id : item.album.id}` } }"
+      :to="{ name: 'album-id', params: { id: `${item.album ? item.album.id : item.al.id}` } }"
       >{{ item.album ? item.album.name : item.al.name }}</nuxt-link
     >
     <!-- 时间 -->

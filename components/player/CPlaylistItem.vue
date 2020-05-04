@@ -11,8 +11,8 @@
       </div>
     </div>
     <span class="item songer">
-      <span v-for="(songer, index) in item.artists" :key="songer"
-        >{{ index > 4 ? '' : `${songer}` }}
+      <span v-for="(songer, index) in item.artists" :key="songer.id"
+        >{{ index > 4 ? '' : `${songer.name}` }}
         <span v-if="index < 4 && index !== item.artists.length - 1">/</span>
       </span>
     </span>

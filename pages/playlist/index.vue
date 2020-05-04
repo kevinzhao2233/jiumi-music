@@ -17,7 +17,8 @@
         {{ item.name }}
       </div>
     </div>
-    <div class="playlist-box">
+    <PlaylistList :list="playlists" />
+    <!-- <div class="playlist-box">
       <nuxt-link
         class="list-box"
         v-for="(item, index) in playlists"
@@ -37,7 +38,7 @@
         <span class="count-mark">{{ formatPlayCount(item.playCount) }}</span>
         <span class="title">{{ item.name }}</span>
       </nuxt-link>
-    </div>
+    </div> -->
     <div class="empty" ref="loadTag">
       <div v-show="loading" class="loading dot-windmill"></div>
     </div>
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import PlaylistList from '~/components/common/PlaylistList.vue';
+
 export default {
   async asyncData({ $axios }) {
     // 加载歌单分类和“全部”分类的内容（提前加载）
@@ -60,6 +63,9 @@ export default {
     loading: false
   }),
   methods: {
+    /**
+     * 获取歌单列表
+     */
     async fetchPlaylists(cat, offset = 0, limit = 60) {
       const { playlists } = await this.$axios.$get(
         `/api/top/playlist?cat=${cat}&limit=${limit}&offset=${offset}`
@@ -68,15 +74,9 @@ export default {
       this.currentCat = cat;
       this.playlists = this.playlists.concat(playlists);
     },
-    formatPlayCount(count) {
-      if (count / 100000000 > 1) {
-        return Math.floor(count / 100000000) + '亿';
-      }
-      if (count / 10000 > 1) {
-        return Math.floor(count / 10000) + '万';
-      }
-      return count;
-    },
+    /**
+     * 点击切换标签
+     */
     handleClick(cat) {
       if (this.currentCat === cat) return;
       this.playlists = [];
@@ -84,6 +84,9 @@ export default {
       this.loading = true;
       this.fetchPlaylists(cat);
     },
+    /**
+     * 处理滚动
+     */
     handleScroll() {
       if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
         const offset = this.playlists.length;
@@ -92,6 +95,9 @@ export default {
         this.$refs.page.removeEventListener('scroll', this.handleScroll);
       }
     }
+  },
+  components: {
+    PlaylistList
   },
   mounted() {
     this.$refs.page.addEventListener('scroll', this.handleScroll);

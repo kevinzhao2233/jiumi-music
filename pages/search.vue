@@ -16,8 +16,8 @@
             class="keywords"
             v-for="(item, index) in hotSearch"
             :key="index"
-            @click="handleSearch(item)"
-            >{{ item }}</span
+            @click="handleSearch(item.first)"
+            >{{ item.first }}</span
           >
         </div>
         <!-- <div class="tip">
@@ -87,7 +87,9 @@
         <AlbumList v-if="currNav === 10" :list="searchContent[10].list" />
         <!-- 歌手列表 -->
         <SingerList v-if="currNav === 100" :list="searchContent[100].list" />
-        <div v-if="currNav > 100">开发者正在筹集头发~~</div>
+        <!-- 歌单列表 -->
+        <PlaylistList v-if="currNav === 1000" :list="searchContent[1000].list" />
+        <div v-if="currNav > 1000">开发者正在筹集头发~~</div>
       </div>
     </div>
   </div>
@@ -98,12 +100,21 @@ import Inputbar from '~/components/common/Inputbar.vue';
 import Playlist from '~/components/common/Playlist.vue';
 import SingerList from '~/components/common/SingerList.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
+import PlaylistList from '~/components/common/PlaylistList.vue';
 
 export default {
+  async asyncData({ $axios }) {
+    //获取热搜关键词，将前 6 个存起来（对，我就是意思一下）
+    const { result } = await $axios.$get('/api/search/hot');
+    const hotSearch = result.hots.slice(0, 6);
+    return {
+      hotSearch
+    };
+  },
+
   data() {
     return {
       inputValue: '',
-      hotSearch: [],
       currNav: 1,
       loading: false,
       keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
@@ -219,20 +230,13 @@ export default {
           case 100:
             this.searchContent[100].list = result.artists;
             break;
+          case 1000:
+            this.searchContent[1000].list = result.playlists;
+            break;
         }
       });
     },
-    /**
-     * 获取热搜关键词，将前 6 个存起来（对，我就是意思一下）
-     */
-    async fetchHotSearch() {
-      const { result } = await this.$axios.$get(`/api/search/hot`);
-      this.$nextTick(() => {
-        result.hots.map((item, index) => {
-          if (index < 6) this.hotSearch.push(item.first);
-        });
-      });
-    },
+
     /**
      * 相当于智能推荐，暂时只有匹配歌手，以后看情况添加 MV，专辑等等
      */
@@ -256,11 +260,8 @@ export default {
     Playlist,
     Inputbar,
     SingerList,
-    AlbumList
-  },
-  created() {
-    // 获取热搜
-    this.fetchHotSearch();
+    AlbumList,
+    PlaylistList
   }
 };
 </script>

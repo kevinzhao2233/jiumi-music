@@ -9,9 +9,7 @@
       </div>
     </div>
     <div class="k-main">
-      <slot>
-        <span></span>
-      </slot>
+      <slot />
     </div>
   </div>
 </template>

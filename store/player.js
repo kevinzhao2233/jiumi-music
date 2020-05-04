@@ -225,7 +225,7 @@ export const mutations = {
   },
 
   /**
-   *
+   * 切歌
    * @param {*} state state
    * @param {Object} param1 direction：上一曲还是下一曲；lastMsc：刚刚播放完的歌
    */
@@ -295,19 +295,20 @@ export const mutations = {
    * @param {Objct} msc 需要添加到本地的歌曲
    */
   saveSongToLocal(state, msc) {
-    console.log('msc', msc);
     const index = state.localList.findIndex(item => Number(item.id) === Number(msc.id));
-    console.log('index', index);
     if (index < 0) {
       state.localList.unshift(msc);
     } else {
       const music = state.localList.splice(index, 1)[0];
-      console.log('music', music);
       state.localList.unshift(music);
     }
     setLocalStorage('localList', state.localList);
   },
 
+  /**
+   * 从本地删除一首歌（目前只在检测到歌曲无法播放的时候删除，比如没有版权的）
+   * @param {*Object} msc 要删除的歌曲
+   */
   removeSongInLocal(state, msc) {
     const index = state.localList.findIndex(item => Number(item.id) === Number(msc.id));
     if (index >= 0) {

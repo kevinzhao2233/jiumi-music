@@ -1,5 +1,6 @@
 <template>
   <div class="container" ref="page">
+    <div class="banner-img"></div>
     <div class="select-box">
       <div
         v-for="item in cat"
@@ -66,7 +67,7 @@ export default {
     handleScroll() {
       if (this.$refs.loadTag.getBoundingClientRect().top < document.body.offsetHeight + 500) {
         const offset = this.list.length;
-        this.fetchList(this.defaultSelect, this.cat[id].router, offset);
+        this.fetchList(this.defaultSelect, this.cat[this.defaultSelect].router, offset);
         this.loading = true;
         this.$refs.page.removeEventListener('scroll', this.handleScroll);
       }
@@ -95,6 +96,12 @@ export default {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.banner-img {
+  width: 100%;
+  height: 256px;
+  background: center / cover url('~static/img/banner-5.jpg') no-repeat;
 }
 
 .select-box {

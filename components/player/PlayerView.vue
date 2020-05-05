@@ -225,6 +225,7 @@ export default {
     margin-top: 24px;
     padding: 24px 200px 24px 0;
     white-space: pre-wrap;
+    line-height: 1.7;
     overflow: auto;
 
     /* 滚动条 */

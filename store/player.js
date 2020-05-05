@@ -19,7 +19,7 @@ const defaultCurrSong = {
 
 export const state = () => ({
   audio: null,
-  setting: {
+  setting: getLocalStorage('localSetting') || {
     mode: 2, // 1: 单曲循环、2: 顺序循环、3: 随机
     vol: 0.7 // TODO: 需要函数防抖后保存进localStorage
   },
@@ -275,6 +275,7 @@ export const mutations = {
    */
   switchMode(state) {
     state.setting.mode = state.setting.mode > 2 ? 1 : state.setting.mode + 1;
+    this.commit('player/saveSettingToLocal');
   },
 
   /**
@@ -287,6 +288,7 @@ export const mutations = {
     if (state.currSong.isPlay) {
       state.audio.volume = value;
     }
+    this.commit('player/saveSettingToLocal');
   },
 
   /**
@@ -315,6 +317,13 @@ export const mutations = {
       state.localList.splice(index, 1);
     }
     setLocalStorage('localList', state.localList);
+  },
+
+  /**
+   * 保存设置到本地
+   */
+  saveSettingToLocal(state) {
+    setLocalStorage('localSetting', state.setting);
   }
 };
 

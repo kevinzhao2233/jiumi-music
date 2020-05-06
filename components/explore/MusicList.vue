@@ -10,23 +10,17 @@
       @add="addToList($event)"
       @play="playAll($event)"
     />
-    <Modal v-if="showEnshrineModal" type="enshrine" @close="showEnshrineModal = false" />
+    <EnshrineModal v-if="showEnshrineModal" @close="showEnshrineModal = false" />
   </Card>
 </template>
 <script>
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
 import NoLogin from '~/components/common/NoLogin.vue';
-import Modal from '~/components/common/Modal.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   name: 'MusicList',
-  components: {
-    Card,
-    Playlist,
-    NoLogin,
-    Modal
-  },
   data() {
     return {
       mscList: [],
@@ -62,6 +56,12 @@ export default {
         this.loginState = 'noLogin';
       }
     });
+  },
+  components: {
+    Card,
+    Playlist,
+    NoLogin,
+    EnshrineModal
   }
 };
 </script>

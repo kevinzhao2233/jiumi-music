@@ -15,7 +15,7 @@
           <div class="btn">确定</div>
         </div>
       </li>
-      <li class="list" v-for="item in createList" :key="item.id" @click="close">
+      <li class="list" v-for="item in createList" :key="item.id" @click="enshrine(item.id)">
         <div
           class="img"
           :style="{
@@ -37,8 +37,11 @@ export default {
     createList: JSON.parse(localStorage.getItem('createList')) || []
   }),
   methods: {
+    enshrine(id) {
+      this.$emit('enshrine', { playlistId: id });
+    },
     close() {
-      this.$emit('close')
+      this.$emit('close');
     }
   },
   components: {

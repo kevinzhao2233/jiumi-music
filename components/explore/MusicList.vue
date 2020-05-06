@@ -6,11 +6,15 @@
       v-if="loginState === 'login'"
       :list="mscList"
       :pic="true"
-      @enshrine="enshrineSong($event)"
+      @enshrine="openEnshrineModal($event)"
       @add="addToList($event)"
       @play="playAll($event)"
     />
-    <EnshrineModal v-if="showEnshrineModal" @close="showEnshrineModal = false" />
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      @close="showEnshrineModal = false"
+      @enshrine="enshrineSong"
+    />
   </Card>
 </template>
 <script>
@@ -25,7 +29,8 @@ export default {
     return {
       mscList: [],
       loginState: '',
-      showEnshrineModal: false
+      showEnshrineModal: false,
+      beEnshrineSong: null
     };
   },
   methods: {
@@ -36,8 +41,15 @@ export default {
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.mscList });
     },
-    enshrineSong(msc) {
+    openEnshrineModal(msc) {
       this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
+    },
+    enshrineSong({ playlistId }) {
+      this.$store.dispatch({
+        type: 'player/enshrine',
+        payload: { playlistId, songId: this.beEnshrineSong.id }
+      });
     },
     /**
      * 获取推荐歌曲 【需要登录】

@@ -126,16 +126,6 @@ export const mutations = {
   },
 
   /**
-   * 收藏歌曲
-   * @param {*} state
-   * @param {Object} msc 需要收藏个歌曲
-   */
-  enshrine(state, msc) {
-    // TODO: 收藏歌曲
-    console.log('收藏该曲', msc);
-  },
-
-  /**
    * 将播放的音乐装载到audio里
    * @param {*} state
    * @param {Number} id 装载歌曲的id
@@ -345,6 +335,19 @@ export const actions = {
     } else {
       clearInterval(progessInterval);
     }
+  },
+
+  /**
+   * 收藏歌曲
+   * @param {*} state
+   * @param {Object} msc 需要收藏个歌曲
+   */
+  async enshrine({}, { payload: { playlistId, songId } }) {
+    console.log(playlistId, songId)
+    const { code } = await this.$axios.$get(
+      `/api/playlist/tracks?op=add&pid=${playlistId}&tracks=${songId}`
+    );
+    if (code === 200) console.log('收藏歌曲成功');
   },
 
   /**

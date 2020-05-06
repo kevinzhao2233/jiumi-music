@@ -14,6 +14,7 @@
       v-if="showEnshrineModal"
       @close="showEnshrineModal = false"
       @enshrine="enshrineSong"
+      @createPlaylist="createPlaylist"
     />
   </Card>
 </template>
@@ -38,19 +39,53 @@ export default {
     addToList(msc) {
       this.$store.commit('player/add', { msc });
     },
+
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.mscList });
     },
+
+    /**
+     * 打开收藏模态框
+     */
     openEnshrineModal(msc) {
       this.showEnshrineModal = true;
       this.beEnshrineSong = msc;
     },
+    /**
+     * 收藏歌曲
+     */
     enshrineSong({ playlistId }) {
-      this.$store.dispatch({
-        type: 'player/enshrine',
-        payload: { playlistId, songId: this.beEnshrineSong.id }
-      });
+      this.$store
+        .dispatch({
+          type: 'player/enshrine',
+          payload: { playlistId, songId: this.beEnshrineSong.id }
+        })
+        .then(data => {
+          this.showEnshrineModal = false;
+          if (data) {
+            this.$toast('添加成功');
+          } else {
+            this.$toast('添加失败了~');
+          }
+        });
     },
+
+    /**
+     * 创建歌单并收藏歌曲到新歌单
+     */
+    createPlaylist({name, isPrivate}) {
+      this.$store
+        .dispatch({
+          type: 'player/createPlaylist',
+          payload: {name, privacy: isPrivate}
+        })
+        .then(data => {
+          if (data.id) {
+            this.enshrineSong({ playlistId: data.id });
+          }
+        });
+    },
+
     /**
      * 获取推荐歌曲 【需要登录】
      */

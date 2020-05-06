@@ -7,12 +7,17 @@
           <i class="icon iconfont icon-plus"></i>
         </div>
         <div class="info">
-          <input class="name input" type="text" placeholder="这里输入歌单名" />
+          <input
+            class="name input"
+            type="text"
+            placeholder="这里输入歌单名"
+            v-model="newPlaylist.name"
+          />
           <div class="checkbox" title="歌单仅自己可见">
-            <input type="checkbox" name="isPrivate" id="private" />
+            <input type="checkbox" name="isPrivate" id="private" v-model="newPlaylist.isPrivate" />
             <label for="private">私密</label>
           </div>
-          <div class="btn">确定</div>
+          <div class="btn" @click="submit">确定</div>
         </div>
       </li>
       <li class="list" v-for="item in createList" :key="item.id" @click="enshrine(item.id)">
@@ -34,6 +39,10 @@ import Modal from './Modal.vue';
 export default {
   name: 'EnshrineModal',
   data: () => ({
+    newPlaylist: {
+      name: '',
+      isPrivate: false
+    },
     createList: JSON.parse(localStorage.getItem('createList')) || []
   }),
   methods: {
@@ -42,6 +51,11 @@ export default {
     },
     close() {
       this.$emit('close');
+    },
+    submit() {
+      if (this.newPlaylist.name !== '') {
+        this.$emit('createPlaylist', this.newPlaylist);
+      }
     }
   },
   components: {

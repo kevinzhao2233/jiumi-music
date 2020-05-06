@@ -339,15 +339,34 @@ export const actions = {
 
   /**
    * 收藏歌曲
-   * @param {*} state
-   * @param {Object} msc 需要收藏个歌曲
+   * @param {*} param0 占位
+   * @param {*} param1 payload: {歌单id，歌曲id}
    */
   async enshrine({}, { payload: { playlistId, songId } }) {
-    console.log(playlistId, songId)
     const { code } = await this.$axios.$get(
       `/api/playlist/tracks?op=add&pid=${playlistId}&tracks=${songId}`
     );
-    if (code === 200) console.log('收藏歌曲成功');
+    if (code === 200) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  /**
+   * 创建歌单
+   * @param {*} 占位
+   * @param {Object} msc 需要收藏个歌曲
+   */
+  async createPlaylist({}, {payload: {name, privacy}}) {
+    const { playlist } = await this.$axios.$get(
+      `/api/playlist/create?name=${name}&privacy=${privacy ? '10' : ''}`
+    );
+    if (playlist && playlist.id) {
+      return { id: playlist.id };
+    } else {
+      return false;
+    }
   },
 
   /**

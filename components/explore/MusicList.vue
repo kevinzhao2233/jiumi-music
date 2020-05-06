@@ -10,24 +10,28 @@
       @add="addToList($event)"
       @play="playAll($event)"
     />
+    <Modal v-if="showEnshrineModal" type="enshrine" @close="showEnshrineModal = false" />
   </Card>
 </template>
 <script>
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
 import NoLogin from '~/components/common/NoLogin.vue';
+import Modal from '~/components/common/Modal.vue';
 
 export default {
   name: 'MusicList',
   components: {
     Card,
     Playlist,
-    NoLogin
+    NoLogin,
+    Modal
   },
   data() {
     return {
       mscList: [],
-      loginState: ''
+      loginState: '',
+      showEnshrineModal: false
     };
   },
   methods: {
@@ -39,7 +43,7 @@ export default {
       this.$store.commit('player/playAll', { msc, list: this.mscList });
     },
     enshrineSong(msc) {
-      this.$store.commit('player/enshrine', msc);
+      this.showEnshrineModal = true;
     },
     /**
      * 获取推荐歌曲 【需要登录】

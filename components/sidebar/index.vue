@@ -99,15 +99,18 @@ export default {
      */
     async fetchUserList(id) {
       const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${id}`);
+      // 个人创建歌单
       const createList = playlist.filter((data, index) => {
-        return data.userId.toString() === id && index > 0;
+        return data.userId.toString() === id;
       });
+      // 收藏歌单
       const enshrineList = playlist.filter(data => {
         return data.userId.toString() !== id;
       });
-      this.sidebarList.myCreate.list = createList;
+      this.sidebarList.myCreate.list = createList.slice(1);
       this.sidebarList.myEnshrine.list = enshrineList;
       this.sidebarList.myMusic.list[0].id = playlist[0].id;
+      localStorage.setItem('createList', JSON.stringify(createList));
     },
 
     /**

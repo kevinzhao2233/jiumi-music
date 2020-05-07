@@ -25,7 +25,7 @@ export const state = () => ({
   },
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: [],
-  localList: getLocalStorage('localList') || [],
+  localList: getLocalStorage('localList') || []
 });
 
 export const getters = {
@@ -357,11 +357,15 @@ export const actions = {
    * @param {*} 占位
    * @param {Object} msc 需要收藏个歌曲
    */
-  async createPlaylist({}, {payload: {name, privacy}}) {
+  async createPlaylist({ rootState }, { payload: { name, privacy } }) {
     const { playlist } = await this.$axios.$get(
       `/api/playlist/create?name=${name}&privacy=${privacy ? '10' : ''}`
     );
     if (playlist && playlist.id) {
+      this.dispatch({
+        type: 'fetch/fetchUserList',
+        payload: { id: rootState.user.uid }
+      });
       return { id: playlist.id };
     } else {
       return false;

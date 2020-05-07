@@ -96,26 +96,30 @@ export default {
   },
 
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user', 'fetch']),
+    createList() {
+      return this.fetch.userPl.createList;
+    },
+    enshrineList() {
+      return this.fetch.userPl.enshrineList;
+    }
+  },
+  watch: {
+    createList() {
+      this.setUserList();
+    },
+    enshrineList() {
+      this.setUserList();
+    }
   },
   methods: {
     /**
      * 获取用户歌单列表
      */
-    async fetchUserList(id) {
-      const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${id}`);
-      // 个人创建歌单
-      const createList = playlist.filter((data, index) => {
-        return data.userId === id;
-      });
-      // 收藏歌单
-      const enshrineList = playlist.filter(data => {
-        return data.userId !== id;
-      });
-      this.sidebarList.myCreate.list = createList.slice(1);
-      this.sidebarList.myEnshrine.list = enshrineList;
-      this.sidebarList.myMusic.list[0].id = playlist[0].id;
-      localStorage.setItem('createList', JSON.stringify(createList));
+    setUserList() {
+      this.sidebarList.myCreate.list = JSON.parse(JSON.stringify(this.createList.slice(1)));
+      this.sidebarList.myEnshrine.list = JSON.parse(JSON.stringify(this.enshrineList));
+      this.sidebarList.myMusic.list[0].id = JSON.parse(JSON.stringify(this.createList[0].id));
     },
 
     /**
@@ -137,17 +141,25 @@ export default {
       }
     }
   },
+
   created() {
     if (this.user.uid) {
-      this.fetchUserList(this.user.uid).then(() => {
-        // 更新侧边显示效果
-        this.switchSidebarEff(this.$route);
-      });
+      // this.fetchUserList(this.user.uid).then(() => {
+      //   // 更新侧边显示效果
+      //   this.switchSidebarEff(this.$route);
+      // });
       this.isLogin = true;
+      this.$store
+        .dispatch({
+          type: 'fetch/fetchUserList',
+          payload: { id: this.user.uid }
+        })
+        .then(() => this.switchSidebarEff(this.$route));
     } else {
       this.isLogin = false;
     }
   },
+
   mounted() {
     this.switchSidebarEff(this.$route);
     this.$router.beforeEach((to, from, next) => {

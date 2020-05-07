@@ -167,8 +167,6 @@ export default {
     },
     // 点击歌曲封面
     clickCover() {
-      // TODO：点击歌曲封面
-      // this.$toast('开发者正在筹集头发~~');
       this.isMusicPage = !this.isMusicPage;
     },
     // 选中进度滑块

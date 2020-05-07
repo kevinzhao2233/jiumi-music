@@ -21,7 +21,7 @@ export const state = () => ({
   audio: null,
   setting: getLocalStorage('localSetting') || {
     mode: 2, // 1: 单曲循环、2: 顺序循环、3: 随机
-    vol: 0.7 // TODO: 需要函数防抖后保存进localStorage
+    vol: 0.7 // 音量
   },
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: [],

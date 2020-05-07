@@ -1,6 +1,7 @@
 <template>
   <div class="k-box">
     <span class="tit">登录</span>
+    <span class="script">使用网易云音乐账号进行登录哦</span>
     <input
       type="text"
       class="input"
@@ -34,32 +35,25 @@ export default {
   },
 
   methods: {
-    async handleLogin() {
-      let loginRes;
-      if (this.login.user.includes('@')) {
-        loginRes = await this.$axios.$post('/api/login', {
-          email: this.login.user,
-          password: this.login.password,
-          timestamp: Date.parse(new Date()) / 1000
-        });
-      } else {
-        loginRes = await this.$axios.$post('/api/login/cellphone', {
-          phone: this.login.user,
-          password: this.login.password,
-          timestamp: Date.parse(new Date()) / 1000
-        });
-      }
-      if (loginRes.code === 200) {
-        localStorage.setItem('uid', loginRes.account.id);
-        localStorage.setItem('upro', JSON.stringify(loginRes.profile));
-        this.$router.back();
-      }
-    },
+    /**
+     * 提交进行登录
+     */
     submit() {
+      // 重置错误信息
       this.error = '';
-      this.handleLogin().catch(err => {
-        if (err.response.data.code === 400) this.error = '账号或密码错误';
-      });
+      this.$store
+        .dispatch({
+          type: 'user/login',
+          payload: this.login
+        })
+        .then(data => {
+          if (data.state) {
+            this.$router.back();
+          }
+        })
+        .catch(err => {
+          if (err.response.data.code === 400) this.error = '账号或密码错误';
+        });
     }
   }
 };
@@ -84,6 +78,11 @@ export default {
   .tit {
     font-size: 26px;
     line-height: 48px;
+  }
+
+  .script {
+    margin-top: 24px;
+    color: $main-6;
   }
 
   .input {

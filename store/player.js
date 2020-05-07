@@ -26,7 +26,6 @@ export const state = () => ({
   currSong: JSON.parse(JSON.stringify(defaultCurrSong)),
   list: [],
   localList: getLocalStorage('localList') || [],
-  upro: JSON.parse(localStorage.getItem('upro'))
 });
 
 export const getters = {
@@ -152,7 +151,7 @@ export const mutations = {
     this.commit('player/saveSongToLocal', msc);
     state.audio.addEventListener('error', () => {
       if (state.audio.error && state.audio.error.code === 4) {
-        // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 && state.upro.vipType === 0
+        // 歌曲无法播放，关于 VIP 提示的需要判断 msc.fee === 1 和 upro.vipType === 0
         if (state.list.length > 1 && state.setting.mode > 1) {
           this.commit('player/switchSong', { direction: 'next' });
           // 从本地删除

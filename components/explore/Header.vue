@@ -16,9 +16,9 @@
       />
       <Button
         type=""
-        :icon="upro ? '' : 'icon-person_fill'"
-        :title="upro ? upro.nickname : '登录'"
-        :bgUrl="upro ? upro.avatarUrl : ''"
+        :icon="user.upro ? '' : 'icon-person_fill'"
+        :title="user.upro ? user.upro.nickname : '登录'"
+        :bgUrl="user.upro ? user.upro.avatarUrl : ''"
         @has-click="clickAvatar"
       />
     </div>
@@ -28,6 +28,7 @@
 <script>
 import Banner from '~/components/explore/Banner.vue';
 import Button from '~/components/common/Button.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Header',
@@ -37,21 +38,19 @@ export default {
   data() {
     return {
       searchRes: '',
-      upro: null
     };
+  },
+  computed: {
+    ...mapState(['user'])
   },
   methods: {
     clickAvatar() {
-      if (this.upro) {
+      if (this.user.upro) {
         this.$toast('你已经登录啦');
       } else {
         this.$router.push({ name: 'Login' });
       }
     }
-  },
-  created() {
-    const upro = localStorage.getItem('upro');
-    if (upro) this.upro = JSON.parse(upro);
   },
   components: {
     Banner,

@@ -12,6 +12,7 @@
 <script>
 import NoLogin from '~/components/common/NoLogin.vue';
 import List from './List.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Sidebar',
@@ -93,6 +94,10 @@ export default {
       isLogin: false
     };
   },
+
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
     /**
      * 获取用户歌单列表
@@ -101,11 +106,11 @@ export default {
       const { playlist } = await this.$axios.$get(`/api/user/playlist?uid=${id}`);
       // 个人创建歌单
       const createList = playlist.filter((data, index) => {
-        return data.userId.toString() === id;
+        return data.userId === id;
       });
       // 收藏歌单
       const enshrineList = playlist.filter(data => {
-        return data.userId.toString() !== id;
+        return data.userId !== id;
       });
       this.sidebarList.myCreate.list = createList.slice(1);
       this.sidebarList.myEnshrine.list = enshrineList;
@@ -133,9 +138,8 @@ export default {
     }
   },
   created() {
-    const uid = localStorage.getItem('uid');
-    if (uid) {
-      this.fetchUserList(uid).then(() => {
+    if (this.user.uid) {
+      this.fetchUserList(this.user.uid).then(() => {
         // 更新侧边显示效果
         this.switchSidebarEff(this.$route);
       });

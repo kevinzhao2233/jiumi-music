@@ -9,23 +9,33 @@
       <Playlist
         v-else
         :list="player.localList"
-        @enshrine="enshrineSong"
+        @enshrine="openEnshrineModal"
         @add="addToList"
         @play="playAll"
       />
     </Card>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
 <script>
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 import { mapState } from 'vuex';
 
 export default {
   computed: {
     ...mapState(['player'])
   },
+  data: () => ({
+    showEnshrineModal: false,
+    beEnshrineSong: null
+  }),
   methods: {
     addToList(msc) {
       this.$store.commit('player/add', { msc });
@@ -33,13 +43,18 @@ export default {
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.player.localList });
     },
-    enshrineSong(msc) {
-      this.$store.commit('player/enshrine', msc);
+    /**
+     * 打开收藏模态框
+     */
+    openEnshrineModal(msc) {
+      this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
     }
   },
   components: {
     Card,
-    Playlist
+    Playlist,
+    EnshrineModal
   }
 };
 </script>

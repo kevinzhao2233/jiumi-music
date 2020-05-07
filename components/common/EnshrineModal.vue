@@ -17,10 +17,10 @@
             <input type="checkbox" name="isPrivate" id="private" v-model="newPlaylist.isPrivate" />
             <label for="private">私密</label>
           </div>
-          <div class="btn" @click="submit">确定</div>
+          <div class="btn" @click="createNewPlaylist">确定</div>
         </div>
       </li>
-      <li class="list" v-for="item in createList" :key="item.id" @click="enshrine(item.id)">
+      <li class="list" v-for="item in myCreateList" :key="item.id" @click="enshrine(item.id)">
         <div
           class="img"
           :style="{
@@ -38,24 +38,62 @@ import Modal from './Modal.vue';
 
 export default {
   name: 'EnshrineModal',
+  props: {
+    mscId: {
+      type: Number,
+      required: true
+    }
+  },
   data: () => ({
     newPlaylist: {
       name: '',
       isPrivate: false
     },
-    createList: JSON.parse(localStorage.getItem('createList')) || []
+    myCreateList: JSON.parse(localStorage.getItem('createList')) || []
   }),
   methods: {
-    enshrine(id) {
-      this.$emit('enshrine', { playlistId: id });
+    /**
+     * 收藏歌曲
+     * @param {Number} playlistId 要收藏进的歌单id
+     */
+    enshrine(playlistId) {
+      this.$store
+        .dispatch({
+          type: 'player/enshrine',
+          payload: { playlistId, songId: this.mscId }
+        })
+        .then(data => {
+          this.close();
+          if (data) {
+            this.$toast('添加成功');
+          } else {
+            this.$toast('添加失败了~ 给你个机会暴捶一顿开发者');
+          }
+        });
     },
+
+    /**
+     * 创建新歌单
+     */
+    createNewPlaylist() {
+      if (this.newPlaylist.name !== '') {
+        this.$store
+          .dispatch({
+            type: 'player/createPlaylist',
+            payload: { name: this.newPlaylist.name, privacy: this.newPlaylist.isPrivate }
+          })
+          .then(data => {
+            // 创建歌单后将该歌曲添加到这个歌单
+            if (data.id) {
+              this.enshrine(data.id);
+            }
+          });
+      }
+    },
+
+    // 关闭模态框
     close() {
       this.$emit('close');
-    },
-    submit() {
-      if (this.newPlaylist.name !== '') {
-        this.$emit('createPlaylist', this.newPlaylist);
-      }
     }
   },
   components: {

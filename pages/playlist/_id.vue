@@ -46,7 +46,7 @@
           :pic="true"
           @add="addintoList"
           @play="playAll"
-          @enshrine="enshrineCurrent"
+          @enshrine="openEnshrineModal"
         />
       </Card>
       <div class="sub">
@@ -54,17 +54,24 @@
         <span class="txt">{{ playlist.description }}</span>
       </div>
     </div>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
 <script>
 import Playlist from '~/components/common/Playlist.vue';
 import Card from '~/components/common/Card.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   components: {
     Playlist,
-    Card
+    Card,
+    EnshrineModal
   },
   data() {
     return {
@@ -81,11 +88,13 @@ export default {
           backgroundUrl: ''
         }
       },
-      tracks: []
+      tracks: [],
+      showEnshrineModal: false,
+      beEnshrineSong: null
     };
   },
   methods: {
-    async getSonger(id) {
+    async fetchSonger(id) {
       const { playlist, privileges } = await this.$axios.$get(`/api/playlist/detail?id=${id}`);
       this.$nextTick(() => {
         playlist.creator.avatarUrl.replace(/^http:/, 'https:');
@@ -106,12 +115,16 @@ export default {
       this.$store.commit('player/playAll', { msc, list: this.tracks });
     },
 
-    enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc);
+    /**
+     * 打开收藏模态框
+     */
+    openEnshrineModal(msc) {
+      this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
     }
   },
   created() {
-    this.getSonger(this.$route.params.id);
+    this.fetchSonger(this.$route.params.id);
   }
 };
 </script>

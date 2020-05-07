@@ -4,20 +4,26 @@
       <div
         class="bg"
         :style="{
-          background: `center / cover url(${artist.picUrl.replace(/^http:/,'https:')}) no-repeat`
+          background: `center / cover url(${artist.picUrl.replace(/^http:/, 'https:')}) no-repeat`
         }"
       ></div>
       <div class="header-main">
         <div
           class="img"
           :style="{
-            background: `center / cover url(${artist.img1v1Url.replace(/^http:/,'https:')}?param=240y240) no-repeat`
+            background: `center / cover url(${artist.img1v1Url.replace(
+              /^http:/,
+              'https:'
+            )}?param=240y240) no-repeat`
           }"
         ></div>
         <div
           class="img-bg"
           :style="{
-            background: `center / cover url(${artist.img1v1Url.replace(/^http:/,'https:')}?param=240y240) no-repeat`
+            background: `center / cover url(${artist.img1v1Url.replace(
+              /^http:/,
+              'https:'
+            )}?param=240y240) no-repeat`
           }"
         ></div>
         <div class="info">
@@ -41,7 +47,12 @@
       <Card class="card">
         <h3 slot="title" class="title">热门歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist :list="hotSongs" @add="addintoList" @play="playAll" @enshrine="enshrineCurrent" />
+        <Playlist
+          :list="hotSongs"
+          @add="addintoList"
+          @play="playAll"
+          @enshrine="openEnshrineModal"
+        />
       </Card>
       <Card class="card">
         <h3 slot="title" class="title">专辑</h3>
@@ -49,6 +60,11 @@
         <AlbumList :list="albums" />
       </Card>
     </div>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
@@ -56,12 +72,14 @@
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   components: {
     Card,
     Playlist,
-    AlbumList
+    AlbumList,
+    EnshrineModal
   },
   data() {
     return {
@@ -69,7 +87,9 @@ export default {
       hotSongs: [],
       albums: [],
       mvs: {},
-      story: {}
+      story: {},
+      showEnshrineModal: false,
+      beEnshrineSong: null
     };
   },
   methods: {
@@ -84,9 +104,12 @@ export default {
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.hotSongs });
     },
-    // 收藏
-    enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc);
+    /**
+     * 打开收藏模态框
+     */
+    openEnshrineModal(msc) {
+      this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
     },
 
     /**

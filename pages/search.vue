@@ -81,7 +81,7 @@
           v-if="currNav === 1"
           @add="addintoList"
           @play="playCurrent"
-          @enshrine="enshrineCurrent"
+          @enshrine="openEnshrineModal"
         />
         <!-- 专辑列表 -->
         <AlbumList v-if="currNav === 10" :list="searchContent[10].list" />
@@ -92,6 +92,11 @@
         <div v-if="currNav > 1000">开发者正在筹集头发~~</div>
       </div>
     </div>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
@@ -101,6 +106,7 @@ import Playlist from '~/components/common/Playlist.vue';
 import SingerList from '~/components/common/SingerList.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
 import PlaylistList from '~/components/common/PlaylistList.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   async asyncData({ $axios }) {
@@ -152,7 +158,9 @@ export default {
       },
       hot: {
         artist: null
-      }
+      },
+      showEnshrineModal: false,
+      beEnshrineSong: null
     };
   },
   methods: {
@@ -170,9 +178,12 @@ export default {
         this.$store.commit('player/loadSong', msc.id);
       });
     },
-    // 收藏
-    enshrineCurrent(msc) {
-      this.$store.commit('player/enshrine', msc);
+    /**
+     * 打开收藏模态框
+     */
+    openEnshrineModal(msc) {
+      this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
     },
     // 播放歌手热门歌曲
     async playHotSong(id) {
@@ -261,7 +272,8 @@ export default {
     Inputbar,
     SingerList,
     AlbumList,
-    PlaylistList
+    PlaylistList,
+    EnshrineModal
   }
 };
 </script>

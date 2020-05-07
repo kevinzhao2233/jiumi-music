@@ -4,20 +4,29 @@
       <div
         class="bg"
         :style="{
-          background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x600y180) no-repeat`
+          background: `center / cover url(${album.picUrl.replace(
+            /^http:/,
+            'https:'
+          )}?param=x600y180) no-repeat`
         }"
       ></div>
       <div class="header-main">
         <div
           class="img"
           :style="{
-            background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x240y240) no-repeat`
+            background: `center / cover url(${album.picUrl.replace(
+              /^http:/,
+              'https:'
+            )}?param=x240y240) no-repeat`
           }"
         ></div>
         <div
           class="img-bg"
           :style="{
-            background: `center / cover url(${album.picUrl.replace(/^http:/,'https:')}?param=x240y240) no-repeat`
+            background: `center / cover url(${album.picUrl.replace(
+              /^http:/,
+              'https:'
+            )}?param=x240y240) no-repeat`
           }"
         ></div>
         <div class="info">
@@ -42,7 +51,7 @@
       <Card class="card">
         <h3 slot="title" class="title">包含歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist :list="songs" @add="addintoList" @play="playAll" @enshrine="enshrineCurrent" />
+        <Playlist :list="songs" @add="addintoList" @play="playAll" @enshrine="openEnshrineModal" />
       </Card>
       <Card class="sub-card">
         <h3 slot="title" class="title">其他专辑</h3>
@@ -51,7 +60,10 @@
             class="img"
             :to="{ name: 'album-id', params: { id: item.id } }"
             :style="{
-              background: `center / cover url(${item.picUrl.replace(/^http:/,'https:')}?param=x64y64) no-repeat`
+              background: `center / cover url(${item.picUrl.replace(
+                /^http:/,
+                'https:'
+              )}?param=x64y64) no-repeat`
             }"
           ></nuxt-link>
           <nuxt-link :to="{ name: 'album-id', params: { id: item.id } }" class="name">{{
@@ -61,19 +73,27 @@
         </div>
       </Card>
     </div>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
 <script>
 import Card from '~/components/common/Card.vue';
 import Playlist from '~/components/common/Playlist.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   data() {
     return {
       album: {},
       songs: [],
-      otherAlbums: []
+      otherAlbums: [],
+      showEnshrineModal: false,
+      beEnshrineSong: null
     };
   },
   methods: {
@@ -103,11 +123,19 @@ export default {
     // 收藏
     enshrineCurrent(msc) {
       this.$store.commit('player/enshrine', msc);
+    },
+    /**
+     * 打开收藏模态框
+     */
+    openEnshrineModal(msc) {
+      this.showEnshrineModal = true;
+      this.beEnshrineSong = msc;
     }
   },
   components: {
     Card,
-    Playlist
+    Playlist,
+    EnshrineModal
   },
   created() {
     this.fetchAlbum(this.$route.params.id);

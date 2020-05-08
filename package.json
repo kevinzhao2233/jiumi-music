@@ -1,10 +1,9 @@
 {
   "name": "jiumi",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "title": "啾咪音乐",
   "description": "使用nuxt构建的第三方在线音乐播放器",
   "author": "kevinzhao2233",
-  "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",

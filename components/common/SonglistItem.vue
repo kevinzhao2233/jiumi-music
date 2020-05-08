@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: 'PlaylistItem',
+  name: 'SonglistItem',
   props: {
     item: {
       type: Object

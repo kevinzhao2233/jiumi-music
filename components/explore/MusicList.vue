@@ -2,7 +2,7 @@
   <Card class="container">
     <h3 slot="title" class="title">每日歌曲推荐</h3>
     <NoLogin message="登陆后展示你的每日推荐" v-if="loginState === 'noLogin'" />
-    <playlist
+    <Songlist
       v-if="loginState === 'login'"
       :list="mscList"
       :pic="true"
@@ -19,7 +19,7 @@
 </template>
 <script>
 import Card from '~/components/common/Card.vue';
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import NoLogin from '~/components/common/NoLogin.vue';
 import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
@@ -71,7 +71,7 @@ export default {
   },
   components: {
     Card,
-    Playlist,
+    Songlist,
     NoLogin,
     EnshrineModal
   }

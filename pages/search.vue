@@ -75,7 +75,7 @@
       <div class="content-box">
         <div class="dot-floating loading" v-show="loading"></div>
         <!-- 单曲列表 -->
-        <Playlist
+        <Songlist
           :list="searchContent[1].list"
           :control="true"
           v-if="currNav === 1"
@@ -102,7 +102,7 @@
 
 <script>
 import Inputbar from '~/components/common/Inputbar.vue';
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import SingerList from '~/components/common/SingerList.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
 import PlaylistList from '~/components/common/PlaylistList.vue';
@@ -268,7 +268,7 @@ export default {
     }
   },
   components: {
-    Playlist,
+    Songlist,
     Inputbar,
     SingerList,
     AlbumList,

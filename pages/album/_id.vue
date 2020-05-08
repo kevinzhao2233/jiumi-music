@@ -51,7 +51,7 @@
       <Card class="card">
         <h3 slot="title" class="title">包含歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist :list="songs" @add="addintoList" @play="playAll" @enshrine="openEnshrineModal" />
+        <Songlist :list="songs" @add="addintoList" @play="playAll" @enshrine="openEnshrineModal" />
       </Card>
       <Card class="sub-card">
         <h3 slot="title" class="title">其他专辑</h3>
@@ -83,7 +83,7 @@
 
 <script>
 import Card from '~/components/common/Card.vue';
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
@@ -134,7 +134,7 @@ export default {
   },
   components: {
     Card,
-    Playlist,
+    Songlist,
     EnshrineModal
   },
   created() {

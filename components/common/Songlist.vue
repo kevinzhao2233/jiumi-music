@@ -8,7 +8,7 @@
       page-mode
       v-slot="{ item, index }"
     >
-      <PlaylistItem
+      <SonglistItem
         :item="item"
         :index="index"
         :pic="pic"
@@ -17,7 +17,7 @@
         @enshrine="enshrine"
       />
     </RecycleScroller>
-    <PlaylistItem
+    <SonglistItem
       v-else
       v-for="(item, index) in list"
       :key="item.id"
@@ -32,10 +32,11 @@
 </template>
 
 <script>
-import PlaylistItem from './PlaylistItem.vue';
+import SonglistItem from './SonglistItem.vue';
+import { mapState } from 'vuex';
 
 export default {
-  name: 'Playlist',
+  name: 'Songlist',
   props: {
     list: {
       type: Array
@@ -49,6 +50,9 @@ export default {
       default: false
     }
   },
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
     // 点击了添加按钮
     add(id) {
@@ -60,12 +64,16 @@ export default {
       this.$emit('play', msc);
     },
     enshrine(id) {
-      const msc = this.list.find(item => item.id === id);
-      this.$emit('enshrine', msc);
+      if (this.user.uid > 0) {
+        const msc = this.list.find(item => item.id === id);
+        this.$emit('enshrine', msc);
+      } else {
+        this.$toast('收藏歌曲需要登录哦~~');
+      }
     }
   },
   components: {
-    PlaylistItem
+    SonglistItem
   }
 };
 </script>

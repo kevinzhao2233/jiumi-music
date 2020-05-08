@@ -6,7 +6,7 @@
       <div class="empty-list" v-if="!player.localList.length">
         你还没有听过歌儿哦ヾ(≧ ▽ ≦)ゝ
       </div>
-      <Playlist
+      <Songlist
         v-else
         :list="player.localList"
         @enshrine="openEnshrineModal"
@@ -24,7 +24,7 @@
 
 <script>
 import Card from '~/components/common/Card.vue';
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import EnshrineModal from '~/components/common/EnshrineModal.vue';
 import { mapState } from 'vuex';
 
@@ -53,7 +53,7 @@ export default {
   },
   components: {
     Card,
-    Playlist,
+    Songlist,
     EnshrineModal
   }
 };

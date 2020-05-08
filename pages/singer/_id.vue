@@ -47,7 +47,7 @@
       <Card class="card">
         <h3 slot="title" class="title">热门歌曲</h3>
         <span slot="controls" class="controls">更多</span>
-        <Playlist
+        <Songlist
           :list="hotSongs"
           @add="addintoList"
           @play="playAll"
@@ -70,14 +70,14 @@
 
 <script>
 import Card from '~/components/common/Card.vue';
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import AlbumList from '~/components/common/AlbumList.vue';
 import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   components: {
     Card,
-    Playlist,
+    Songlist,
     AlbumList,
     EnshrineModal
   },

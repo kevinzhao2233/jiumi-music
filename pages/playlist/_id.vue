@@ -41,7 +41,7 @@
     <div class="content">
       <Card class="main-card">
         <h3 slot="title" class="title">歌曲列表</h3>
-        <Playlist
+        <Songlist
           :list="tracks"
           :pic="true"
           @add="addintoList"
@@ -63,13 +63,13 @@
 </template>
 
 <script>
-import Playlist from '~/components/common/Playlist.vue';
+import Songlist from '~/components/common/Songlist.vue';
 import Card from '~/components/common/Card.vue';
 import EnshrineModal from '~/components/common/EnshrineModal.vue';
 
 export default {
   components: {
-    Playlist,
+    Songlist,
     Card,
     EnshrineModal
   },

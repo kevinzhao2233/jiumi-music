@@ -1,0 +1,7 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 100,
+  "prettier.semi": true,
+  "prettier.eslintIntegration": false
+}

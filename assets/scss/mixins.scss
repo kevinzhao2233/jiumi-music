@@ -1,0 +1,58 @@
+@import './config.scss';
+
+@mixin respond-to($breakpoint) {
+  $query: map-get($breakpoints, $breakpoint);
+
+  @if not $query {
+    @error "No value found for `#{$breakpoint}`. Please make sure it is defined in `$breakpoints` map.";
+  }
+
+  @media #{if(type-of($query) == 'string', unquote($query), inspect($query))} {
+    @content;
+  }
+}
+
+@mixin progressBtn($size, $bg-color, $fg-color) {
+  position: relative;
+  display: block;
+  width: $size;
+  height: $size;
+  border-radius: 100px;
+  background-color: $bg-color;
+  box-shadow: 0 12px 20px -2px $fg-color;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: ($size / 4);
+    left: ($size / 4);
+    display: block;
+    width: ($size / 2);
+    height: ($size / 2);
+    border-radius: 100px;
+    background-color: $fg-color;
+    box-shadow: 0 0 4px 1px $fg-color;
+  }
+}
+
+@mixin playerBg($color, $duration) {
+  content: '';
+  position: absolute;
+  background-color: $color;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  animation: circle $duration 0.4s linear infinite;
+}
+
+@keyframes circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

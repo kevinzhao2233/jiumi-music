@@ -1,0 +1,27 @@
+{
+  "name": "jiumi",
+  "version": "0.0.1",
+  "title": "啾咪音乐",
+  "description": "使用nuxt构建的第三方在线音乐播放器",
+  "author": "kevinzhao2233",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "nuxt": "^2.0.0",
+    "vue-awesome-swiper": "^3.1.3",
+    "vue-virtual-scroller": "^1.0.9"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "node-sass": "^4.13.1",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.2"
+  }
+}

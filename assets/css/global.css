@@ -1,0 +1,42 @@
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-size: 14px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #ff4e8860;
+}
+
+::-moz-selection {
+  background: #ff4e8860;
+}
+
+::-webkit-selection {
+  background: #ff4e8860;
+}
+
+/* 覆盖动画时常
+.animated {
+  animation-duration: 0.5s;
+} */
+
+/* 路由切换效果 */
+.page-enter-active, .page-leave-active {
+  transition: opacity .3s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}

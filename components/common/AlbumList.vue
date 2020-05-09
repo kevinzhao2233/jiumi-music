@@ -127,7 +127,6 @@ export default {
     .artist {
       @extend .name;
       margin-top: -2px;
-      font-size: 14px;
       color: $mid-10;
     }
   }

@@ -131,7 +131,6 @@ export default {
         position: relative;
         display: inline-block;
         margin: 8px 0 0 0;
-        font-size: 14px;
         transition: color 0.2s ease;
         width: 132px;
         overflow: hidden;

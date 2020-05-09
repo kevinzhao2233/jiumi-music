@@ -157,7 +157,6 @@ export default {
 
       .msc-name {
         display: inline;
-        font-size: 14px;
         font-weight: 500;
         color: $mid-11;
         line-height: 22px;
@@ -246,7 +245,7 @@ export default {
 
     &.time {
       padding: 0 24px;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
     }
   }

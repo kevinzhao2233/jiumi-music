@@ -155,7 +155,6 @@ export default {
     .message {
       display: inline-block;
       margin: 8px 0 0 0;
-      font-size: 14px;
       color: $mid-8;
       transition: color 0.2s ease;
       overflow: hidden;

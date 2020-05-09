@@ -58,7 +58,6 @@ export default {
   .tit {
     display: inline-block;
     margin: 24px 0 6px 12px;
-    font-size: 14px;
     color: $mid-10;
   }
 
@@ -73,7 +72,6 @@ export default {
       padding-left: 12px;
       width: 100%;
       color: $mid-7;
-      font-size: 14px;
       line-height: 40px;
       border-radius: 8px;
       overflow: hidden;

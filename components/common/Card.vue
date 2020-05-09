@@ -36,7 +36,7 @@ export default {
     padding: 16px 0;
 
     .tit {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 600;
       white-space: 2px;
     }

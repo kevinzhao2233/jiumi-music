@@ -53,6 +53,13 @@
           @play="playAll"
           @enshrine="openEnshrineModal"
         />
+        <div
+          class="show-more"
+          v-if="totalHotSongs.length > hotSongs.length"
+          @click="showAllHotSongs"
+        >
+          <div class="btn">展示更多</div>
+        </div>
       </Card>
       <Card class="card">
         <h3 slot="title" class="title">专辑</h3>
@@ -85,6 +92,7 @@ export default {
     return {
       artist: {},
       hotSongs: [],
+      totalHotSongs: [],
       albums: [],
       mvs: {},
       story: {},
@@ -104,6 +112,10 @@ export default {
     playAll(msc) {
       this.$store.commit('player/playAll', { msc, list: this.hotSongs });
     },
+    // 展示全部热门歌曲
+    showAllHotSongs() {
+      this.hotSongs = this.totalHotSongs;
+    },
     /**
      * 打开收藏模态框
      */
@@ -119,7 +131,12 @@ export default {
       const { artist, hotSongs } = await this.$axios.$get(`/api/artists?id=${id}`);
       this.$nextTick(() => {
         this.artist = artist;
-        this.hotSongs = hotSongs;
+        this.totalHotSongs = hotSongs;
+        if (hotSongs.length > 10) {
+          this.hotSongs = hotSongs.slice(0, 10);
+        } else {
+          this.hotSongs = hotSongs;
+        }
       });
     },
     async fetchAlbum(id) {
@@ -250,14 +267,41 @@ export default {
     }
 
     .card {
+      position: relative;
       margin-top: 48px;
-    }
 
-    .controls {
-      margin-right: 4px;
-      color: $main-6;
-      user-select: none;
-      cursor: pointer;
+      .controls {
+        margin-right: 4px;
+        color: $main-6;
+        user-select: none;
+        cursor: pointer;
+      }
+
+      .show-more {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 80px;
+        background: linear-gradient(#fff1, #f0f3faff);
+
+        .btn {
+          margin: 30px auto 0;
+          padding: 12px 36px;
+          width: 160px;
+          border-radius: 18px;
+          background-color: $main-6;
+          font-size: 16px;
+          text-align: center;
+          color: $mid-1;
+          transition: 0.2s;
+          cursor: pointer;
+
+          &:active {
+            background-color: $main-4;
+          }
+        }
+      }
     }
   }
 }

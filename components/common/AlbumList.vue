@@ -112,7 +112,7 @@ export default {
       display: inline-block;
       margin-top: 8px;
       width: 150px;
-      font-size: 16px;
+      font-size: 14px;
       overflow: hidden;
       color: $mid-10;
       text-overflow: ellipsis;

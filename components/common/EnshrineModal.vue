@@ -206,6 +206,10 @@ export default {
     }
   }
 
+  &:nth-child(n + 2) {
+    cursor: pointer;
+  }
+
   &:hover {
     background-color: $main-6;
     transition: background-color 0.2s;

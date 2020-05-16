@@ -65,7 +65,7 @@ export default {
 
   proxy: {
     '/api': {
-      target: 'http://39.100.63.235:3000/',
+      target: 'https://slbb.top/api/',
       pathRewrite: {
         '^/api': '/'
       }

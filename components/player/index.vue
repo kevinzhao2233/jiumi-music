@@ -66,7 +66,7 @@
       <span class="time">{{ mscTime.totalTime }}</span>
     </div>
     <div class="r-control">
-      <Button icon="icon-heart_fill" @has-click="$toast('开发者正在筹集头发~~')" />
+      <Button icon="icon-folder_fill_badge_plus" @has-click="clickEnshrine(player.currSong)" />
       <Button
         @has-click="switchMode"
         :icon="
@@ -78,7 +78,7 @@
         "
       />
       <div class="vol-box" ref="vol">
-        <Button icon="icon-speaker__fill2" @has-click="cliskVolPanel" />
+        <Button icon="icon-speaker__fill2" @has-click="clickVolPanel" />
         <div class="vol-opt" v-show="isShowVolPanel">
           <Slider
             :vertical="true"
@@ -106,6 +106,11 @@
         <CurrentPlaylist @close-list="closeList" />
       </div>
     </transition>
+    <EnshrineModal
+      v-if="showEnshrineModal"
+      :mscId="beEnshrineSong.id"
+      @close="showEnshrineModal = false"
+    />
   </div>
 </template>
 
@@ -114,6 +119,7 @@ import Button from '~/components/common/Button.vue';
 import Slider from '~/components/common/Slider.vue';
 import CurrentPlaylist from '~/components/player/CurrentPlaylist.vue';
 import PlayerView from '~/components/player/PlayerView.vue';
+import EnshrineModal from '~/components/common/EnshrineModal.vue';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -127,12 +133,14 @@ export default {
       isShowVolPanel: false,
       isMusicPage: false,
       songDetail: null,
+      showEnshrineModal: false,
+      beEnshrineSong: null,
       alPicUrl: 'https://img-bed-1259149964.cos.ap-chengdu.myqcloud.com/projectCND/temp.png'
     };
   },
 
   computed: {
-    ...mapState(['player']),
+    ...mapState(['player', 'user']),
     ...mapGetters({
       mscTime: 'player/mscTime'
     }),
@@ -191,13 +199,35 @@ export default {
         }
       }
     },
-    cliskVolPanel() {
+    /**
+     * 点击收藏按钮
+     */
+    clickEnshrine(msc) {
+      // 判断是否登录
+      if (this.user.uid > 0) {
+        // 判断当前有没有播放歌曲
+        if (this.player.currSong.id > 0) {
+          this.showEnshrineModal = true;
+          this.beEnshrineSong = msc;
+        } else {
+          this.$toast('没有播放歌曲哦~~');
+        }
+      } else {
+        this.$toast('收藏歌曲需要登录哦~~');
+      }
+    },
+    /**
+     * 打开音量和关闭音量
+     */
+    clickVolPanel() {
       this.isShowVolPanel = !this.isShowVolPanel;
     },
     closeVolPanel() {
       this.isShowVolPanel = false;
     },
-    // 点击歌单按钮
+    /**
+     * 打开歌单和关闭歌单
+     */
     clickList() {
       this.isShowList = !this.isShowList;
     },
@@ -216,7 +246,8 @@ export default {
     Button,
     Slider,
     CurrentPlaylist,
-    PlayerView
+    PlayerView,
+    EnshrineModal
   }
 };
 </script>

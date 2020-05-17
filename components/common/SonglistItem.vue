@@ -158,7 +158,7 @@ export default {
       .msc-name {
         display: inline;
         font-weight: 500;
-        color: $mid-11;
+        color: $mid-10;
         line-height: 22px;
         cursor: pointer;
 

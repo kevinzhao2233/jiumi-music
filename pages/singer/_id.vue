@@ -46,7 +46,6 @@
     <div class="content">
       <Card class="card">
         <h3 slot="title" class="title">热门歌曲</h3>
-        <span slot="controls" class="controls">更多</span>
         <Songlist
           :list="hotSongs"
           @add="addintoList"
@@ -63,7 +62,7 @@
       </Card>
       <Card class="card">
         <h3 slot="title" class="title">专辑</h3>
-        <span slot="controls" class="controls">更多</span>
+        <span slot="controls" class="controls" @click="getMoreAlbums">更多</span>
         <AlbumList :list="albums" />
       </Card>
     </div>
@@ -88,6 +87,7 @@ export default {
     AlbumList,
     EnshrineModal
   },
+
   data() {
     return {
       artist: {},
@@ -100,6 +100,7 @@ export default {
       beEnshrineSong: null
     };
   },
+  
   methods: {
     /**
      * 歌曲列表的操作
@@ -123,6 +124,15 @@ export default {
       this.showEnshrineModal = true;
       this.beEnshrineSong = msc;
     },
+    /**
+     * 获取更多专辑
+     */
+    getMoreAlbums() {
+      const offset = 18;
+      const id = this.artist.id;
+      const limit = this.artist.albumSize - 18;
+      this.fetchAlbum(id, offset, limit);
+    },
 
     /**
      * 异步获取数据
@@ -139,10 +149,12 @@ export default {
         }
       });
     },
-    async fetchAlbum(id) {
-      const { hotAlbums } = await this.$axios.$get(`/api/artist/album?id=${id}`);
+    async fetchAlbum(id, offset, limit) {
+      const { hotAlbums } = await this.$axios.$get(
+        `/api/artist/album?id=${id}&offset=${offset || 0}&limit=${limit || 18}`
+      );
       this.$nextTick(() => {
-        this.albums = hotAlbums;
+        this.albums = this.albums.concat(hotAlbums);
       });
     },
     async fetchMV(id) {
@@ -152,6 +164,7 @@ export default {
       });
     }
   },
+
   mounted() {
     this.fetchArtist(this.$route.params.id);
     this.fetchAlbum(this.$route.params.id);

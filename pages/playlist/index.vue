@@ -1,7 +1,6 @@
 <template>
   <div class="container" ref="page">
     <div class="select-box">
-      <!-- <div class="drop-box">{{ currentCat }}</div> -->
       <div
         :class="currentCat === '全部' ? 'hot-cat active' : 'hot-cat'"
         @click="handleClick('全部')"
@@ -18,27 +17,7 @@
       </div>
     </div>
     <PlaylistList :list="playlists" />
-    <!-- <div class="playlist-box">
-      <nuxt-link
-        class="list-box"
-        v-for="(item, index) in playlists"
-        :to="{ name: 'playlist-id', params: { id: item.id } }"
-        :key="item.id + index"
-        :title="item.name"
-      >
-        <div
-          class="img"
-          :style="{
-            background: `center / cover url(${item.coverImgUrl.replace(
-              /^http:/,
-              'https:'
-            )}?param=132y140) no-repeat`
-          }"
-        ></div>
-        <span class="count-mark">{{ formatPlayCount(item.playCount) }}</span>
-        <span class="title">{{ item.name }}</span>
-      </nuxt-link>
-    </div> -->
+
     <div class="empty" ref="loadTag">
       <div v-show="loading" class="loading dot-windmill"></div>
     </div>

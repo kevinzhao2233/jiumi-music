@@ -2,40 +2,51 @@
   <div class="container">
     <div class="header">
       <div
-        class="img"
+        class="bg"
         :style="{
           background: `center / cover url(${playlist.coverImgUrl.replace(
             /^http:/,
             'https:'
-          )}?param=240y240) no-repeat`
+          )}) no-repeat`
         }"
       ></div>
-      <div
-        class="img-bg"
-        :style="{
-          background: `center / cover url(${playlist.coverImgUrl.replace(
-            /^http:/,
-            'https:'
-          )}?param=240y240) no-repeat`
-        }"
-      ></div>
-      <div class="info">
-        <span class="tit">{{ playlist.name }}</span>
-        <div class="creater">
-          <div
-            class="avatar"
-            :style="{
-              background: `center / cover url(${playlist.creator.avatarUrl}?param=36y36) no-repeat`
-            }"
-          ></div>
-          <span class="name">{{ playlist.creator.nickname }}</span>
+      <div class="header-main">
+        <div
+          class="img"
+          :style="{
+            background: `center / cover url(${playlist.coverImgUrl.replace(
+              /^http:/,
+              'https:'
+            )}?param=240y240) no-repeat`
+          }"
+        ></div>
+        <div
+          class="img-bg"
+          :style="{
+            background: `center / cover url(${playlist.coverImgUrl.replace(
+              /^http:/,
+              'https:'
+            )}?param=240y240) no-repeat`
+          }"
+        ></div>
+        <div class="info">
+          <span class="tit">{{ playlist.name }}</span>
+          <div class="creater">
+            <div
+              class="avatar"
+              :style="{
+                background: `center / cover url(${playlist.creator.avatarUrl}?param=36y36) no-repeat`
+              }"
+            ></div>
+            <span class="name">{{ playlist.creator.nickname }}</span>
+          </div>
+          <div class="label" v-if="playlist.tags.length > 0">
+            标签：
+            <span class="label-item" v-for="item in playlist.tags" :key="item">{{ item }}</span>
+          </div>
+          <span class="count">播放量：{{ playlist.playCount }}</span>
+          <span class="count">收藏量：{{ playlist.subscribedCount }}</span>
         </div>
-        <div class="label">
-          标签：
-          <span class="label-item" v-for="item in playlist.tags" :key="item">{{ item }}</span>
-        </div>
-        <span class="count">播放量：{{ playlist.playCount }}</span>
-        <span class="count">收藏量：{{ playlist.subscribedCount }}</span>
       </div>
     </div>
     <div class="content">
@@ -142,13 +153,29 @@ export default {
 
   .header {
     position: relative;
-    display: flex;
-    margin: 0 auto;
-    padding: 0 24px;
-    width: 1000px;
-    @include respond-to(lg) {
-      width: 100%;
-      max-width: 1200px;
+    width: 100%;
+    height: 360px;
+    overflow: hidden;
+
+    .bg {
+      position: absolute;
+      left: -2%;
+      top: -2%;
+      width: 104%;
+      height: 104%;
+      filter: blur(24px) brightness(1.1) opacity(0.5);
+    }
+
+    .header-main {
+      position: relative;
+      display: flex;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 1000px;
+      @include respond-to(lg) {
+        width: 100%;
+        max-width: 1200px;
+      }
     }
 
     .img {

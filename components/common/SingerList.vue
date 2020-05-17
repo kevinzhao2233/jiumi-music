@@ -6,13 +6,13 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"
   >
-    <li class="item" v-for="item in list" :key="item.id">
+    <li class="item" v-for="(item, index) in list" :key="item.id + index">
       <nuxt-link
         class="img"
         :title="item.name"
         :to="{ name: 'singer-id', params: { id: item.id } }"
         :style="{
-          background: `center / cover url(${item.img1v1Url}?param=130y144) no-repeat`,
+          background: `center / cover url(${item.img1v1Url}?param=130y144) no-repeat`
         }"
       ></nuxt-link>
       <nuxt-link

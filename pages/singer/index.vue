@@ -1,25 +1,18 @@
 <template>
   <div class="container" ref="page">
-    <div class="select-box">
-      <div
-        v-for="item in artArea"
-        :class="defaultSelect.area === item.id ? 'cat active' : 'cat'"
-        :key="item.id"
-        @click="handleSelect({ id: item.id, cat: 'area' })"
-      >
-        {{ item.name }}
-      </div>
-    </div>
-    <div class="select-box">
-      <div
-        v-for="item in artType"
-        :class="defaultSelect.type === item.id ? 'cat active' : 'cat'"
-        :key="item.id"
-        @click="handleSelect({ id: item.id, cat: 'type' })"
-      >
-        {{ item.name }}
-      </div>
-    </div>
+    <Screening
+      class="select-box"
+      :items="artArea"
+      :defaultSelect="defaultSelect.area"
+      @selected="handleSelect($event, 'area')"
+    />
+    <Screening
+      class="select-box"
+      :items="artType"
+      :defaultSelect="defaultSelect.type"
+      @selected="handleSelect($event, 'type')"
+    />
+
     <SingerList class="list" :list="artists" />
     <div class="empty" ref="loadTag">
       <div v-show="loading" class="loading dot-windmill"></div>
@@ -29,6 +22,7 @@
 
 <script>
 import SingerList from '~/components/common/SingerList.vue';
+import Screening from '~/components/common/Screening.vue';
 
 export default {
   async asyncData({ $axios }) {
@@ -93,7 +87,7 @@ export default {
       this.loading = false;
       this.artists = this.artists.concat(artists);
     },
-    handleSelect({ id, cat }) {
+    handleSelect({ id }, cat) {
       this.loading = true;
       this.defaultSelect[cat] = id;
       this.artists = [];
@@ -115,7 +109,8 @@ export default {
     this.$refs.page.addEventListener('scroll', this.handleScroll);
   },
   components: {
-    SingerList
+    SingerList,
+    Screening
   }
 };
 </script>
@@ -131,10 +126,6 @@ export default {
   overflow-x: hidden;
 
   .select-box {
-    position: relative;
-    display: flex;
-    margin: 12px auto;
-    padding: 0 24px;
     width: 1000px;
     @include respond-to(lg) {
       width: 100%;
@@ -143,30 +134,6 @@ export default {
 
     &:first-child {
       margin-top: 36px;
-    }
-
-    .cat {
-      margin: 0 4px;
-      padding: 8px 16px;
-      color: $mid-8;
-      border-radius: 6px;
-      user-select: none;
-      transition: background-color 0.2s, color 0.2s;
-      cursor: pointer;
-
-      &.active {
-        background-color: $main-6;
-        color: $mid-1;
-      }
-
-      &:hover {
-        background-color: $main-6;
-        color: $mid-1;
-
-        &:active {
-          background-color: $main-4;
-        }
-      }
     }
   }
 

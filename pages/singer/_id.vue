@@ -283,7 +283,7 @@ export default {
         bottom: 0;
         width: 100%;
         height: 80px;
-        background: linear-gradient(#fff1, #f0f3faff);
+        background: linear-gradient(#f0f3fa00, #f0f3faff);
 
         .btn {
           margin: 30px auto 0;
@@ -291,6 +291,7 @@ export default {
           width: 160px;
           border-radius: 18px;
           background-color: $main-6;
+          box-shadow: 0 16px 32px -8px $main-5;
           font-size: 16px;
           text-align: center;
           color: $mid-1;

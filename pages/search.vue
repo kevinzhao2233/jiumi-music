@@ -20,17 +20,17 @@
             >{{ item.first }}</span
           >
         </div>
-        <!-- <div class="tip">
+        <div class="tip" v-if="historySearch.length > 0">
           <span class="tit">历史搜索：</span>
           <span
             class="keywords"
-            v-for="(item, index) in keywords"
+            v-for="(item, index) in historySearch"
             :key="index"
             @click="handleSearch(item)"
             >{{ item }}</span
           >
-          <i class="icon iconfont icon-trash"></i>
-        </div> -->
+          <i class="icon iconfont icon-trash" @click="deleteHistorySearch"></i>
+        </div>
       </div>
     </div>
     <div class="hot" v-if="hot.artist !== null">
@@ -123,7 +123,7 @@ export default {
       inputValue: '',
       currNav: 1,
       loading: false,
-      keywords: ['李荣浩新歌', '树读', '歌手', '我们的乐队', '吉卜力'],
+      historySearch: [],
       searchContent: {
         1: {
           name: '单曲',
@@ -163,6 +163,7 @@ export default {
       beEnshrineSong: null
     };
   },
+
   methods: {
     /**
      * 歌曲列表的操作
@@ -221,9 +222,35 @@ export default {
       this.fetchList(keyword);
     },
     /**
+     * 添加历史搜索关键词，并保存历史搜索到本地
+     */
+    addHistorySearch(keyword) {
+      if (this.historySearch) {
+        const index = this.historySearch.findIndex(item => item === keyword);
+        if (index >= 0) {
+          this.historySearch.splice(index, 1);
+        }
+        this.historySearch.unshift(keyword);
+      } else {
+        this.historySearch = [keyword];
+      }
+      if (this.historySearch.length > 6) {
+        this.historySearch.pop();
+      }
+      localStorage.setItem('historySearch', JSON.stringify(this.historySearch));
+    },
+    /**
+     * 删除所有历史搜索记录
+     */
+    deleteHistorySearch() {
+      this.historySearch = [];
+      localStorage.removeItem('historySearch');
+    },
+    /**
      * 获取搜索结果列表
      */
     async fetchList(keyword) {
+      this.addHistorySearch(keyword);
       this.loading = true;
       this.songsResult = [];
       const { result } = await this.$axios.$get(
@@ -267,6 +294,12 @@ export default {
       return hotSongs;
     }
   },
+
+  created() {
+    const record = JSON.parse(localStorage.getItem('historySearch'));
+    this.historySearch = record ? record.slice(0, 6) : [];
+  },
+
   components: {
     Songlist,
     Inputbar,
